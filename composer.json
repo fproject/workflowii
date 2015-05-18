@@ -1,0 +1,34 @@
+{
+	"name" : "fproject/workflowii",
+	"description" : "Workflow Engine for Yii 2 Framework",
+	"keywords" : [
+		"yii2",
+		"workflow",
+        "workflow engine"
+	],
+	"homepage" : "http://www.yiiframework.com/",
+	"type" : "yii2-extension",
+	"license" : "Apache License 2.0",
+	"support" : {
+		"issues" : "https://github.com/fproject/workflowii/issues"
+	},
+	"minimum-stability" : "stable",
+	"require" : {
+		"php" : ">=5.4.0",
+		"yiisoft/yii2" : "*"
+	},
+	"require-dev" : {
+		"codeception/codeception" : "2.0.9",
+		"codeception/specify" : "*",
+		"codeception/verify" : "*",
+		"yiisoft/yii2-codeception" : "*"
+	},
+	"config" : {
+		"process-timeout" : 1800
+	},
+	"autoload" : {
+		"psr-4" : {
+			"fproject\\workflow\\" : "src/"
+		}
+	}
+}
