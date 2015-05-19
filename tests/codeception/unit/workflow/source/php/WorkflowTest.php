@@ -63,7 +63,7 @@ class WorkflowTest extends TestCase
 		$this->assertTrue(count($this->src->parseStatusId('Wid/Id')) == 2);
 	}
 	/**
-	 * @expectedException \fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\base\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #No status definition found#
 	 */	
 	public function testAddInvalidWorkflowDefinition()
