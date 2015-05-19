@@ -23,7 +23,7 @@ class DefaultArrayParser extends Object implements IArrayParser {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param fproject\workflow\source\php\WorkflowPhpSource $source
+	 * @param WorkflowPhpSource $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */

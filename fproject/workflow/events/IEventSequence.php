@@ -1,5 +1,8 @@
 <?php
 namespace fproject\workflow\events;
+use yii\base\Event;
+use fproject\workflow\base\Status;
+use fproject\workflow\base\Transition;
 
 /**
  *
@@ -26,11 +29,11 @@ interface IEventSequence
 	/**
 	 * Creates and returns the sequence of events that occurs when a model enters into a workflow.
 	 *
-	 * @param \fproject\workflow\base\Status $initalStatus the status used to enter into the workflow (the <i>initial status</i>)
+	 * @param Status $initStatus the status used to enter into the workflow (the <i>initial status</i>)
 	 * @param Object $sender
 	 * @return Event[]
 	 */
-	public function createEnterWorkflowSequence($initalStatus, $sender);
+	public function createEnterWorkflowSequence($initStatus, $sender);
 	/**
 	 * Creates and returns the sequence of events that occurs when a model leaves a workflow.
 	 *
@@ -44,7 +47,7 @@ interface IEventSequence
 	 * Creates and returns the sequence of events that occurs when a model changes
 	 * from an existing status to another existing status.
 	 *
-	 * @param \fproject\workflow\Transition $transition the transition representing the status
+	 * @param Transition $transition the transition representing the status
 	 * change
 	 * @param Object $sender
 	 * @return Event[]

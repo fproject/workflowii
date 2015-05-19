@@ -7,7 +7,7 @@ use yii\codeception\TestCase;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 
 class StatusEqualsTest extends TestCase
 {

@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item05;
 use fproject\workflow\events\WorkflowEvent;
@@ -81,7 +81,7 @@ class GetNextStatusTest extends DbTestCase
     	$item = new Item04();
     	$item->detachBehavior('workflow');
     	$item->attachBehavior('workflowForTest', [
-    		'class' => SimpleWorkflowBehavior::className(),
+    		'class' => WorkflowBehavior::className(),
     		'defaultWorkflowId' => 'INVALID_ID'
     	]);
 

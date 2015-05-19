@@ -2,13 +2,12 @@
 namespace fproject\workflow\base;
 
 use Yii;
-use yii\base\Object;
 use yii\base\InvalidConfigException;
 
 /**
  * A Status object is a component of a workflow.
  *
- * @author Raoul
+ * @author Bui Sy Nguyen
  */
 class Status extends WorkflowBaseObject implements StatusInterface
 {
@@ -68,11 +67,13 @@ class Status extends WorkflowBaseObject implements StatusInterface
 		}
 		parent::__construct($config);
 	}
-	/**
-	 * Add an out-going transition to this status.
-	 *
-	 * @param Transition $transition
-	 */
+
+    /**
+     * Add an out-going transition to this status.
+     *
+     * @param Transition $transition
+     * @throws WorkflowException
+     */
 	public function addTransition($transition)
 	{
 		if ( empty($transition) || ! $transition instanceof Transition) {

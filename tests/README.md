@@ -8,7 +8,7 @@ composer self-update
 composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
 composer install --prefer-dist --dev
 ```
-- Create Database `yii2_workflow_test`
+- Create Database `workflowii_test`
 - Apply DB migrations
 
 ```

@@ -1,6 +1,8 @@
 <?php
 namespace fproject\workflow\events;
 
+use fproject\workflow\base\Status;
+use fproject\workflow\base\Transition;
 use yii\base\ModelEvent;
 use fproject\workflow\base\WorkflowException;
 
@@ -19,12 +21,14 @@ class WorkflowEvent extends ModelEvent
 
 	private $_errorMessage = [];
 
-	/**
-	 * Create a WorkflowEvent instance.
-	 *
-	 * @param $name string name of the event.
-	 * @see \yii\base\Object::__construct()
-	 */
+    /**
+     * Create a WorkflowEvent instance.
+     *
+     * @param $name string name of the event.
+     * @param array $config
+     * @throws WorkflowException
+     * @see \yii\base\Object::__construct()
+     */
 	public function __construct($name, array $config = [])
 	{
 		if (empty($name)) {
@@ -48,23 +52,23 @@ class WorkflowEvent extends ModelEvent
 		parent::__construct($config);
 	}
 	/**
-	 * @return \fproject\workflow\base\Status the start status involved in this event
+	 * @return Status the start status involved in this event
 	 */
 	public function getStartStatus()
 	{
 		return $this->_start;
 	}
 	/**
-	 * @return \fproject\workflow\base\Status the end status involved in this event
+	 * @return Status the end status involved in this event
 	 */
 	public function getEndStatus()
 	{
 		return $this->_end;
 	}
 	/**
-	 * @return \fproject\workflow\Transition the transition involved in this event or NULL if no
+	 * @return Transition the transition involved in this event or NULL if no
 	 * transition is available (e.g. EnterWorkflow, LeaveWorkflow)
-	 * @see \fproject\workflow\Transition
+	 * @see Transition
 	 */
 	public function getTransition()
 	{
@@ -73,7 +77,7 @@ class WorkflowEvent extends ModelEvent
 
 	/**
 	 * Invalidate this event.
-	 * Calling this methid is equivalent to setting the *isValid* property to false. Additionnally an
+	 * Calling this method is equivalent to setting the *isValid* property to false. Additionally an
 	 * message can be added to the internal error message queue.
 	 * @param string $message
 	 */

@@ -3,8 +3,6 @@ namespace fproject\workflow\base;
 
 use yii\base\Object;
 use yii\base\InvalidConfigException;
-use yii\base\InvalidCallException;
-use yii\base\InvalidParamException;
 use yii\base\UnknownPropertyException;
 
 /**
@@ -32,10 +30,14 @@ abstract class WorkflowBaseObject extends Object
 		parent::__construct($config);
 	}
 
-	/**
-	 *
-	 * @see \yii\base\Object::__get()
-	 */
+    /**
+     *
+     * @see \yii\base\Object::__get()
+     * @param string $name
+     * @return mixed
+     * @throws UnknownPropertyException
+     * @throws WorkflowException
+     */
 	public function __get($name)
 	{
 		if ( $this->canGetProperty($name)) {
@@ -68,12 +70,13 @@ abstract class WorkflowBaseObject extends Object
 			return $defaultValue;
 		}
 	}
-	/**
-	 *
-	 * @param unknown $paramName
-	 * @throws InvalidCallException
-	 * @return boolean
-	 */
+
+    /**
+     *
+     * @param mixed $paramName
+     * @return bool
+     * @throws WorkflowException
+     */
 	public function hasMetadata($paramName)
 	{
 		if ( ! is_string($paramName) || empty($paramName)) {

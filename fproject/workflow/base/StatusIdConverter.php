@@ -51,7 +51,7 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 	private $_map = [];
 
 	/**
-	 * Contruct an instance of the StatusIdConverter
+	 * Construct an instance of the StatusIdConverter
 	 *
 	 * @param array $config
 	 * @throws InvalidConfigException
@@ -70,17 +70,20 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 		parent::__construct($config);
 	}
 	/**
-	 * @return array the convertion map used by this converter
+	 * @return array the conversion map used by this converter
 	 */
 	public function getMap()
 	{
 		return $this->_map;
 	}
-	/**
-	 * (non-PHPdoc)
-	 * @see \fproject\workflow\IStatusIdConverter::toSimpleWorkflow()
-	 */
-	public function toSimpleWorkflow($id)
+
+    /**
+     * @param mixed $id
+     * @return mixed|null
+     * @throws Exception
+     * @see IStatusIdConverter::toWorkflow()
+     */
+	public function toWorkflow($id)
 	{
 		if ($id === null) {
 			$id = self::VALUE_NULL;
@@ -92,10 +95,12 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 		return ($statusId == self::VALUE_NULL ? null : $statusId);
 	}
 
-	/**
-	 * (non-PHPdoc)
-	 * @see \fproject\workflow\IStatusIdConverter::toModelAttribute()
-	 */
+    /**
+     * @param mixed $id
+     * @return null
+     * @throws Exception
+     * @see IStatusIdConverter::toModelAttribute()
+     */
 	public function toModelAttribute($id)
 	{
 		if ($id === null) {

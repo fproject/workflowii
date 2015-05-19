@@ -3,7 +3,7 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use fproject\workflow\base\IWorkflowDefinitionProvider;
 
 /**
@@ -26,7 +26,7 @@ class Item07 extends \yii\db\ActiveRecord
     {
         return [
         	'workflow' => [
-        		'class' => SimpleWorkflowBehavior::className(),
+        		'class' => WorkflowBehavior::className(),
         		'statusAttribute' => 'statusAlias',
         		'statusAccessor' => 'status_accessor'
     	    ]

@@ -1,8 +1,9 @@
 <?php
 namespace fproject\workflow\helpers;
 
+use fproject\workflow\base\Status;
 use yii\db\BaseActiveRecord;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use fproject\workflow\base\WorkflowException;
 
 class WorkflowHelper
@@ -19,14 +20,20 @@ class WorkflowHelper
 	 */
 	public static function getNextStatusListData($model, $validate = false, $beforeEvents = false)
 	{
-		if (! SimpleWorkflowBehavior::isAttachedTo($model)) {
-			throw new WorkflowException('The model does not have a SimpleWorkflowBehavior behavior');
+		if (! WorkflowBehavior::isAttachedTo($model))
+        {
+			throw new WorkflowException('The model does not have a WorkflowBehavior behavior');
 		}
 		$listData = [];
+        /** @var WorkflowBehavior $model */
 		$report = $model->getNextStatuses($validate, $beforeEvents);
-		foreach ($report as $endStatusId => $info) {
-			if (! isset($info['isValid']) || $info['isValid'] === true) {
-				$listData[$endStatusId] = $info['status']->getLabel();
+		foreach ($report as $endStatusId => $info)
+        {
+			if (! isset($info['isValid']) || $info['isValid'] === true)
+            {
+                /** @var Status $sts */
+                $sts = $info['status'];
+				$listData[$endStatusId] = $sts->getLabel();
 			}
 		}
 		return $listData;
@@ -35,7 +42,7 @@ class WorkflowHelper
 	 * Returns an associative array containing all statuses that belong to a workflow.
 	 * The array returned is suitable to be used as list data value in (for instance) a dropdown list control.
 	 * 
-	 * Usage example : assuming model Post has a SimpleWorkflowBehavior the following code displays a dropdown list
+	 * Usage example : assuming model Post has a WorkflowBehavior the following code displays a dropdown list
 	 * containing all statuses defined in $post current the workflow : 
 	 * 
 	 * echo Html::dropDownList(
@@ -55,7 +62,12 @@ class WorkflowHelper
 	{
 		$listData = [];
 		$statuses = $workflowSource->getAllStatuses($workflowId);
-		foreach ($statuses as $statusId => $statusInstance) {
+        /**
+         * @var mixed $statusId
+         * @var Status $statusInstance
+         */
+        foreach ($statuses as $statusId => $statusInstance)
+        {
 			$listData[$statusId] =$statusInstance->getLabel();
 		}
 		return $listData;
@@ -78,7 +90,7 @@ class WorkflowHelper
 	 *				]
 	 *			],
 	 * 
-	 * @param BaseActiveRecord $model
+	 * @param WorkflowBehavior $model
 	 * @return string|NULL the HTML rendered status or null if not labelTemplate is found
 	 */
 	public static function renderLabel($model)

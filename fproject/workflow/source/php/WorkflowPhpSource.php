@@ -1,9 +1,11 @@
 <?php
 namespace fproject\workflow\source\php;
 
+use fproject\workflow\base\WorkflowBehavior;
 use Yii;
 use yii\base\Object;
 use yii\base\InvalidConfigException;
+use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 use fproject\workflow\base\Status;
@@ -12,8 +14,6 @@ use fproject\workflow\base\Workflow;
 use fproject\workflow\base\WorkflowException;
 use fproject\workflow\base\IWorkflowDefinitionProvider;
 use fproject\workflow\source\IWorkflowSource;
-use yii\helpers\ArrayHelper;
-use fproject\workflow\base\WorkflowValidationException;
 
 
 /**
@@ -102,10 +102,12 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		self::TYPE_STATUS     => 'fproject\workflow\base\Status',
 		self::TYPE_TRANSITION => 'fproject\workflow\base\Transition'
 	];
-	/**
-	 *
-	 * @param array $config
-	 */
+
+    /**
+     *
+     * @param array $config
+     * @throws InvalidConfigException
+     */
 	public function __construct($config = [])
 	{
 		if ( array_key_exists('classMap', $config)) {
@@ -143,33 +145,37 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 
 		parent::__construct($config);
 	}
-	/**
-	 * Returns the status whose id is passed as argument.
-	 * If this status was never loaded before, it is loaded now and stored for later use (lazy loading).
-	 *
-	 * If a $model is provided, it must be a BaseActiveRecord instance with a SimpleWorkflowBehavior attached. This model
-	 * is used to complete the status ID if the one defined by the $id argument is not complete (e.g. 'draft' instead of 'post/draft').
-	 *
-	 * @param string $id ID of the status to get
-	 * @param ActiveBaseRecord $model model instance used to resolve the status ID
-	 * @return Status the status instance
-	 *
-	 * @see fproject\workflow\source\IWorkflowSource::getStatus()
-	 * @see WorkflowPhpSource::evaluateWorkflowId()
-	 * @see WorkflowPhpSource::parseStatusId()
-	 */
+
+    /**
+     * Returns the status whose id is passed as argument.
+     * If this status was never loaded before, it is loaded now and stored for later use (lazy loading).
+     *
+     * If a $model is provided, it must be a BaseActiveRecord instance with a WorkflowBehavior attached. This model
+     * is used to complete the status ID if the one defined by the $id argument is not complete (e.g. 'draft' instead of 'post/draft').
+     *
+     * @param string $id ID of the status to get
+     * @param null $defaultWorkflowId
+     * @return Status the status instance
+     *
+     * @throws InvalidConfigException
+     * @throws WorkflowException
+     *
+     * @see IWorkflowSource::getStatus()
+     * @see WorkflowPhpSource::evaluateWorkflowId()
+     * @see WorkflowPhpSource::parseStatusId()
+     */
 	public function getStatus($id, $defaultWorkflowId = null)
 	{
 		list($wId, $stId) = $this->parseStatusId($id, $defaultWorkflowId);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
-		if (  ! array_key_exists($canonicalStId, $this->_s) ) {
+		if (!array_key_exists($canonicalStId, $this->_s) ) {
 			$wDef = $this->getWorkflowDefinition($wId);
 			if ( $wDef == null) {
 				throw new WorkflowException('No workflow found with id ' . $wId);
 			}
-			if ( ! \array_key_exists($canonicalStId, $wDef[self::KEY_NODES])) {
+			if (!array_key_exists($canonicalStId, $wDef[self::KEY_NODES])) {
 				throw new WorkflowException('No status found with id '. $canonicalStId);
 			}
 			$stDef = $wDef[self::KEY_NODES][$canonicalStId] != null ? $wDef[self::KEY_NODES][$canonicalStId] : [];
@@ -184,20 +190,25 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		}
 		return $this->_s[$canonicalStId];
 	}
-	/**
-	 * Returns all out going transitions leaving the status whose id is passed as argument.
-	 * This method also create instances for the initial status and all statuses that can be
-	 * reached from it.
-	 * 
-	 * @see fproject\workflow\source\IWorkflowSource::getTransitions()
-	 */
+
+    /**
+     * Returns all out going transitions leaving the status whose id is passed as argument.
+     * This method also create instances for the initial status and all statuses that can be
+     * reached from it.
+     *
+     * @see fproject\workflow\source\IWorkflowSource::getTransitions()
+     * @param mixed $statusId
+     * @param null $defaultWorkflowId
+     * @return Transition|Transition[]
+     * @throws InvalidConfigException
+     * @throws WorkflowException
+     */
 	public function getTransitions($statusId, $defaultWorkflowId = null)
 	{
-
 		list($wId, $lid) = $this->parseStatusId($statusId, $defaultWorkflowId);
 		$statusId = $wId.self::SEPARATOR_STATUS_NAME.$lid;
 
-		if ( ! array_key_exists($statusId, $this->_t) ) {
+		if (!array_key_exists($statusId, $this->_t) ) {
 
 			$start = $this->getStatus($statusId);
 			if ( $start == null) {
@@ -233,10 +244,14 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		return $this->_t[$statusId];
 	}
 
-	/**
-	 * (non-PHPdoc)
-	 * @see \fproject\workflow\source\IWorkflowSource::getTransition()
-	 */
+    /**
+     * @param mixed $startId
+     * @param mixed $endId
+     * @param null $defaultWorkflowId
+     * @return Transition|null
+     * @throws WorkflowException
+     * @see IWorkflowSource::getTransition()
+     */
 	public function getTransition($startId, $endId, $defaultWorkflowId = null)
 	{
 		$tr = $this->getTransitions($startId, $defaultWorkflowId);
@@ -249,12 +264,18 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		}
 		return null;
 	}
-	/**
-	 * Returns the Workflow instance whose id is passed as argument.
-	 *
-	 * @see \fproject\workflow\WorkflowSource::getWorkflow()
-	 * @return fproject\workflow\base\Workflow|null The workflow instance or NULL if no workflow could be found
-	 */
+
+    /**
+     * Returns the Workflow instance whose id is passed as argument.
+     *
+     * @param mixed $id
+     * @return Workflow|null The workflow instance or NULL if no workflow could be found
+     * @throws InvalidConfigException
+     * @throws WorkflowException
+     *
+     * @see IWorkflowSource::getWorkflow()
+     *
+     */
 	public function getWorkflow($id)
 	{
 		if ( ! array_key_exists($id, $this->_w) ) {
@@ -279,16 +300,20 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		return $this->_w[$id];
 	}
 
-	/**
-	 * Loads definition for the workflow whose id is passed as argument.
-	 * 
-	 * The workflow Id passed as argument is used to create the class name of the object
-	 * that holds the workflow definition.
-	 *
-	 * @param string $id
-	 * @param object $model
-	 * @throws fproject\workflow\base\WorkflowException the definition could not be loaded
-	 */
+    /**
+     * Loads definition for the workflow whose id is passed as argument.
+     *
+     * The workflow Id passed as argument is used to create the class name of the object
+     * that holds the workflow definition.
+     *
+     * @param string $id
+     *
+     * @return mixed the definition could not be loaded
+     *
+     * @throws InvalidConfigException
+     * @throws WorkflowException
+     *
+     */
 	public function getWorkflowDefinition($id)
 	{
 		if ( ! $this->isValidWorkflowId($id)) {
@@ -296,7 +321,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		}
 
 		if ( ! isset($this->_workflowDef[$id]) ) {
-			$wfClassname = $this->getClassname($id);
+			$wfClassname = $this->getClassName($id);
 			try {
 				$wfProvider = Yii::createObject(['class' => $wfClassname]);
 			} catch ( \ReflectionException $e) {
@@ -311,14 +336,15 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		return $this->_workflowDef[$id];
 	}
 
-	/**
-	 * Returns the complete name for the Workflow Provider class used to retrieve the definition of workflow $workflowId.
-	 * The class name is built by appending the workflow id to the namespace parameter set for this source component.
-	 *
-	 * @param string $workflowId a workflow id
-	 * @return string the full qualified class name used to provide definition for the workflow
-	 */
-	public function getClassname($workflowId)
+    /**
+     * Returns the complete name for the Workflow Provider class used to retrieve the definition of workflow $workflowId.
+     * The class name is built by appending the workflow id to the namespace parameter set for this source component.
+     *
+     * @param string $workflowId a workflow id
+     * @return string the full qualified class name used to provide definition for the workflow
+     * @throws WorkflowException
+     */
+	public function getClassName($workflowId)
 	{
 		if ( ! $this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
@@ -326,16 +352,15 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		return $this->namespace . '\\' . $workflowId;
 	}
 
-	/**
-	 * Returns the class map array for this Workflow source instance.
-	 *
-	 * @param string $type
-	 * @return string[]
-	 */
+    /**
+     * Returns the class map array for this Workflow source instance.
+     * @return string[]
+     */
 	public function getClassMap()
 	{
 		return $this->_classMap;
 	}
+
 	/**
 	 * Returns the class name that implement the type passed as argument.
 	 * There are 3 built-in types that must have a class name :
@@ -363,26 +388,25 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	 */
 	public function isWorkflowProvider($object)
 	{
-		return method_exists($object, 'getDefinition');
-		return $object instanceof IWorkflowDefinitionProvider;
+        return $object instanceof IWorkflowDefinitionProvider;
 	}
 
-	/**
-	 * Parses the string $val assuming it is a status id and returns and array
-	 * containing the workflow ID and status local ID.
-	 *
-	 * If $val does not include the workflow ID part (i.e it is not in formated like "workflowID/statusID")
-	 * this method uses $model and $defaultWorkflowId to get it.
-	 *
-	 * @param string $val the status ID to parse. If it is not an absolute ID, $helper is used to get the
-	 * workflow ID.
-	 * @param Model|string $model model used as workflow ID provider if needed
-	 * @param string|null $defaultWorkflowId a default workflow ID value
-	 * @return string[] array containing the workflow ID in its first index, and the status Local ID
-	 * in the second
-	 * @throws WorkflowException Exception thrown if the method was not able to parse $val.
-	 * @see WorkflowPhpSource::evaluateWorkflowId()
-	 */
+    /**
+     * Parses the string $val assuming it is a status id and returns and array
+     * containing the workflow ID and status local ID.
+     *
+     * If $val does not include the workflow ID part (i.e it is not in formated like "workflowID/statusID")
+     * this method uses $model and $defaultWorkflowId to get it.
+     *
+     * @param string $val the status ID to parse. If it is not an absolute ID, $helper is used to get the
+     * workflow ID.
+     * @param BaseActiveRecord|string $helper model used as workflow ID provider if needed
+     * @return string[] array containing the workflow ID in its first index, and the status Local ID
+     * in the second
+     * @throws WorkflowException
+     *
+     * @see WorkflowPhpSource::evaluateWorkflowId()
+     */
 	public function parseStatusId($val, $helper = null)
 	{
 		if (empty($val) || ! is_string($val)) {
@@ -391,26 +415,26 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
 		$tokenCount = count($tokens);
-		if ( $tokenCount == 1) {
+		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
 			if ( !empty($helper)) {
-				if (  is_string($helper)){
+				if (is_string($helper)){
 					$tokens[0] = $helper;
-				} elseif (  $helper instanceof yii\db\BaseActiveRecord && $helper->hasWorkflowStatus()) {
+				} elseif ($helper instanceof WorkflowBehavior && $helper->hasWorkflowStatus()) {
 					$tokens[0] = $helper->getWorkflowStatus()->getWorkflowId();
 				}
 			}
-			if ( $tokens[0] === null ) {
+			if ($tokens[0] === null ) {
 				throw new WorkflowException('Not a valid status id format: failed to get workflow id - status = '.VarDumper::dumpAsString($val));
 			}
-		} elseif ( $tokenCount != 2) {
+		} elseif ($tokenCount != 2) {
 			throw new WorkflowException('Not a valid status id format: '.VarDumper::dumpAsString($val));
 		}
 	
-		if (! $this->isValidWorkflowId($tokens[0]) ) {
+		if (!$this->isValidWorkflowId($tokens[0]) ) {
 			throw new WorkflowException('Not a valid status id : incorrect workflow id format in '.VarDumper::dumpAsString($val));
-		}elseif (! $this->isValidStatusLocalId($tokens[1]) ) {
+		}elseif (!$this->isValidStatusLocalId($tokens[1]) ) {
 			throw new WorkflowException('Not a valid status id : incorrect status local id format in '.VarDumper::dumpAsString($val));
 		}
 		return $tokens;
@@ -459,20 +483,21 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		return is_string($val) && preg_match(self::PATTERN_ID, $val) != 0;
 	}
 
-	/**
-	 * Add a workflow definition array to the collection of workflow definitions handled by this source.
-	 * This method can be use for instance, by a model that holds the definition of the workflow it is
-	 * using.<br/>
-	 * If a workflow with same id already exist in this source, it is overwritten if the last parameter
-	 * is set to TRUE. Note that in this case the overwritten workflow is not available anymore.
-	 *
-	 * @see SimpleWorkflowBehavior::attach()
-	 * @param string $workflowId
-	 * @param array $definition
-	 * @param boolean $overwrite When set to TRUE, the operation will fail if a workflow definition
-	 * already exists for this ID. Otherwise the existing definition is overwritten.
-	 * @return boolean TRUE if the workflow definition could be added, FALSE otherwise
-	 */
+    /**
+     * Add a workflow definition array to the collection of workflow definitions handled by this source.
+     * This method can be use for instance, by a model that holds the definition of the workflow it is
+     * using.<br/>
+     * If a workflow with same id already exist in this source, it is overwritten if the last parameter
+     * is set to TRUE. Note that in this case the overwritten workflow is not available anymore.
+     *
+     * @see WorkflowBehavior::attach()
+     * @param string $workflowId
+     * @param array $definition
+     * @param boolean $overwrite When set to TRUE, the operation will fail if a workflow definition
+     * already exists for this ID. Otherwise the existing definition is overwritten.
+     * @return bool TRUE if the workflow definition could be added, FALSE otherwise
+     * @throws WorkflowException
+     */
 	public function addWorkflowDefinition($workflowId, $definition, $overwrite = false)
 	{
 		if ( ! $this->isValidWorkflowId($workflowId)) {
@@ -491,7 +516,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	 * Returns the parser used by this source or NULL if no parser is used. In this case, it is assumed
 	 * that all workflow definitions provided to this source as PHP array, are in the normalized form.
 	 * 
-	 * @return \fproject\workflow\source\php\IArrayParser
+	 * @return IArrayParser
 	 */
 	public function getWorkflowParser()
 	{
@@ -582,10 +607,13 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 			'stat' => $stat
 		];
 	}
-	/**
-	 * (non-PHPdoc)
-	 * @see \fproject\workflow\source\IWorkflowSource::getAllStatuses()
-	 */
+
+    /**
+     * @param mixed $workflowId
+     * @return array
+     * @throws WorkflowException
+     * @see IWorkflowSource::getAllStatuses()
+     */
 	public function getAllStatuses($workflowId)
 	{
 		$wDef = $this->getWorkflowDefinition($workflowId);

@@ -1,8 +1,9 @@
 <?php
 namespace fproject\workflow\events;
 
+use fproject\workflow\base\Status;
+use fproject\workflow\base\Transition;
 use yii\base\Object;
-use fproject\workflow\events\IEventSequence;
 
 /**
  * The reduced event sequence.
@@ -12,32 +13,36 @@ use fproject\workflow\events\IEventSequence;
  */
 class ReducedEventSequence extends Object implements IEventSequence
 {
-	/**
-	 * Produces the following sequence when a model enters a workflow :
-	 *
-	 * - beforeEnterWorkflow(WID)
-	 *
-	 * - afterEnterWorkflow(WID)
-	 *
-	 * @see \fproject\workflow\events\IEventSequenceScheme::createEnterWorkflowSequence()
-	 */
-	public function createEnterWorkflowSequence($initalStatus, $sender)
+    /**
+     * Produces the following sequence when a model enters a workflow :
+     *
+     * - beforeEnterWorkflow(WID)
+     *
+     * - afterEnterWorkflow(WID)
+     *
+     * @param Status $initStatus
+     * @param Object $sender
+     *
+     * @see \fproject\workflow\events\IEventSequenceScheme::createEnterWorkflowSequence()
+     * @return array|\yii\base\Event[]
+     */
+	public function createEnterWorkflowSequence($initStatus, $sender)
 	{
 		return [
 			'before' => [
 				new WorkflowEvent(
-					WorkflowEvent::beforeEnterWorkflow($initalStatus->getWorkflowId()),
+					WorkflowEvent::beforeEnterWorkflow($initStatus->getWorkflowId()),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				),
 			],
 			'after' => [
 				new WorkflowEvent(
-					WorkflowEvent::afterEnterWorkflow($initalStatus->getWorkflowId()),
+					WorkflowEvent::afterEnterWorkflow($initStatus->getWorkflowId()),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				),
@@ -45,15 +50,19 @@ class ReducedEventSequence extends Object implements IEventSequence
 		];
 	}
 
-	/**
-	 * Produces the following sequence when a model leaves a workflow :
-	 *
-	 * - beforeLeaveWorkflow(WID)
-	 *
-	 * - afterLeaveWorkflow(WID)
-	 *
-	 * @see \fproject\workflow\events\IEventSequenceScheme::createLeaveWorkflowSequence()
-	 */
+    /**
+     * Produces the following sequence when a model leaves a workflow :
+     *
+     * - beforeLeaveWorkflow(WID)
+     *
+     * - afterLeaveWorkflow(WID)
+     *
+     * @param Status $finalStatus
+     * @param Object $sender
+     * @return array|\yii\base\Event[]
+     *
+     * @see \fproject\workflow\events\IEventSequenceScheme::createLeaveWorkflowSequence()
+     */
 	public function createLeaveWorkflowSequence($finalStatus, $sender)
 	{
 		return [
@@ -78,15 +87,21 @@ class ReducedEventSequence extends Object implements IEventSequence
 		];
 	}
 
-	/**
-	 * Produces the following sequence when a model changes from status A to status B:
-	 *
-	 * - beforeChangeStatus(A,B)
-	 *
-	 * - afterChangeStatus(A,B)
-	 *
-	 * @see \fproject\workflow\events\IEventSequenceScheme::createChangeStatusSequence()
-	 */
+    /**
+     * Produces the following sequence when a model changes from status A to status B:
+     *
+     * - beforeChangeStatus(A,B)
+     *
+     * - afterChangeStatus(A,B)
+     *
+     * @param Transition $transition
+     * @param Object $sender
+     *
+     * @return array|\yii\base\Event[]
+     *
+     * @see \fproject\workflow\events\IEventSequenceScheme::createChangeStatusSequence()
+     *
+     */
 	public function createChangeStatusSequence($transition, $sender)
 	{
 		return [

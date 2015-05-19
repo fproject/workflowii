@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 
 class InitStatusTest extends TestCase
 {
@@ -35,7 +35,7 @@ class InitStatusTest extends TestCase
 			$model = new Item01();
 			$model->status = 'Workflow1/A';
 			$model->attachBehavior('workflow', [
-				'class' => SimpleWorkflowBehavior::className(),
+				'class' => WorkflowBehavior::className(),
 				'defaultWorkflowId' => 'Workflow1'
 			]);
 
@@ -55,7 +55,7 @@ class InitStatusTest extends TestCase
     			'No status found with id Workflow1/X'
     		);
     		$model->attachBehavior('workflow', [
-    			'class' => SimpleWorkflowBehavior::className(),
+    			'class' => WorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Workflow1'
     		]);
     	});
@@ -67,7 +67,7 @@ class InitStatusTest extends TestCase
 
 			$model = new Item01();
 			$model->attachBehavior('workflow', [
-				'class' => SimpleWorkflowBehavior::className(),
+				'class' => WorkflowBehavior::className(),
 				'defaultWorkflowId' => 'Workflow1'
 			]);
 			expect('model is saved', $model->save())->true();
@@ -88,7 +88,7 @@ class InitStatusTest extends TestCase
     		$model = Item01::findOne(1);
 
     		$model->attachBehavior('workflow', [
-    			'class' => SimpleWorkflowBehavior::className(),
+    			'class' => WorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Workflow1'
     		]);
 
@@ -123,7 +123,7 @@ class InitStatusTest extends TestCase
     
 //     		$model = new Item01();
 //     		$model->attachBehavior('workflow', [
-//     				'class' => SimpleWorkflowBehavior::className(),
+//     				'class' => WorkflowBehavior::className(),
 //     				'defaultWorkflowId' => 'Workflow1',
 //     				'autoInsert' => true
 //     		]);

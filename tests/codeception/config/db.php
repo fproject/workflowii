@@ -4,7 +4,7 @@
  */
  return [
 	'class' => 'yii\db\Connection',
-	'dsn' => 'mysql:host=127.0.0.1;dbname=yii2_workflow_test',
+	'dsn' => 'mysql:host=127.0.0.1;dbname=workflowii_test',
 	'username' => 'root',
 	'password' => '',
 	'charset' => 'utf8',

@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item00;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use yii\codeception\DbTestCase;
 
 class AutoInsertTest extends DbTestCase
@@ -32,7 +32,7 @@ class AutoInsertTest extends DbTestCase
     	$this->specify('autoInsert True : insert the model in default workflow', function() {
 	    	$o = new Item00();
 	    	$o->attachBehavior('workflow', [
-	    		'class' =>  SimpleWorkflowBehavior::className(), 
+	    		'class' =>  WorkflowBehavior::className(),
 	    		'autoInsert' => true,
 	    		'defaultWorkflowId' => 'Item04Workflow'
 	    	]);
@@ -55,7 +55,7 @@ class AutoInsertTest extends DbTestCase
     		$o = new Item00();
     		$o->status = 'Item05Workflow/new';
     		$o->attachBehavior('workflow', [
-    			'class' =>  SimpleWorkflowBehavior::className(),
+    			'class' =>  WorkflowBehavior::className(),
     			'autoInsert' => true,
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
@@ -83,7 +83,7 @@ class AutoInsertTest extends DbTestCase
     	$this->specify('autoInsert Status : insert the model in provided workflow', function() {
     		$o = new Item00();
     		$o->attachBehavior('workflow', [
-    			'class' =>  SimpleWorkflowBehavior::className(),
+    			'class' =>  WorkflowBehavior::className(),
     			'autoInsert' => 'Item05Workflow',
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
@@ -106,7 +106,7 @@ class AutoInsertTest extends DbTestCase
     		$o = new Item00();
     		$o->status = 'Item05Workflow/new';
     		$o->attachBehavior('workflow', [
-    			'class' =>  SimpleWorkflowBehavior::className(),
+    			'class' =>  WorkflowBehavior::className(),
     			'autoInsert' => 'Item04Workflow',
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
@@ -133,7 +133,7 @@ class AutoInsertTest extends DbTestCase
     	$this->specify('autoInsert Status : insert the model in provided workflow', function() {
     		$o = new Item00();
     		$o->attachBehavior('workflow', [
-    			'class' =>  SimpleWorkflowBehavior::className(),
+    			'class' =>  WorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
     
@@ -150,7 +150,7 @@ class AutoInsertTest extends DbTestCase
     {
     	$o = new Item00();
     	$o->attachBehavior('workflow', [
-    		'class' =>  SimpleWorkflowBehavior::className(),
+    		'class' =>  WorkflowBehavior::className(),
     		'autoInsert' => true,
     		'defaultWorkflowId' => 'NOTFOUND'
     	]);
@@ -163,7 +163,7 @@ class AutoInsertTest extends DbTestCase
     {
     	$o = new Item00();
     	$o->attachBehavior('workflow', [
-    		'class' =>  SimpleWorkflowBehavior::className(),
+    		'class' =>  WorkflowBehavior::className(),
     		'autoInsert' => 'NOTFOUND',
     		'defaultWorkflowId' => 'Item04Workflow'
     	]);

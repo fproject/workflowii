@@ -59,11 +59,11 @@ class StatusIdConverterTest extends TestCase
 		$this->assertEquals(null, $c->toModelAttribute('Post/new'));
 		$this->assertEquals('0', $c->toModelAttribute(null));
 
-		$this->assertEquals('Post/ready', $c->toSimpleWorkflow(1));
-		$this->assertEquals('Post/draft', $c->toSimpleWorkflow(2));
-		$this->assertEquals('Post/deleted', $c->toSimpleWorkflow(3));
-		$this->assertEquals(null, $c->toSimpleWorkflow(0));
-		$this->assertEquals('Post/new', $c->toSimpleWorkflow(null));
+		$this->assertEquals('Post/ready', $c->toWorkflow(1));
+		$this->assertEquals('Post/draft', $c->toWorkflow(2));
+		$this->assertEquals('Post/deleted', $c->toWorkflow(3));
+		$this->assertEquals(null, $c->toWorkflow(0));
+		$this->assertEquals('Post/new', $c->toWorkflow(null));
 	}
 
 	public function testConvertionFails()
@@ -76,7 +76,7 @@ class StatusIdConverterTest extends TestCase
 		]);
 
 		$this->specify(' an exception is thrown if value is not found', function() use ($c) {
-			$c->toSimpleWorkflow('not found');
+			$c->toWorkflow('not found');
 		},['throws' => 'yii\base\Exception']);
 
 		$this->specify(' an exception is thrown if value is not found', function() use ($c) {

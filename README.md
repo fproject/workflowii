@@ -63,7 +63,7 @@ class PostWorkflow implements \fproject\workflow\base\IWorkflowDefinitionProvide
 
 Now let's have a look to our Post model. We decide to store the status of a post in a column named `status` of type STRING(40). 
 
-The last step is to associate the workflow definition with posts models. To do so we must declare the *SimpleWorkflowBehavior* behavior 
+The last step is to associate the workflow definition with posts models. To do so we must declare the *WorkflowBehavior* behavior 
 in the Post model class and let the default configuration settings do the rest.
  
 ```php
@@ -81,17 +81,17 @@ class Post extends \yii\db\ActiveRecord
     public function behaviors()
     {
     	return [
-			\fproject\workflow\base\SimpleWorkflowBehavior::className()
+			\fproject\workflow\base\WorkflowBehavior::className()
     	];
     }
     // ...
 ```
 
-That's it ! We are ready to play with *SimpleWorkflowBehavior*.
+That's it ! We are ready to play with *WorkflowBehavior*.
 
 ## Use It !
 
-Now that we are all setup, we can use the *SimpleWorkflowBehavior* methods to set/get the status of our posts : the *SimpleWorkflowBehavior* will 
+Now that we are all setup, we can use the *WorkflowBehavior* methods to set/get the status of our posts : the *WorkflowBehavior* will 
 take care that the post doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
 
 ```php
@@ -131,7 +131,7 @@ Yes, that's severe, but there was many ways to avoid this exception like for ins
 
 ## What's Next ?
 
-This is just one way of using the *SimpleWorkflowBehavior* but there's much more and hopefully enough to assist you
+This is just one way of using the *WorkflowBehavior* but there's much more and hopefully enough to assist you
 in your workflow management inside your Yii2 web app.
 
 In the meantime you can have a look to the [Usage Guide](guide) (still under dev) and send any feedback. 

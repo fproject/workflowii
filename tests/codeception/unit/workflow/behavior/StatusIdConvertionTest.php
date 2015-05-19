@@ -9,7 +9,7 @@ use fproject\workflow\base\Workflow;
 use fproject\workflow\base\Status;
 use fproject\workflow\base\Transition;
 use fproject\workflow\base\StatusIdConverter;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 
 class StatusIdConvertionTest extends TestCase
 {
@@ -40,7 +40,7 @@ class StatusIdConvertionTest extends TestCase
 	{
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
-			'class' => SimpleWorkflowBehavior::className(),
+			'class' => WorkflowBehavior::className(),
 			'statusConverter' => 'converter'
 		]);
 		$this->specify('on attach, initialize status and convert NULL to status ID', function() use ($item) {
@@ -54,7 +54,7 @@ class StatusIdConvertionTest extends TestCase
 		$item = new Item04();
 		$this->setExpectedException('yii\base\InvalidConfigException', 'Unknown component ID: not_found_component');
 		$item->attachBehavior('workflow',[
-			'class' => SimpleWorkflowBehavior::className(),
+			'class' => WorkflowBehavior::className(),
 			'statusConverter' => 'not_found_component'
 		]);
 	}
@@ -62,7 +62,7 @@ class StatusIdConvertionTest extends TestCase
 	{
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
-			'class' => SimpleWorkflowBehavior::className(),
+			'class' => WorkflowBehavior::className(),
 			'statusConverter' => 'converter'
 			]);
 
@@ -84,7 +84,7 @@ class StatusIdConvertionTest extends TestCase
 	{
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
-			'class' => SimpleWorkflowBehavior::className(),
+			'class' => WorkflowBehavior::className(),
 			'statusConverter' => 'converter'
 		]);
 

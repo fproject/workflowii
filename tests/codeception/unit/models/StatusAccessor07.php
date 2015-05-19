@@ -37,7 +37,7 @@ class StatusAccessor07 implements IStatusAccessor
 	 * (non-PHPdoc)
 	 * @see \fproject\workflow\IStatusAccessor::getStatus()
 	 */
-	public function readStatus(BaseActiveRecord $model) {
+	public function readStatus($model) {
 		$this->callGetStatusCount++;
 		return $this->statusToReturnOnGet;
 	}
@@ -55,7 +55,7 @@ class StatusAccessor07 implements IStatusAccessor
 	 * (non-PHPdoc)
 	 * @see \fproject\workflow\IStatusAccessor::setStatus()
 	 */
-	public function updateStatus(BaseActiveRecord $model, Status $status = null) {
+	public function updateStatus($model, $status = null) {
 		$this->callSetStatusCount++;
 		$this->callSetStatusLastArg = [$model, $status];
 	}

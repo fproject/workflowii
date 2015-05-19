@@ -1,5 +1,6 @@
 <?php 
 namespace fproject\workflow\source\php;
+use fproject\workflow\base\WorkflowValidationException;
 
 /**
  * This class converts a workflow definition PHP array into its normalized form
@@ -38,7 +39,7 @@ interface IArrayParser {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param fproject\workflow\source\php\WorkflowPhpSource $source
+	 * @param WorkflowPhpSource $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */

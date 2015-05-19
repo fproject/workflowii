@@ -49,14 +49,14 @@ class ExternalStatusAccessor implements IStatusAccessor
 	/* (non-PHPdoc)
 	 * @see \fproject\workflow\IStatusAccessor::setStatus()
 	 */
-	public function setStatus(BaseActiveRecord $model, Status $status = null) {
+	public function setStatus($model, Status $status = null) {
 		echo 'setStatus model <br/>';
 		$this->_status = $status != null ? $status->getId() : null;
 	}
 	/* (non-PHPdoc)
 	 * @see \fproject\workflow\base\IStatusAccessor::readStatus()
 	 */
-	public function readStatus(BaseActiveRecord $model) {
+	public function readStatus($model) {
 		// TODO: Auto-generated method stub
 
 	}
@@ -64,7 +64,7 @@ class ExternalStatusAccessor implements IStatusAccessor
 	/* (non-PHPdoc)
 	 * @see \fproject\workflow\base\IStatusAccessor::updateStatus()
 	 */
-	public function updateStatus(BaseActiveRecord $model, Status $status = null) {
+	public function updateStatus($model, Status $status = null) {
 		// TODO: Auto-generated method stub
 
 	}

@@ -1,8 +1,6 @@
 <?php
 namespace fproject\workflow\base;
 
-use yii\base\Object;
-
 /**
  * The interface for status ID converters.
  *
@@ -15,19 +13,20 @@ use yii\base\Object;
  */
 interface IStatusIdConverter
 {
-	/**
-	 * Converts the status ID passed as argument into a status ID compatible
-	 * with the simpleWorkflow.
-	 *
-	 * @param mixed $id
-	 */
-	public function toSimpleWorkflow($statusId);
+    /**
+     * Converts the status ID passed as argument into a status ID compatible
+     * with the Workflow.
+     *
+     * @param mixed $statusId
+     * @return mixed
+     */
+	public function toWorkflow($statusId);
 
 	/**
 	 * Converts the status ID passed as argument into a value that is compatible
 	 * with the owner model attribute configured to store the simpleWorkflow status ID.
 	 *
-	 * @param mixed $id
+	 * @param mixed $statusId
 	 */
 	public function toModelAttribute($statusId);
 }

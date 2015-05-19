@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\source\php;
 
+use fproject\workflow\base\WorkflowValidationException;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
@@ -17,6 +18,7 @@ class WorkflowTest extends TestCase
 {
 	use \Codeception\Specify;
 
+    /** @var  WorkflowPhpSource $src*/
 	public $src;
 
 	protected function setUp()
@@ -61,7 +63,7 @@ class WorkflowTest extends TestCase
 		$this->assertTrue(count($this->src->parseStatusId('Wid/Id')) == 2);
 	}
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #No status definition found#
 	 */	
 	public function testAddInvalidWorkflowDefinition()
@@ -71,12 +73,12 @@ class WorkflowTest extends TestCase
 	public function testGetClassname()
 	{
 		$this->src->namespace = 'a\b\c';
-		$this->assertEquals('a\b\c\PostWorkflow', $this->src->getClassname('PostWorkflow'));
+		$this->assertEquals('a\b\c\PostWorkflow', $this->src->getClassName('PostWorkflow'));
 		$this->src->namespace = '';
-		$this->assertEquals('\PostWorkflow', $this->src->getClassname('PostWorkflow'));
+		$this->assertEquals('\PostWorkflow', $this->src->getClassName('PostWorkflow'));
 
 		$this->specify('exception thrown on invalid workflow id', function() {
-			$this->src->getClassname('');
+			$this->src->getClassName('');
 		},['throws'=> 'fproject\workflow\base\WorkflowException']);
 
 	}

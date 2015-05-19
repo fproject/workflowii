@@ -7,7 +7,7 @@ use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item07;
 use tests\codeception\unit\models\StatusAccessor07;
 use fproject\workflow\base\Status;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use fproject\workflow\base\WorkflowException;
 
 class StatusAccessorTest extends TestCase

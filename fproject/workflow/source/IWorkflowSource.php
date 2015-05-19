@@ -5,18 +5,19 @@ use fproject\workflow\base\Status;
 use fproject\workflow\base\Transition;
 use fproject\workflow\base\Workflow;
 use fproject\workflow\base\WorkflowException;
+use yii\base\Component;
 
 interface IWorkflowSource
 {
-	/**
-	 * Returns the Status instance with id $id.
-	 * In case of unexpected error the implementation must return a WorkflowException.
-	 *
-	 * @see Status
-	 * @param mixed $id the status id
-	 * @return Status the status instance or NULL if no status could be found for this id.
-	 * @throws WorkflowException unexpected error
-	 */
+    /**
+     * Returns the Status instance with id $id.
+     * In case of unexpected error the implementation must return a WorkflowException.
+     *
+     * @see Status
+     * @param mixed $id the status id
+     * @param Component $model
+     * @return Status the status instance or NULL if no status could be found for this id.
+     */
 	public function getStatus($id, $model = null);
 	/**
 	 * Returns an array containing all Status instances belonging to the workflow
@@ -34,17 +35,22 @@ interface IWorkflowSource
 	 * If not outgoing transition exists for the status, an empty array must be returned.
 	 * The array returned must be indexed by ....
 	 *
-	 * @see Transition
 	 * @param mixed $statusId
+     * @param Component $model
+     *
 	 * @return Transition[] an array containing all out going transition from $statusId. If no such
 	 * transition exist, this method returns an empty array.
 	 * @throws WorkflowException unexpected error
+     *
+     * @see Transition
 	 */
 	public function getTransitions($statusId, $model = null);
 	/**
 	 *
 	 * @param mixed $startId
 	 * @param mixed $endId
+     * @param Component $model
+     *
 	 */
 	public function getTransition($startId, $endId, $model = null);
 	/**

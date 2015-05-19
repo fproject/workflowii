@@ -7,7 +7,7 @@ use yii\codeception\TestCase;
 use yii\base\InvalidConfigException;
 
 use tests\codeception\unit\models\Item04;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use fproject\workflow\events\WorkflowEvent;
 use fproject\workflow\base\WorkflowException;
 
@@ -31,7 +31,7 @@ class EnterWorkflowReducedEventTest extends TestCase
 
 		$this->model = new Item04();
 		$this->model->attachBehavior('workflow', [
-			'class' => SimpleWorkflowBehavior::className()
+			'class' => WorkflowBehavior::className()
 		]);
 	}
 

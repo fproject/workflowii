@@ -5,7 +5,7 @@ namespace tests\unit\workflow\events;
 use Yii;
 use yii\codeception\DbTestCase;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use tests\codeception\unit\models\Item04;
 use fproject\workflow\base\WorkflowException;
 use fproject\workflow\events\WorkflowEvent;
@@ -35,7 +35,7 @@ class ChangeStatusReducedEventTest extends DbTestCase
 
 		$this->model = new Item04();
 		$this->model->attachBehavior('workflow', [
-			'class' => SimpleWorkflowBehavior::className()
+			'class' => WorkflowBehavior::className()
 		]);
 	}
 

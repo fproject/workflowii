@@ -5,7 +5,7 @@ namespace tests\unit\workflow\events;
 use Yii;
 use yii\codeception\DbTestCase;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use tests\codeception\unit\models\Item06;
 use tests\codeception\unit\models\Item06Behavior;
 use fproject\workflow\base\WorkflowException;

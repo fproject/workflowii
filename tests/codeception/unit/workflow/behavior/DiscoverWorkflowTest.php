@@ -8,7 +8,7 @@ use yii\base\InvalidConfigException;
 
 use tests\codeception\unit\models\Item01;
 use tests\codeception\unit\models\Item03;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 
 class DiscoverWorkflowTest extends TestCase
 {
@@ -26,7 +26,7 @@ class DiscoverWorkflowTest extends TestCase
     	$this->specify('use the configured workflow Id', function () {
     		$model = new Item01();
     		$model->attachBehavior('workflow', [
-    			'class' => SimpleWorkflowBehavior::className(),
+    			'class' => WorkflowBehavior::className(),
     			'defaultWorkflowId' => 'myWorkflow'
     		]);
     		expect('model should have workflow id set to "myWorkflow"', $model->getDefaultWorkflowId() == 'myWorkflow' )->true();

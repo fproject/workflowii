@@ -1,8 +1,9 @@
 <?php
 namespace fproject\workflow\events;
 
+use fproject\workflow\base\Status;
+use fproject\workflow\base\Transition;
 use yii\base\Object;
-use fproject\workflow\events\IEventSequence;
 
 /**
  * This event sequence provider include additional generic events to each sequence.
@@ -15,24 +16,26 @@ use fproject\workflow\events\IEventSequence;
  */
 class ExtendedEventSequence extends Object implements IEventSequence
 {
-	/**
-	 * Produces the following event sequence when a model enters a workflow.
-	 *
-	 * - beforeEnterWorkflow(*)
-	 * - beforeEnterWorkflow(WID)
-	 * - beforeEnterStatus(*)
-	 * - beforeEnterStatus(ID)
-	 *
-	 * - afterEnterWorkflow(*)
-	 * - afterEnterWorkflow(WID)
-	 * - afterEnterStatus(*)
-	 * - afterEnterStatus(ID)
-	 *
-	 * Where WID is the workflow Id and ID is the status Id.
-	 *
-	 * @see \fproject\workflow\events\IEventSequenceScheme::createEnterWorkflowSequence()
-	 */
-	public function createEnterWorkflowSequence($initalStatus, $sender)
+    /**
+     * Produces the following event sequence when a model enters a workflow.
+     *
+     * - beforeEnterWorkflow(*)
+     * - beforeEnterWorkflow(WID)
+     * - beforeEnterStatus(*)
+     * - beforeEnterStatus(ID)
+     *
+     * - afterEnterWorkflow(*)
+     * - afterEnterWorkflow(WID)
+     * - afterEnterStatus(*)
+     * - afterEnterStatus(ID)
+     *
+     * Where WID is the workflow Id and ID is the status Id.
+     * @param Status $initStatus
+     * @param Object $sender
+     * @see \fproject\workflow\events\IEventSequenceScheme::createEnterWorkflowSequence()
+     * @return array|\yii\base\Event[]
+     */
+	public function createEnterWorkflowSequence($initStatus, $sender)
 	{
 		return [
 
@@ -43,28 +46,28 @@ class ExtendedEventSequence extends Object implements IEventSequence
 				new WorkflowEvent(
 					WorkflowEvent::beforeEnterWorkflow(),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 					),
 				new WorkflowEvent(
-					WorkflowEvent::beforeEnterWorkflow($initalStatus->getWorkflowId()),
+					WorkflowEvent::beforeEnterWorkflow($initStatus->getWorkflowId()),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				),
 				new WorkflowEvent(
 					WorkflowEvent::beforeEnterStatus(),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				),
 				new WorkflowEvent(
-					WorkflowEvent::beforeEnterStatus($initalStatus->getId()),
+					WorkflowEvent::beforeEnterStatus($initStatus->getId()),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				)
@@ -76,28 +79,28 @@ class ExtendedEventSequence extends Object implements IEventSequence
 				new WorkflowEvent(
 					WorkflowEvent::afterEnterWorkflow(),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 					),
 				new WorkflowEvent(
-					WorkflowEvent::afterEnterWorkflow($initalStatus->getWorkflowId()),
+					WorkflowEvent::afterEnterWorkflow($initStatus->getWorkflowId()),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				),
 				new WorkflowEvent(
 					WorkflowEvent::afterEnterStatus(),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				),
 				new WorkflowEvent(
-					WorkflowEvent::afterEnterStatus($initalStatus->getId()),
+					WorkflowEvent::afterEnterStatus($initStatus->getId()),
 					[
-						'end'        => $initalStatus,
+						'end'        => $initStatus,
 						'sender'  	 => $sender
 					]
 				)
@@ -105,21 +108,27 @@ class ExtendedEventSequence extends Object implements IEventSequence
 		];
 	}
 
-	/**
-	 * Produces the following event sequence when a model leaves a workflow.
-	 *
-	 * - beforeLeaveStatus(*)
-	 * - beforeLeaveStatus(ID)
-	 * - beforeLeaveWorkflow(*)
-	 * - beforeLeaveWorkflow(WID)
-	 *
-	 * - afterLeaveStatus(*)
-	 * - afterLeaveStatus(ID)
-	 * - afterLeaveWorkflow(*)
-	 * - afterLeaveWorkflow(WID)
-	 *
-	 * @see \fproject\workflow\events\IEventSequenceScheme::createLeaveWorkflowSequence()
-	 */
+    /**
+     * Produces the following event sequence when a model leaves a workflow.
+     *
+     * - beforeLeaveStatus(*)
+     * - beforeLeaveStatus(ID)
+     * - beforeLeaveWorkflow(*)
+     * - beforeLeaveWorkflow(WID)
+     *
+     * - afterLeaveStatus(*)
+     * - afterLeaveStatus(ID)
+     * - afterLeaveWorkflow(*)
+     * - afterLeaveWorkflow(WID)
+     *
+     * @param Status $finalStatus
+     * @param Object $sender
+     *
+     * @return array|\yii\base\Event[]
+     *
+     * @see \fproject\workflow\events\IEventSequenceScheme::createLeaveWorkflowSequence()
+     *
+     */
 	public function createLeaveWorkflowSequence($finalStatus, $sender)
 	{
 		return [
@@ -192,23 +201,28 @@ class ExtendedEventSequence extends Object implements IEventSequence
 		];
 	}
 
-	/**
-	 * Produces the following event sequence when a model changes from status A to status B.
-	 *
-	 * - beforeLeaveStatus(*)
-	 * - beforeLeaveStatus(A)
-	 * - beforeChangeStatusFrom(A)to(B)
-	 * - beforeEnterStatus(*)
-	 * - beforeEnterStatus(B)
-	 *
-	 * - afterLeaveStatus(*)
-	 * - afterLeaveStatus(A)
-	 * - afterChangeStatusFrom(A)to(B)
-	 * - afterEnterStatus(*)
-	 * - afterEnterStatus(B)
-
-	 * @see \fproject\workflow\events\IEventSequenceScheme::createChangeStatusSequence()
-	 */
+    /**
+     * Produces the following event sequence when a model changes from status A to status B.
+     *
+     * - beforeLeaveStatus(*)
+     * - beforeLeaveStatus(A)
+     * - beforeChangeStatusFrom(A)to(B)
+     * - beforeEnterStatus(*)
+     * - beforeEnterStatus(B)
+     *
+     * - afterLeaveStatus(*)
+     * - afterLeaveStatus(A)
+     * - afterChangeStatusFrom(A)to(B)
+     * - afterEnterStatus(*)
+     * - afterEnterStatus(B)
+     *
+     * @param Transition $transition
+     * @param Object $sender
+     *
+     * @see \fproject\workflow\events\IEventSequenceScheme::createChangeStatusSequence()
+     *
+     * @return array|\yii\base\Event[]
+     */
 	public function createChangeStatusSequence($transition, $sender)
 	{
 		return [

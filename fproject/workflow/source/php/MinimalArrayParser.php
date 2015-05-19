@@ -49,20 +49,20 @@ class MinimalArrayParser extends Object implements IArrayParser {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param fproject\workflow\source\php\WorkflowPhpSource $source
+	 * @param WorkflowPhpSource $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */
 	public function parse($wId, $definition, $source) {
 
-		if ( empty($wId)) {
+		if (empty($wId)) {
 			throw new WorkflowValidationException("Missing argument : workflow Id");
 		}
-		if ( ! \is_array($definition)) {
+		if (!is_array($definition)) {
 			throw new WorkflowValidationException("Workflow definition must be provided as an array");
 		}
 		
-		if ( ! ArrayHelper::isAssociative($definition)) {
+		if (!ArrayHelper::isAssociative($definition)) {
 			throw new WorkflowValidationException("Workflow definition must be provided as associative array");
 		}
 		
@@ -82,11 +82,11 @@ class MinimalArrayParser extends Object implements IArrayParser {
 				$normalized[WorkflowPhpSource::KEY_NODES] = [];
 			}
 			$startStatusIdIndex[] = $absoluteStatusId;
-			$endStatusIds = [];
-			if ( \is_string($targetStatusList)) {
+
+			if (is_string($targetStatusList)) {
 				$ids = array_map('trim', explode(',', $targetStatusList));
 				$endStatusIds = $this->normalizeStatusIds($ids, $wId, $source);
-			}elseif ( \is_array($targetStatusList)) {
+			}elseif (is_array($targetStatusList)) {
 				if( ArrayHelper::isAssociative($targetStatusList,false) ){
 					throw new WorkflowValidationException("Associative array not supported (status : $absoluteStatusId)");
 				}
@@ -99,14 +99,14 @@ class MinimalArrayParser extends Object implements IArrayParser {
 			
 			if ( count($endStatusIds)) {
 				$normalized[WorkflowPhpSource::KEY_NODES][$absoluteStatusId] = ['transition' => array_fill_keys($endStatusIds,[])];
-				$endStatusIdIndex = \array_merge($endStatusIdIndex, $endStatusIds);
+				$endStatusIdIndex = array_merge($endStatusIdIndex, $endStatusIds);
 			} else {
 				$normalized[WorkflowPhpSource::KEY_NODES][$absoluteStatusId] = null;
 			}
 		}
 
 		if ( $this->validate === true) {
-			if ( ! \in_array($initialStatusId, $startStatusIdIndex)) {
+			if (isset($initialStatusId) && !in_array($initialStatusId, $startStatusIdIndex)) {
 				throw new WorkflowValidationException("Initial status not defined : $initialStatusId");
 			}
 		
@@ -127,12 +127,15 @@ class MinimalArrayParser extends Object implements IArrayParser {
 			}
 		}
 		return $normalized;
-	}	
-	/**
-	 * 
-	 * @param array $ids
-	 * @param string $workflowId
-	 */
+	}
+
+    /**
+     *
+     * @param array $ids
+     * @param string $workflowId
+     * @param WorkflowPhpSource $source
+     * @return array
+     */
 	private function normalizeStatusIds($ids, $workflowId, $source)
 	{
 		$normalizedIds = [];

@@ -3,13 +3,13 @@ namespace fproject\workflow\validation;
 
 use Yii;
 use yii\validators\Validator;
-use fproject\workflow\base\SimpleWorkflowBehavior;
+use fproject\workflow\base\WorkflowBehavior;
 use fproject\workflow\base\WorkflowException;
 
 /**
  * WorkflowValidator run validation for the current workflow event.
  *
- * @author raoul
+ * @author Bui Sy Nguyen
  *
  */
 class WorkflowValidator extends Validator
@@ -40,8 +40,8 @@ class WorkflowValidator extends Validator
 	 */
 	public function validateAttribute($object, $attribute)
 	{
-		if (  ! SimpleWorkflowBehavior::isAttachedTo($object) ) {
-			throw new WorkflowException('Validation error : the model does not have the SimpleWorkflowBehavior');
+		if (  ! WorkflowBehavior::isAttachedTo($object) ) {
+			throw new WorkflowException('Validation error : the model does not have the WorkflowBehavior');
 		}
 
 		try {

@@ -2,7 +2,6 @@
 namespace fproject\workflow\base;
 
 use Yii;
-use yii\base\Object;
 use yii\base\InvalidConfigException;
 
 /**
@@ -19,19 +18,21 @@ class Transition extends WorkflowBaseObject implements TransitionInterface
 	 */
 	private $_endStatus;
 	private $_id = null;
-	/**
-	 * Creates a Transition object.
-	 *
-	 * To create a new Transition, you should provide following mandatory values in the
-	 * configuration array $config :
-	 *
-	 * - **start** : the start Status instance
-	 * - **end** : the end Status instance
-	 *
-	 * @see Status
-	 * @param array $config
-	 * @throws InvalidConfigException
-	 */
+
+    /**
+     * Creates a Transition object.
+     *
+     * To create a new Transition, you should provide following mandatory values in the
+     * configuration array $config :
+     *
+     * - **start** : the start Status instance
+     * - **end** : the end Status instance
+     *
+     * @see Status
+     * @param array $config
+     * @throws InvalidConfigException
+     * @throws WorkflowException
+     */
 	public function __construct($config = [])
 	{
 		if ( ! empty($config['start'])) {
