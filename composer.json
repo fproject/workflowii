@@ -28,7 +28,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"fproject\\workflow\\" : "src/"
+          "fproject\\": "fproject/"
 		}
 	}
 }
