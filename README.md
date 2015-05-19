@@ -1,5 +1,9 @@
 # Workflow Engine for Yii 2 Framework
-[![Latest Stable Version](https://poser.pugx.org/fproject/workflowii/v/stable)](https://packagist.org/packages/fproject/workflowii) [![Total Downloads](https://poser.pugx.org/fproject/workflowii/downloads)](https://packagist.org/packages/fproject/workflowii) [![Latest Unstable Version](https://poser.pugx.org/fproject/workflowii/v/unstable)](https://packagist.org/packages/fproject/workflowii) [![License](https://poser.pugx.org/fproject/workflowii/license)](https://packagist.org/packages/fproject/workflowii)
+[![Latest Stable Version](https://poser.pugx.org/fproject/workflowii/v/stable)](https://packagist.org/packages/fproject/workflowii)
+[![Total Downloads](https://poser.pugx.org/fproject/workflowii/downloads)](https://packagist.org/packages/fproject/workflowii)
+[![Latest Unstable Version](https://poser.pugx.org/fproject/workflowii/v/unstable)](https://packagist.org/packages/fproject/workflowii)
+[![Build](https://travis-ci.org/fproject/workflowii.svg?branch=master)](https://travis-ci.org/fproject/workflowii)
+[![License](https://poser.pugx.org/fproject/workflowii/license)](https://packagist.org/packages/fproject/workflowii)
 
 ## Installation
 
