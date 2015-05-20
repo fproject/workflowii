@@ -38,12 +38,12 @@ Let's define a very *simple workflow* that will be used to manage posts in a bas
 
 Here is the PHP class that implements the definition for our workflow :
 
-*PostWorkflow.php in @app/models*
+*ArticleWorkflow.php in @app/models*
 ```php
 <?php
 namespace app\models;
 
-class PostWorkflow implements \fproject\workflow\base\IWorkflowDefinitionProvider 
+class ArticleWorkflow implements \fproject\workflow\base\IWorkflowDefinitionProvider 
 {
 	public function getDefinition() {
 		return [
@@ -111,7 +111,7 @@ This will print the following message :
 	 
 If you do the same thing but instead of *draft* set the status to *publish* and try to save it, the following exception is thrown :
 
-	Not an initial status : PostWorkflow/publish ("PostWorkflow/draft" expected)
+	Not an initial status : ArticleWorkflow/publish ("ArticleWorkflow/draft" expected)
 
 That's because in your workflow definition the **initial status** is  set to *draft* and not *publish*.
 
@@ -130,7 +130,7 @@ Game Over ! There is no transition between *deleted* and *publish*, and that's w
 fearless post object.
 
 	Workflow Exception – fproject\workflow\base\WorkflowException
-	No transition found between status PostWorkflow/deleted and PostWorkflow/publish
+	No transition found between status ArticleWorkflow/deleted and ArticleWorkflow/publish
 	
 Yes, that's severe, but there was many ways to avoid this exception like for instance by first validating that the transition was possible. 
 
