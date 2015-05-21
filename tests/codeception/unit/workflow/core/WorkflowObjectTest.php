@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\workflow\base;
+namespace tests\unit\workflow\core;
 
 use Yii;
 use yii\codeception\TestCase;
