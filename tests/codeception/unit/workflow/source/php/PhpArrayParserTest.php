@@ -8,7 +8,7 @@ use fproject\workflow\source\php\DefaultArrayParser;
 use fproject\workflow\source\php\WorkflowPhpSource;
 
 
-class DefaultArrayParserTest extends TestCase
+class PhpArrayParserTest extends TestCase
 {
 	use \Codeception\Specify;
 	
@@ -433,4 +433,32 @@ class DefaultArrayParserTest extends TestCase
 		verify('transition to B has no config set',$workflow['status']['WID/A']['transition']['WID/B'] === ['kb' => 'vb'])->true();
 		verify('transition to C has no config set',$workflow['status']['WID/A']['transition']['WID/C'] === [])->true();
 	}
+
+    /** Test case for https://github.com/fproject/workflowii/issues/2 */
+    public function testParseBugNo2()
+    {
+        $workflow = Yii::$app->parser->parse('WID',[
+            'initialStatusId' => 'draft',
+            'status' => [
+                'draft' => [
+                    'transition' => ['open', 'deleted']
+                ],
+                'open' => [
+                    'transition' => ['in-progress', 'resolved', 'closed', 'cancelled']
+                ],
+                'in-progress' => [
+                    'transition' => ['open', 'resolved', 'closed', 'cancelled']
+                ],
+                'resolved' => [
+                    'transition' => ['open', 'in-progress', 'closed']
+                ],
+                'closed' => [
+                    'transition' => ['open', 'in-progress']
+                ],
+                'cancelled' => ['open', 'in-progress', 'resolved', 'closed'],
+                'deleted'
+            ]
+        ],$this->src);
+        verify('initial status is WID/draft',$workflow['initialStatusId'])->equals('WID/draft');
+    }
 }
