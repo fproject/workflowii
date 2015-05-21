@@ -506,7 +506,6 @@ class WorkflowBehavior extends Behavior
 
 			$end = $this->ensureStatusInstance($end, true);
 
-            // TODO : replace $this->owner with defaultWorkflowId
 			$transition = $this->_wfSource->getTransition($start->getId(), $end->getId(), $this->selectDefaultWorkflowId());
 
 			if ($transition === null && $start->getId() != $end->getId() ) {
