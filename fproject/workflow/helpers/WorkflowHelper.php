@@ -2,7 +2,7 @@
 namespace fproject\workflow\helpers;
 
 use fproject\workflow\core\Status;
-use yii\db\BaseActiveRecord;
+use yii\base\Component;
 use fproject\workflow\core\WorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
 
@@ -12,7 +12,7 @@ class WorkflowHelper
 	 * Returns an associative array containing all statuses that can be reached by model.
 	 * 
 	 * Note that the current model status is NOT included in this list.
-	 * @param BaseActiveRecord $model
+	 * @param Component $model
 	 * @param boolean $validate
 	 * @param boolean $beforeEvents
 	 * @throws WorkflowException

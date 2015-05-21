@@ -21,7 +21,7 @@ use fproject\workflow\core\Transition;
  * Two event sequence implementations are provided : {@link \fproject\workflow\events\BasicEventSequence} and
  * {@link \fproject\workflow\events\ExtendedEventSequence}
  *
- * @see \fproject\workflow\events\WorkflowEvent
+ * @see WorkflowEvent
  *
  */
 interface IEventSequence
@@ -37,7 +37,7 @@ interface IEventSequence
 	/**
 	 * Creates and returns the sequence of events that occurs when a model leaves a workflow.
 	 *
-	 * @param \fproject\workflow\core\Status $finalStatus the status that the model last visited in the workflow it is leaving
+	 * @param Status $finalStatus the status that the model last visited in the workflow it is leaving
 	 * (the <i>final status</i>)
 	 * @param Object $sender
 	 * @return Event[]
