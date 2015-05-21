@@ -4,7 +4,7 @@ namespace tests\unit\workflow\source\php;
 
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\source\php\DefaultArrayParser;
+use fproject\workflow\source\php\PhpArrayParser;
 use fproject\workflow\source\php\WorkflowPhpSource;
 use fproject\workflow\source\php\MinimalArrayParser;
 use yii\helpers\VarDumper;

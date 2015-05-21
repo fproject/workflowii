@@ -4,7 +4,7 @@ namespace tests\unit\workflow\source\php;
 
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\source\php\DefaultArrayParser;
+use fproject\workflow\source\php\PhpArrayParser;
 use fproject\workflow\source\php\WorkflowPhpSource;
 
 
@@ -19,7 +19,7 @@ class PhpArrayParserTest extends TestCase
 		parent::setUp();
 		$this->src = new WorkflowPhpSource();
 		Yii::$app->set('parser',[
-			'class' => DefaultArrayParser::className(),
+			'class' => PhpArrayParser::className(),
 		]);		
 	}
 	
@@ -29,13 +29,13 @@ class PhpArrayParserTest extends TestCase
 	public function testCreateInstance()
 	{
 		Yii::$app->set('parserA',[
-			'class' => DefaultArrayParser::className(),
+			'class' => PhpArrayParser::className(),
 			'validate' => false
 		]);
 		verify('validate is assigned',Yii::$app->parserA->validate)->false(); 
 
 		Yii::$app->set('parserB',[
-			'class' => DefaultArrayParser::className(),
+			'class' => PhpArrayParser::className(),
 		]);
 		verify('validate default value is true',Yii::$app->parserB->validate)->true();		
 	}
