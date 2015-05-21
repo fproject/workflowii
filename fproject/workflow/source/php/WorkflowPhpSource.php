@@ -46,7 +46,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\source\php\DefaultArrayParser';
+	const DEFAULT_PARSER_CLASS = '\fproject\workflow\source\php\PhpArrayParser';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
@@ -110,8 +110,8 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      */
 	public function __construct($config = [])
 	{
-		if ( array_key_exists('classMap', $config)) {
-			if ( is_array($config['classMap']) && count($config['classMap']) != 0) {
+		if (array_key_exists('classMap', $config)) {
+			if (is_array($config['classMap']) && count($config['classMap']) != 0) {
 				$this->_classMap = array_merge($this->_classMap, $config['classMap']);
 				unset($config['classMap']);
 
@@ -119,7 +119,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 
 				foreach ([self::TYPE_STATUS, self::TYPE_TRANSITION, self::TYPE_WORKFLOW] as $type) {
 					$className = $this->getClassMapByType($type);
-					if ( empty($className)) {
+					if (empty($className)) {
 						throw new InvalidConfigException("Invalid class map value : missing class for type ".$type);
 					}
 				}
@@ -131,10 +131,10 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		// create the parser component or get it by name from Yii::$app
 		
 		$parserName = isset($config['parser']) ? $config['parser'] : 'workflowArrayParser';
-		if ( $parserName == null ) {
+		if ($parserName == null ) {
 			$this->_parser = null;
-		} elseif ( is_string($parserName)) {
-			if (  ! Yii::$app->has($parserName)) {
+		} elseif (is_string($parserName)) {
+			if (!Yii::$app->has($parserName)) {
 				Yii::$app->set($parserName, ['class'=> self::DEFAULT_PARSER_CLASS]);
 			}
 			$this->_parser = Yii::$app->get($parserName);
@@ -172,7 +172,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		
 		if (!array_key_exists($canonicalStId, $this->_s) ) {
 			$wDef = $this->getWorkflowDefinition($wId);
-			if ( $wDef == null) {
+			if ($wDef == null) {
 				throw new WorkflowException('No workflow found with id ' . $wId);
 			}
 			if (!array_key_exists($canonicalStId, $wDef[self::KEY_NODES])) {
@@ -211,7 +211,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		if (!array_key_exists($statusId, $this->_t) ) {
 
 			$start = $this->getStatus($statusId);
-			if ( $start == null) {
+			if ($start == null) {
 				throw new WorkflowException('start status not found : id = '. $statusId);
 			}
 
@@ -222,14 +222,14 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 				: null;
 
 			$transitions = [];
-			if ( $trDef != null) {
+			if ($trDef != null) {
 				
 				foreach ($trDef as $endStId => $trCfg) {					
 					$ids = $this->parseStatusId($endStId, $wId);
 					$endId =  implode(self::SEPARATOR_STATUS_NAME, $ids);
 					$end = $this->getStatus($endId);
 					
-					if ( $end == null ) {
+					if ($end == null ) {
 						throw new WorkflowException('end status not found : start(id='.$statusId.') end(id='.$endStId.')');
 					} else {
 						$trCfg['class'] = $this->getClassMapByType(self::TYPE_TRANSITION);
@@ -255,7 +255,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	public function getTransition($startId, $endId, $defaultWorkflowId = null)
 	{
 		$tr = $this->getTransitions($startId, $defaultWorkflowId);
-		if ( count($tr) > 0 ) {
+		if (count($tr) > 0 ) {
 			foreach ($tr as $aTransition) {
 				if ($aTransition->getEndStatus()->getId() == $endId) {
 					return $aTransition;
@@ -278,15 +278,15 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      */
 	public function getWorkflow($id)
 	{
-		if ( ! array_key_exists($id, $this->_w) ) {
+		if (!array_key_exists($id, $this->_w) ) {
 
 			$workflow = null;
 			$def =  $this->getWorkflowDefinition($id);
 
-			if ( $def != null ) {
+			if ($def != null ) {
 				unset($def[self::KEY_NODES]);
 				$def['id'] = $id;
-				if ( isset($def[Workflow::PARAM_INITIAL_STATUS_ID])) {
+				if (isset($def[Workflow::PARAM_INITIAL_STATUS_ID])) {
 					$ids = $this->parseStatusId($def[Workflow::PARAM_INITIAL_STATUS_ID], $id);
 					$def[Workflow::PARAM_INITIAL_STATUS_ID] = implode(self::SEPARATOR_STATUS_NAME, $ids);
 				} else {
@@ -316,21 +316,21 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      */
 	public function getWorkflowDefinition($id)
 	{
-		if ( ! $this->isValidWorkflowId($id)) {
+		if (!$this->isValidWorkflowId($id)) {
 			throw new WorkflowException('Invalid workflow Id : '.VarDumper::dumpAsString($id));
 		}
 
-		if ( ! isset($this->_workflowDef[$id]) ) {
-			$wfClassname = $this->getClassName($id);
+		if (!isset($this->_workflowDef[$id]) ) {
+			$wfClassName = $this->getClassName($id);
 			try {
-				$wfProvider = Yii::createObject(['class' => $wfClassname]);
-			} catch ( \ReflectionException $e) {
-				throw new WorkflowException('failed to load workflow definition : '.$e->getMessage());
+				$wfProvider = Yii::createObject(['class' => $wfClassName]);
+			} catch (\ReflectionException $e) {
+				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
-			if ( $this->isWorkflowProvider($wfProvider)) {
+			if ($this->isWorkflowProvider($wfProvider)) {
 				$this->_workflowDef[$id] = $this->parse($id, $wfProvider->getDefinition());
 			} else {
-				throw new WorkflowException('Invalid workflow provider class : '.$wfClassname);
+				throw new WorkflowException('Invalid workflow provider class : '.$wfClassName);
 			}
 		}
 		return $this->_workflowDef[$id];
@@ -346,7 +346,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      */
 	public function getClassName($workflowId)
 	{
-		if ( ! $this->isValidWorkflowId($workflowId)) {
+		if (! $this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
 		return $this->namespace . '\\' . $workflowId;
@@ -418,7 +418,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
-			if ( !empty($helper)) {
+			if (!empty($helper)) {
 				if (is_string($helper)){
 					$tokens[0] = $helper;
 				} elseif ($helper instanceof WorkflowBehavior && $helper->hasWorkflowStatus()) {
@@ -500,13 +500,17 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      */
 	public function addWorkflowDefinition($workflowId, $definition, $overwrite = false)
 	{
-		if ( ! $this->isValidWorkflowId($workflowId)) {
+		if (!$this->isValidWorkflowId($workflowId))
+        {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
 
-		if ( $overwrite == false && isset($this->_workflowDef[$workflowId])) {
+		if ($overwrite == false && isset($this->_workflowDef[$workflowId]))
+        {
 			return false;
-		} else {
+		}
+        else
+        {
 			$this->_workflowDef[$workflowId] = $this->parse($workflowId, $definition);
 			unset($this->_w[$workflowId]);
 			return true;
@@ -531,9 +535,11 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	 */
 	public function parse($workflowId, $definition) 
 	{
-		if( $this->getWorkflowParser() != null) {
+		if($this->getWorkflowParser() != null) {
 			return $this->getWorkflowParser()->parse($workflowId, $definition, $this);
-		} else {
+		}
+        else
+        {
 			return $definition;
 		}
 	}
@@ -553,7 +559,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		$stat = [];
 		$startStatusIds = array_keys($definition[self::KEY_NODES]);
 		$stat['statusCount'] = count($startStatusIds);
-		if( ! in_array($definition['initialStatusId'], $startStatusIds) ) {
+		if(! in_array($definition['initialStatusId'], $startStatusIds) ) {
 			$errors['missingInitialStatus'] = [
 				'message' => 'Initial status not defined',
 				'status' => $definition['initialStatusId']
@@ -562,8 +568,8 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		$endStatusIds = [];
 		$finalStatusIds = [];
 		$stat['transitionCount'] = 0;
-		foreach( $startStatusIds as $statusId) {
-			if( $definition[self::KEY_NODES][$statusId][self::KEY_EDGES] != null) {
+		foreach($startStatusIds as $statusId) {
+			if($definition[self::KEY_NODES][$statusId][self::KEY_EDGES] != null) {
 				$stat['transitionCount'] += count($definition[self::KEY_NODES][$statusId][self::KEY_EDGES]);
 				$endStatusIds = array_merge($endStatusIds, array_keys($definition[self::KEY_NODES][$statusId][self::KEY_EDGES]));
 			} else {
@@ -574,7 +580,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		$stat['finalStatus'] = $finalStatusIds;
 		
 		$missingStatusIdSuspects = \array_diff($endStatusIds, $startStatusIds);
-		if ( count($missingStatusIdSuspects) != 0) {
+		if (count($missingStatusIdSuspects) != 0) {
 			$missingStatusId = [];
 			foreach ($missingStatusIdSuspects as $id) {
 				list($thisWid, $thisSid) = $this->parseStatusId($id,$wId);
@@ -582,7 +588,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 					$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 				}
 			}
-			if ( count($missingStatusId) != 0) {
+			if (count($missingStatusId) != 0) {
 				$errors['missingStatus'] = [
 					'message' => 'One or more end status are not defined',
 					'status' => $missingStatusId
@@ -591,11 +597,11 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		}	
 
 		$orphanStatusIds = \array_diff($startStatusIds, $endStatusIds);
-		if( \in_array($definition['initialStatusId'], $orphanStatusIds)) {
+		if(\in_array($definition['initialStatusId'], $orphanStatusIds)) {
 			// initial status Id is not unreachable
 			$orphanStatusIds = \array_diff($orphanStatusIds, [ $definition['initialStatusId'] ]);
 		}
-		if( count($orphanStatusIds) != 0) {
+		if(count($orphanStatusIds) != 0) {
 			$errors['unreachableStatus'] = [
 				'message' => 'One or more statuses are unreachable',
 				'status' => $orphanStatusIds
@@ -617,11 +623,11 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	public function getAllStatuses($workflowId)
 	{
 		$wDef = $this->getWorkflowDefinition($workflowId);
-		if ( $wDef == null) {
+		if ($wDef == null) {
 			throw new WorkflowException('No workflow found with id ' . $workflowId);
 		}	
 		$allStatuses = [];		
-		foreach( $wDef[self::KEY_NODES] as $statusId => $statusDef){
+		foreach($wDef[self::KEY_NODES] as $statusId => $statusDef){
 			$allStatuses[$statusId] = $this->getStatus($statusId);
 		}
 		return $allStatuses;
