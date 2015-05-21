@@ -77,7 +77,7 @@ class EnterWorkflowTest extends DbTestCase
 
     		$this->setExpectedException(
     			'fproject\workflow\base\WorkflowException',
-    			'failed to load workflow definition : Class tests\codeception\unit\models\INVALIDID does not exist'
+    			'Failed to load workflow definition : Class tests\codeception\unit\models\INVALIDID does not exist'
 			);
 
     		$item->enterWorkflow('INVALIDID');
