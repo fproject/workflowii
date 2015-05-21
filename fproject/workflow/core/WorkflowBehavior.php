@@ -6,14 +6,13 @@ use fproject\workflow\events\WorkflowEvent;
 use fproject\workflow\source\IWorkflowSource;
 use Yii;
 use yii\base\Behavior;
-use yii\base\Component;
+use yii\base\Model;
 use yii\base\ModelEvent;
-use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\events\IEventSequence;
 use fproject\workflow\validation\WorkflowScenario;
+use yii\db\BaseActiveRecord;
 
 /**
  * WorkflowBehavior implements the behavior of db model evolving inside a simple workflow.
@@ -61,9 +60,9 @@ use fproject\workflow\validation\WorkflowScenario;
  *     ];
  * }
  * ~~~
- * Please note that the model must be an instance of yii\db\BaseActiveRecord.
+ * Please note that the model must be an instance of yii\base\Model.
  *
- * @property BaseActiveRecord $owner
+ * @property Model $owner
  */
 class WorkflowBehavior extends Behavior
 {
@@ -107,7 +106,7 @@ class WorkflowBehavior extends Behavior
 	 */
 	private $_defaultWorkflowId;
 	/**
-	 * @property Status|null Internal value of the owner model status. This is the real value of the owner model status. It is
+	 * @property IStatus|null Internal value of the owner model status. This is the real value of the owner model status. It is
 	 * maintained internally, depending on the path the owner model is going through within a workflow.
 	 * Use getworkflowStatus() to get the actual Status instance.
 	 */
@@ -204,13 +203,13 @@ class WorkflowBehavior extends Behavior
      *
      * This method is automatically called by Yii. The behavior can successfully be attached to the model if :
      *
-     * - the model is an instance of yii\db\BaseActiveRecord
+     * - the model is an instance of yii\base\Model
      * - the model has a attribute to hold the status value. The name of this attribute can be configured  when the behavior
      * is created (see statusAttribute). By Default the status attribute name is 'status'. Note that a property name can also be used
      * but in this case you must provide a suitable Status Accessor component to handle status persistence.
      *
      * If previous requirements are met, the internal status value is initialized.
-     * @param Component $owner
+     * @param Model $owner
      * @throws InvalidConfigException
      * @throws WorkflowException
      * @see \yii\base\Behavior::attach()
@@ -219,14 +218,20 @@ class WorkflowBehavior extends Behavior
 	public function attach($owner)
 	{
 		parent::attach($owner);
-		if (!($this->owner instanceof BaseActiveRecord)) {
-			throw new InvalidConfigException('The attached model is not an instance of yii\db\BaseActiveRecord ('.get_class($this->owner).')');
+		if (!($this->owner instanceof Model)) {
+			throw new InvalidConfigException('The attached model is not an instance of yii\base\Model ('.get_class($this->owner).')');
 		}
-		if ($this->owner->hasAttribute($this->statusAttribute) || $this->owner->hasProperty($this->statusAttribute) ) {
-			//
-		} else {
-			throw new InvalidConfigException('Attribute or property not found for owner model : \''.$this->statusAttribute.'\'');
-		}
+
+        if (!$this->owner->hasProperty($this->statusAttribute)) {
+            if($this->owner instanceof BaseActiveRecord && $this->owner->hasAttribute($this->statusAttribute) )
+            {
+            }
+            else
+            {
+                throw new InvalidConfigException('Attribute or property not found for owner model : \''.$this->statusAttribute.'\'');
+            }
+        }
+
 		$this->initStatus();
 		if(!$this->hasWorkflowStatus()) {
 			$this->doAutoInsert();
@@ -239,14 +244,19 @@ class WorkflowBehavior extends Behavior
 	 */
 	public function events()
 	{
-		return [
-			ActiveRecord::EVENT_AFTER_FIND 		=> 'initStatus',
-			ActiveRecord::EVENT_BEFORE_INSERT 	=> 'beforeSaveStatus',
-			ActiveRecord::EVENT_BEFORE_UPDATE 	=> 'beforeSaveStatus',
-			ActiveRecord::EVENT_AFTER_UPDATE 	=> 'afterSaveStatus',
-			ActiveRecord::EVENT_AFTER_INSERT 	=> 'afterSaveStatus',
-		];
+        if($this->owner instanceof BaseActiveRecord)
+        {
+            return [
+                BaseActiveRecord::EVENT_AFTER_FIND 		=> 'initStatus',
+                BaseActiveRecord::EVENT_BEFORE_INSERT 	=> 'beforeSaveStatus',
+                BaseActiveRecord::EVENT_BEFORE_UPDATE 	=> 'beforeSaveStatus',
+                BaseActiveRecord::EVENT_AFTER_UPDATE 	=> 'afterSaveStatus',
+                BaseActiveRecord::EVENT_AFTER_INSERT 	=> 'afterSaveStatus',
+            ];
+        }
+		return [];
 	}
+
 	// NOT USED YET
 	private function doAutoInsert()
 	{
@@ -348,7 +358,7 @@ class WorkflowBehavior extends Behavior
      * This method can be invoked directly but you should keep in mind that it does not handle status
      * persistance.
      *
-     * @param Status|string $status the destination status to reach. If NULL, then the owner model
+     * @param IStatus|string $status the destination status to reach. If NULL, then the owner model
      * is going to leave its current workflow.
      * @return bool TRUE if the transition could be performed, FALSE otherwise
      */
@@ -447,7 +457,7 @@ class WorkflowBehavior extends Behavior
      * Note that if the current workflow status and $status are refering to the same status, then a <b>changeStatus event</b> is returned
      * <b>only if a reflexive transition exists</b> for this status, otherwise no event is returned.
      *
-     * @param mixed | null $status a status Id or a Status instance considered as the target status to reach
+     * @param mixed | null $status a status Id or a IStatus instance considered as the target status to reach
      * @param $scenarioNames
      * @param $eventSequence
      * @return array
@@ -713,7 +723,7 @@ class WorkflowBehavior extends Behavior
 		return $this->_statusAccessor;
 	}
 	/**
-	 * @return Status the value of the status.
+	 * @return IStatus the value of the status.
 	 */
 	public function getWorkflowStatus()
 	{
@@ -751,7 +761,7 @@ class WorkflowBehavior extends Behavior
 	 * 		$post->statusEquals($otherPost->getWorkflowStatus());
 	 * </pre>
 	 * 
-	 * @param Status|string $status the status to test
+	 * @param IStatus|string $status the status to test
 	 * @return boolean
 	 */
 	public function statusEquals($status=null)
@@ -775,15 +785,15 @@ class WorkflowBehavior extends Behavior
 		}
 	}
 	/**
-	 * Returns a Status instance for the value passed as argument.
+	 * Returns a IStatus instance for the value passed as argument.
 	 *
-	 * If $mixed is a Status instance, it is returned without change, otherwise $mixed is considered as a
+	 * If $mixed is a IStatus instance, it is returned without change, otherwise $mixed is considered as a
 	 * status id that is used to retrieve the corresponding status instance.
 	 *
-	 * @param mixed $mixed status id or status instance
+	 * @param mixed $mixed status id or IStatus instance
 	 * @param boolean $strict when TRUE and exception is thrown if no status instance can be returned.
 	 * @throws WorkflowException
-	 * @return Status the status instance or NULL if no Status instance could be found
+	 * @return IStatus the status instance or NULL if no IStatus instance could be found
 	 */
 	private function ensureStatusInstance($mixed, $strict = false)
 	{
@@ -793,7 +803,7 @@ class WorkflowBehavior extends Behavior
 			} else {
 				return null;
 			}
-		}elseif ($mixed instanceof Status ) {
+		} elseif ($mixed instanceof IStatus ) {
 			return $mixed;
 		} else {
 			$status = $this->_wfSource->getStatus($mixed, $this->selectDefaultWorkflowId());
@@ -819,12 +829,12 @@ class WorkflowBehavior extends Behavior
     /**
      * Set the internal status value and the owner model status attribute.
      *
-     * @param Status|null $status
+     * @param IStatus|null $status
      * @throws WorkflowException
      */
 	private function setStatusInternal($status)
 	{
-		if ($status !== null && !$status instanceof Status) {
+		if ($status !== null && !$status instanceof IStatus) {
 			throw new WorkflowException('Status instance expected');
 		}
 
@@ -879,7 +889,7 @@ class WorkflowBehavior extends Behavior
      * This method returns FALSE if $model is not an instance of BaseActiveRecord (has WorkflowBehavior can only be attached
      * to instances of this class) or if none of its attached behaviors is a or inherit from WorkflowBehavior.
      *
-     * @param Component $model the model to test.
+     * @param Model $model the model to test.
      * @return bool TRUE if at least one WorkflowBehavior behavior is attached to $model, FALSE otherwise
      * @throws WorkflowException
      */
