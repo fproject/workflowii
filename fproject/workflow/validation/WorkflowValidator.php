@@ -2,6 +2,7 @@
 namespace fproject\workflow\validation;
 
 use Yii;
+use yii\base\Model;
 use yii\validators\Validator;
 use fproject\workflow\core\WorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
@@ -29,15 +30,19 @@ class WorkflowValidator extends Validator
 			$this->message = Yii::t('app', 'Error on {attribute}.');
 		}
 	}
-	/**
-	 * Apply active validators for the current workflow event sequence.
-	 *
-	 * If a workflow event sequence is about to occur, this method scan all validators defined in the
-	 * owner model, and applies the ones which are valid for the upcomming events.
-	 *
-	 * @see \yii\validators\Validator::validateAttribute()
-	 * @see \fproject\workflow\events\IEventSequence
-	 */
+
+    /**
+     * Apply active validators for the current workflow event sequence.
+     *
+     * If a workflow event sequence is about to occur, this method scan all validators defined in the
+     * owner model, and applies the ones which are valid for the upcomming events.
+     * @param Model|WorkflowBehavior $object
+     * @param string $attribute
+     * @throws WorkflowException
+     *
+     * @see Validator::validateAttribute()
+     * @see IEventSequence
+     */
 	public function validateAttribute($object, $attribute)
 	{
 		if (!WorkflowBehavior::isAttachedTo($object) ) {
@@ -62,13 +67,13 @@ class WorkflowValidator extends Validator
 		}
 	}
 
-	/**
-	 * Checks if a validator is active for the workflow event passed as argument.
-	 *
-	 * @param yii\validators\Validator $validator The validator instance to test
-	 * @param WorklflowEvent $event The workflow event for which the validator is tested
-	 * @return boolean
-	 */
+    /**
+     * Checks if a validator is active for the workflow event passed as argument.
+     *
+     * @param Validator $validator The validator instance to test
+     * @param $currentScenario
+     * @return bool
+     */
 	private function _isActiveValidator($validator, $currentScenario)
 	{
 		foreach ($validator->on as $scenario) {
