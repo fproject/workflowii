@@ -143,8 +143,8 @@ In the meantime you can have a look to the [Usage Guide](guide) (still under dev
 
 #Roadmap
 
-At the first stage, we build a workflow engine based on Yii 2 Framework with basic functionalities.
-At the second stage, we are planning to develop a web component that allows users display/edit workflows by
+- At the first stage, we build a workflow engine based on Yii 2 Framework with basic functionalities.
+- At the second stage, we are planning to develop a web component that allows users display/edit workflows by
 interacting with a RIA GUI, using HTML5 or Flex.
 
 #License
