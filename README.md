@@ -32,7 +32,7 @@ flexible so to adapt to a lot of execution contexts... well at least that was my
 A workflow is defined as a PHP class that implements the `\fproject\workflow\base\IWorkflowDefinitionProvider` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
 
-Let's define a very *simple workflow* that will be used to manage posts in a basic blog system.
+Let's define a very *simple workflow* that will be used to manage articles in a basic blog system.
 
 <img src="guide/images/workflow1.png"/>
 
@@ -66,10 +66,10 @@ class ArticleWorkflow implements \fproject\workflow\base\IWorkflowDefinitionProv
 
 ## Attach To The Model
 
-Now let's have a look to our Post model. We decide to store the status of a post in a column named `status` of type STRING(40). 
+Now let's have a look to our Post model. We decide to store the status of a article in a column named `status` of type STRING(40). 
 
-The last step is to associate the workflow definition with posts models. To do so we must declare the *WorkflowBehavior* behavior 
-in the Post model class and let the default configuration settings do the rest.
+The last step is to associate the workflow definition with articles models. To do so we must declare the *WorkflowBehavior* behavior 
+in the Article model class and let the default configuration settings do the rest.
  
 ```php
 <?php
@@ -96,18 +96,18 @@ That's it ! We are ready to play with *WorkflowBehavior*.
 
 ## Use It !
 
-Now that we are all setup, we can use the *WorkflowBehavior* methods to set/get the status of our posts : the *WorkflowBehavior* will 
-take care that the post doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
+Now that we are all setup, we can use the *WorkflowBehavior* methods to set/get the status of our articles : the *WorkflowBehavior* will 
+take care that the article doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
 
 ```php
-$article = new Post();
+$article = new Article();
 $article->status = 'draft';
 $article->save();
-echo 'post status is : '. $article->workflowStatus->label;
+echo 'article status is : '. $article->workflowStatus->label;
 ```
 This will print the following message :
 
-	post status is : Draft
+	article status is : Draft
 	 
 If you do the same thing but instead of *draft* set the status to *published* and try to save it, the following exception is thrown :
 
@@ -115,19 +115,19 @@ If you do the same thing but instead of *draft* set the status to *published* an
 
 That's because in your workflow definition the **initial status** is  set to *draft* and not *published*.
 
-Ok, one more example for the fun ! This time we are not going to perform the transition when the Post is saved (like we did in the previous
-example), but immediately by invoking the `sendToStatus` method. Our Post is going to try to reach status *published* passing through *deleted* 
+Ok, one more example for the fun ! This time we are not going to perform the transition when the Article is saved (like we did in the previous
+example), but immediately by invoking the `sendToStatus` method. Our Article is going to try to reach status *published* passing through *deleted* 
 which is strictly forbidden by the workflow. Will it be successful in this risky attempt of breaking workflow rules ?   
 
 ```php
-$article = new Post();
+$article = new Article();
 $article->sendToStatus('draft');
 $article->sendToStatus('deleted');
 $article->sendToStatus('published');	// danger zone !
 ```
 
-Game Over ! There is no transition between *deleted* and *published*, and that's what *SimpleWorkflow* tries to explain to our
-fearless post object.
+There is no transition between *deleted* and *published*, and that's what *Workflow* tries to explain to our
+fearless Article object:
 
 	Workflow Exception – fproject\workflow\base\WorkflowException
 	No transition found between status ArticleWorkflow/deleted and ArticleWorkflow/published
