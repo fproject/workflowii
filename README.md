@@ -16,7 +16,7 @@ php composer.phar require --prefer-dist fproject/workflowii "*"
 ```
 
 or add this line to the require section of your `composer.json` file.
-```
+```javascript
 "require" : {
 		"php" : ">=5.4.0",
 		"yiisoft/yii2" : "*",
