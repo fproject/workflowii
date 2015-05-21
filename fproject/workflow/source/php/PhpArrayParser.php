@@ -61,15 +61,13 @@ class PhpArrayParser extends Object implements IArrayParser
 	
 		foreach($definition[WorkflowPhpSource::KEY_NODES] as $key => $value)
         {
-            $parsedIdDef = $this->parseStatusIdAndDef($key, $value);
+            list($parsedId, $startStatusDef) = $this->parseStatusIdAndDef($key, $value);
 	
-			list($workflowId, $statusId) = $source->parseStatusId($parsedIdDef['id'],$wId);
+			list($workflowId, $statusId) = $source->parseStatusId($parsedId, $wId);
 			$startStatusId = $startStatusIdIndex[] = $workflowId . WorkflowPhpSource::SEPARATOR_STATUS_NAME . $statusId;
 			if($workflowId != $wId) {
 				throw new WorkflowValidationException('Status must belong to workflow : '.$startStatusId);
 			}
-
-            $startStatusDef = $parsedIdDef['def'];
 
 			if (is_array($startStatusDef))
             {
@@ -132,26 +130,26 @@ class PhpArrayParser extends Object implements IArrayParser
 								/**
 								 *  'transition' => [ ...]
 								 */
-								foreach($transitionDefinition as $tkey => $tvalue)
+								foreach($transitionDefinition as $tKey => $tValue)
                                 {
-									if (is_string($tkey)) {
+									if (is_string($tKey)) {
 										/**
 										 * 'transition' => [ 'A' => [] ]
 										 */
-										$endStatusId = $tkey;
-										if (!is_array($tvalue)) {
+										$endStatusId = $tKey;
+										if (!is_array($tValue)) {
 											throw new WorkflowValidationException("Wrong definition for between $startStatusId and $endStatusId : array expected");
 										}
-										$transDef = $tvalue;
-									} elseif (is_string($tvalue)){
+										$transDef = $tValue;
+									} elseif (is_string($tValue)){
 										/**
 										 * 'transition' =>  'A' 
 										 */
-										$endStatusId = $tvalue;
+										$endStatusId = $tValue;
 										$transDef = null;
 									} else {
 										throw new WorkflowValidationException("Wrong transition definition for status $startStatusId : key = "
-												. VarDumper::dumpAsString($tkey). " value = ". VarDumper::dumpAsString($tvalue));
+												. VarDumper::dumpAsString($tKey). " value = ". VarDumper::dumpAsString($tValue));
 									}
 										
 									$pieces = $source->parseStatusId($endStatusId,$wId);
@@ -213,7 +211,7 @@ class PhpArrayParser extends Object implements IArrayParser
 			if (count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid, $thisSid) = $source->parseStatusId($id,$wId);
+					list($thisWid, ) = $source->parseStatusId($id,$wId);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}
@@ -268,6 +266,6 @@ class PhpArrayParser extends Object implements IArrayParser
             throw new WorkflowValidationException("Wrong status definition : key = " . VarDumper::dumpAsString($key). " value = ". VarDumper::dumpAsString($value));
         }
 
-        return ['id'=>$statusId,'def'=>$statusDef];
+        return [$statusId, $statusDef];
     }
 }
