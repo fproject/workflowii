@@ -50,9 +50,9 @@ class ArticleWorkflow implements \fproject\workflow\base\IWorkflowDefinitionProv
 			'initialStatusId' => 'draft',
 			'status' => [
 				'draft' => [
-					'transition' => ['publish','deleted']
+					'transition' => ['published','deleted']
 				],
-				'publish' => [
+				'published' => [
 					'transition' => ['draft','deleted']
 				],
 				'deleted' => [
@@ -79,9 +79,9 @@ namespace app\models;
  * @property integer $id
  * @property string $title
  * @property string $body
- * @property string $status column used to store the status of the post
+ * @property string $status column used to store the status of the article
  */
-class Post extends \yii\db\ActiveRecord
+class Article extends \yii\db\ActiveRecord
 {
     public function behaviors()
     {
@@ -100,37 +100,37 @@ Now that we are all setup, we can use the *WorkflowBehavior* methods to set/get 
 take care that the post doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
 
 ```php
-$post = new Post();
-$post->status = 'draft';
-$post->save();
-echo 'post status is : '. $post->workflowStatus->label;
+$article = new Post();
+$article->status = 'draft';
+$article->save();
+echo 'post status is : '. $article->workflowStatus->label;
 ```
 This will print the following message :
 
 	post status is : Draft
 	 
-If you do the same thing but instead of *draft* set the status to *publish* and try to save it, the following exception is thrown :
+If you do the same thing but instead of *draft* set the status to *published* and try to save it, the following exception is thrown :
 
-	Not an initial status : ArticleWorkflow/publish ("ArticleWorkflow/draft" expected)
+	Not an initial status : ArticleWorkflow/published ("ArticleWorkflow/draft" expected)
 
-That's because in your workflow definition the **initial status** is  set to *draft* and not *publish*.
+That's because in your workflow definition the **initial status** is  set to *draft* and not *published*.
 
 Ok, one more example for the fun ! This time we are not going to perform the transition when the Post is saved (like we did in the previous
-example), but immediately by invoking the `sendToStatus` method. Our Post is going to try to reach status *publish* passing through *deleted* 
+example), but immediately by invoking the `sendToStatus` method. Our Post is going to try to reach status *published* passing through *deleted* 
 which is strictly forbidden by the workflow. Will it be successful in this risky attempt of breaking workflow rules ?   
 
 ```php
-$post = new Post();
-$post->sendToStatus('draft');
-$post->sendToStatus('deleted');
-$post->sendToStatus('publish');	// danger zone !
+$article = new Post();
+$article->sendToStatus('draft');
+$article->sendToStatus('deleted');
+$article->sendToStatus('published');	// danger zone !
 ```
 
-Game Over ! There is no transition between *deleted* and *publish*, and that's what *SimpleWorkflow* tries to explain to our
+Game Over ! There is no transition between *deleted* and *published*, and that's what *SimpleWorkflow* tries to explain to our
 fearless post object.
 
 	Workflow Exception – fproject\workflow\base\WorkflowException
-	No transition found between status ArticleWorkflow/deleted and ArticleWorkflow/publish
+	No transition found between status ArticleWorkflow/deleted and ArticleWorkflow/published
 	
 Yes, that's severe, but there was many ways to avoid this exception like for instance by first validating that the transition was possible. 
 
