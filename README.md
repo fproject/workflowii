@@ -12,7 +12,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 You can either run
 
 ```
-php composer.phar require --prefer-dist fproject/workflowii "*"
+php composer.phar require fproject/workflowii "*"
 ```
 
 or add this line to the require section of your `composer.json` file.
