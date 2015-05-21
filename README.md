@@ -146,3 +146,9 @@ License
 -------
 
 **workflowii** is released under the Apache 2.0 License. See the bundled `LICENSE.md` for details.
+
+Links
+-----
+
+- [GitHub](https://github.com/fproject/workflowii)
+- [Packagist](https://packagist.org/packages/fproject/workflowii)
