@@ -58,9 +58,9 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 	 */
 	public function __construct($config = [])
 	{
-		if ( ! empty($config['map'])) {
+		if (!empty($config['map'])) {
 			$this->_map = $config['map'];
-			if ( ! is_array($this->_map)) {
+			if (!is_array($this->_map)) {
 				throw new InvalidConfigException('The map must be an array');
 			}
 			unset($config['map']);
@@ -107,7 +107,7 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 			$id = self::VALUE_NULL;
 		}
 
-		if (! array_key_exists($id,	$this->_map) ) {
+		if (!array_key_exists($id,	$this->_map) ) {
 			throw new Exception('Conversion from SimpleWorkflow failed : no key found for id = '.$id);
 		}
 		$value = $this->_map[$id];

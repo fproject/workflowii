@@ -321,6 +321,7 @@ class WorkflowBehavior extends Behavior
 	 *
 	 * @param mixed $insert
 	 * @return boolean
+     *
 	 */
 	public function afterSaveStatus($insert)
 	{
@@ -682,7 +683,7 @@ class WorkflowBehavior extends Behavior
 	 * Returns the id of the default workflow associated with the owner model.
 	 *
 	 * If no default workflow id has been configured, it is created by using the
-	 * shortname of the owner model class (i.e. the class name without the namespace part),
+	 * short-name of the owner model class (i.e. the class name without the namespace part),
 	 * suffixed with 'Workflow'.
 	 *
 	 * For instance, class 'app\model\Post' has a default workflow id equals to 'PostWorkflow'.

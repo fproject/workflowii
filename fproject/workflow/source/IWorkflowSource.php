@@ -4,8 +4,8 @@ namespace fproject\workflow\source;
 use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
+use fproject\workflow\core\WorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
-use yii\base\Component;
 
 interface IWorkflowSource
 {
@@ -15,10 +15,10 @@ interface IWorkflowSource
      *
      * @see Status
      * @param mixed $id the status id
-     * @param Component $model
+     * @param WorkflowBehavior|string $wfIdOrModel
      * @return Status the status instance or NULL if no status could be found for this id.
      */
-	public function getStatus($id, $model = null);
+	public function getStatus($id, $wfIdOrModel = null);
 	/**
 	 * Returns an array containing all Status instances belonging to the workflow
 	 * whose id is passed as argument.
@@ -36,7 +36,7 @@ interface IWorkflowSource
 	 * The array returned must be indexed by ....
 	 *
 	 * @param mixed $statusId
-     * @param Component $model
+     * @param WorkflowBehavior|string $wfIdOrModel
      *
 	 * @return Transition[] an array containing all out going transition from $statusId. If no such
 	 * transition exist, this method returns an empty array.
@@ -44,15 +44,15 @@ interface IWorkflowSource
      *
      * @see Transition
 	 */
-	public function getTransitions($statusId, $model = null);
+	public function getTransitions($statusId, $wfIdOrModel = null);
 	/**
 	 *
 	 * @param mixed $startId
 	 * @param mixed $endId
-     * @param Component $model
+     * @param WorkflowBehavior|string $wfIdOrModel
      *
 	 */
-	public function getTransition($startId, $endId, $model = null);
+	public function getTransition($startId, $endId, $wfIdOrModel = null);
 	/**
 	 * Returns the workflow instance whose id is passed as argument.
 	 * In case of unexpected error the implementation must return a WorkflowException.

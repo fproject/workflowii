@@ -116,7 +116,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 			if ( count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid, $thisSid) = $source->parseStatusId($id, $wId);
+					list($thisWid, ) = $source->parseStatusId($id, $wId);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}

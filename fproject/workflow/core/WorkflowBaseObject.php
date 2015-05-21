@@ -23,7 +23,7 @@ abstract class WorkflowBaseObject extends Object
 	 */
 	public function __construct($config = [])
 	{
-		if ( ! empty($config['metadata']) && is_array($config['metadata'])) {
+		if (!empty($config['metadata']) && is_array($config['metadata'])) {
 			$this->_metadata = $config['metadata'];
 			unset($config['metadata']);
 		}
@@ -40,9 +40,9 @@ abstract class WorkflowBaseObject extends Object
      */
 	public function __get($name)
 	{
-		if ( $this->canGetProperty($name)) {
+		if ($this->canGetProperty($name)) {
 			return parent::__get($name);
-		} elseif ( $this->hasMetadata($name)) {
+		} elseif ($this->hasMetadata($name)) {
 			return  $this->_metadata[$name];
 		} else {
 			throw new WorkflowException("No metadata found is the name '$name'");
@@ -62,9 +62,9 @@ abstract class WorkflowBaseObject extends Object
 	 */
 	public function getMetadata($paramName = null, $defaultValue = null)
 	{
-		if ( $paramName === null) {
+		if ($paramName === null) {
 			return $this->_metadata;
-		} elseif( $this->hasMetadata($paramName) ) {
+		} elseif($this->hasMetadata($paramName) ) {
 			return $this->_metadata[$paramName];
 		} else {
 			return $defaultValue;
@@ -79,7 +79,7 @@ abstract class WorkflowBaseObject extends Object
      */
 	public function hasMetadata($paramName)
 	{
-		if ( ! is_string($paramName) || empty($paramName)) {
+		if (!is_string($paramName) || empty($paramName)) {
 			throw new WorkflowException("Invalid metadata name : non empty string expected");
 		}
 		return array_key_exists($paramName, $this->_metadata);

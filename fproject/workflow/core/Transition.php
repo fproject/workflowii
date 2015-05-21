@@ -35,20 +35,20 @@ class Transition extends WorkflowBaseObject implements TransitionInterface
      */
 	public function __construct($config = [])
 	{
-		if ( ! empty($config['start'])) {
+		if (!empty($config['start'])) {
 			$this->_startStatus = $config['start'];
 			unset($config['start']);
-			if ( ! $this->_startStatus instanceof Status) {
+			if (!$this->_startStatus instanceof Status) {
 				throw new WorkflowException('Start status must be an instance of Status');
 			}
 		} else {
 			throw new InvalidConfigException('missing start status');
 		}
 
-		if ( ! empty($config['end'])) {
+		if (!empty($config['end'])) {
 			$this->_endStatus = $config['end'];
 			unset($config['end']);
-			if ( ! $this->_endStatus instanceof Status) {
+			if (!$this->_endStatus instanceof Status) {
 				throw new WorkflowException('End status must be an instance of Status');
 			}
 

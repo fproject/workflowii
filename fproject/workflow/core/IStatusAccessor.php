@@ -2,7 +2,6 @@
 namespace fproject\workflow\core;
 
 use yii\base\Component;
-use yii\db\BaseActiveRecord;
 
 /**
  *

@@ -5,7 +5,6 @@ use fproject\workflow\core\WorkflowBehavior;
 use Yii;
 use yii\base\Object;
 use yii\base\InvalidConfigException;
-use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
 use fproject\workflow\core\Status;
@@ -154,7 +153,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * is used to complete the status ID if the one defined by the $id argument is not complete (e.g. 'draft' instead of 'post/draft').
      *
      * @param string $id ID of the status to get
-     * @param null $defaultWorkflowId
+     * @param WorkflowBehavior|string $wfIdOrModel
      * @return Status the status instance
      *
      * @throws InvalidConfigException
@@ -164,9 +163,9 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * @see WorkflowPhpSource::evaluateWorkflowId()
      * @see WorkflowPhpSource::parseStatusId()
      */
-	public function getStatus($id, $defaultWorkflowId = null)
+	public function getStatus($id, $wfIdOrModel = null)
 	{
-		list($wId, $stId) = $this->parseStatusId($id, $defaultWorkflowId);
+		list($wId, $stId) = $this->parseStatusId($id, $wfIdOrModel);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
@@ -198,14 +197,14 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      *
      * @see fproject\workflow\source\IWorkflowSource::getTransitions()
      * @param mixed $statusId
-     * @param null $defaultWorkflowId
+     * @param WorkflowBehavior|string $wfIdOrModel
      * @return Transition|Transition[]
      * @throws InvalidConfigException
      * @throws WorkflowException
      */
-	public function getTransitions($statusId, $defaultWorkflowId = null)
+	public function getTransitions($statusId, $wfIdOrModel = null)
 	{
-		list($wId, $lid) = $this->parseStatusId($statusId, $defaultWorkflowId);
+		list($wId, $lid) = $this->parseStatusId($statusId, $wfIdOrModel);
 		$statusId = $wId.self::SEPARATOR_STATUS_NAME.$lid;
 
 		if (!array_key_exists($statusId, $this->_t) ) {
@@ -247,14 +246,14 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
     /**
      * @param mixed $startId
      * @param mixed $endId
-     * @param null $defaultWorkflowId
+     * @param WorkflowBehavior|string $wfIdOrModel
      * @return Transition|null
      * @throws WorkflowException
      * @see IWorkflowSource::getTransition()
      */
-	public function getTransition($startId, $endId, $defaultWorkflowId = null)
+	public function getTransition($startId, $endId, $wfIdOrModel = null)
 	{
-		$tr = $this->getTransitions($startId, $defaultWorkflowId);
+		$tr = $this->getTransitions($startId, $wfIdOrModel);
 		if (count($tr) > 0 ) {
 			foreach ($tr as $aTransition) {
 				if ($aTransition->getEndStatus()->getId() == $endId) {
@@ -400,14 +399,14 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      *
      * @param string $val the status ID to parse. If it is not an absolute ID, $helper is used to get the
      * workflow ID.
-     * @param BaseActiveRecord|string $helper model used as workflow ID provider if needed
+     * @param WorkflowBehavior|string $wfIdOrModel model used as workflow ID provider if needed
      * @return string[] array containing the workflow ID in its first index, and the status Local ID
      * in the second
      * @throws WorkflowException
      *
      * @see WorkflowPhpSource::evaluateWorkflowId()
      */
-	public function parseStatusId($val, $helper = null)
+	public function parseStatusId($val, $wfIdOrModel = null)
 	{
 		if (empty($val) || ! is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
@@ -418,11 +417,11 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
-			if (!empty($helper)) {
-				if (is_string($helper)){
-					$tokens[0] = $helper;
-				} elseif ($helper instanceof WorkflowBehavior && $helper->hasWorkflowStatus()) {
-					$tokens[0] = $helper->getWorkflowStatus()->getWorkflowId();
+			if (!empty($wfIdOrModel)) {
+				if (is_string($wfIdOrModel)){
+					$tokens[0] = $wfIdOrModel;
+				} elseif ($wfIdOrModel instanceof WorkflowBehavior && $wfIdOrModel->hasWorkflowStatus()) {
+					$tokens[0] = $wfIdOrModel->getWorkflowStatus()->getWorkflowId();
 				}
 			}
 			if ($tokens[0] === null ) {
@@ -583,7 +582,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		if (count($missingStatusIdSuspects) != 0) {
 			$missingStatusId = [];
 			foreach ($missingStatusIdSuspects as $id) {
-				list($thisWid, $thisSid) = $this->parseStatusId($id,$wId);
+				list($thisWid, ) = $this->parseStatusId($id,$wId);
 				if ($thisWid == $wId) {
 					$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 				}

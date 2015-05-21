@@ -13,14 +13,14 @@ class Workflow extends WorkflowBaseObject
 
 	public function __construct($config = [])
 	{
-		if ( ! empty($config['id'])) {
+		if (!empty($config['id'])) {
 			$this->_id = $config['id'];
 			unset($config['id']);
 		} else {
 			throw new InvalidConfigException('missing workflow id ');
 		}
 
-		if ( ! empty($config[self::PARAM_INITIAL_STATUS_ID])) {
+		if (!empty($config[self::PARAM_INITIAL_STATUS_ID])) {
 			$this->_initialStatusId = $config[self::PARAM_INITIAL_STATUS_ID];
 			unset($config[self::PARAM_INITIAL_STATUS_ID]);
 		} else {
