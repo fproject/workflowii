@@ -29,7 +29,7 @@ flexible so to adapt to a lot of execution contexts... well at least that was my
 
 ## Create A Workflow
  
-A workflow is defined as a PHP class that implements the `\fproject\workflow\base\IWorkflowDefinitionProvider` interface. This interface
+A workflow is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowDefinitionProvider` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
 
 Let's define a very *simple workflow* that will be used to manage articles in a basic blog system.
@@ -43,7 +43,7 @@ Here is the PHP class that implements the definition for our workflow :
 <?php
 namespace app\models;
 
-class ArticleWorkflow implements \fproject\workflow\base\IWorkflowDefinitionProvider 
+class ArticleWorkflow implements \fproject\workflow\core\IWorkflowDefinitionProvider 
 {
 	public function getDefinition() {
 		return [
@@ -86,7 +86,7 @@ class Article extends \yii\db\ActiveRecord
     public function behaviors()
     {
     	return [
-			\fproject\workflow\base\WorkflowBehavior::className()
+			\fproject\workflow\core\WorkflowBehavior::className()
     	];
     }
     // ...
@@ -129,7 +129,7 @@ $article->sendToStatus('published');	// danger zone !
 There is no transition between *deleted* and *published*, and that's what *Workflow* tries to explain to our
 fearless Article object:
 
-	Workflow Exception – fproject\workflow\base\WorkflowException
+	Workflow Exception – fproject\workflow\core\WorkflowException
 	No transition found between status ArticleWorkflow/deleted and ArticleWorkflow/published
 	
 Yes, that's severe, but there was many ways to avoid this exception like for instance by first validating that the transition was possible. 

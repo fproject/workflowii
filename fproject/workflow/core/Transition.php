@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\base;
+namespace fproject\workflow\core;
 
 use Yii;
 use yii\base\InvalidConfigException;
@@ -65,7 +65,7 @@ class Transition extends WorkflowBaseObject implements TransitionInterface
 	 * between status A and B has an idea equals to "A-B".
 	 *
 	 * @return string the transition Id
-	 * @see \fproject\workflow\base\WorkflowBaseObject::getId()
+	 * @see \fproject\workflow\core\WorkflowBaseObject::getId()
 	 */
 	public function getId()
 	{
@@ -73,14 +73,14 @@ class Transition extends WorkflowBaseObject implements TransitionInterface
 	}
 
 	/**
-	 * @see \fproject\workflow\base\TransitionInterface::getEndStatus()
+	 * @see \fproject\workflow\core\TransitionInterface::getEndStatus()
 	 */
 	public function getEndStatus()
 	{
 		return $this->_endStatus;
 	}
 	/**
-	 * @see \fproject\workflow\base\TransitionInterface::getStartStatus()
+	 * @see \fproject\workflow\core\TransitionInterface::getStartStatus()
 	 */
 	public function getStartStatus()
 	{

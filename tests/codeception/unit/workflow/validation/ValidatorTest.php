@@ -5,7 +5,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item05;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use yii\codeception\DbTestCase;
 
 class ValidatorTest extends TestCase

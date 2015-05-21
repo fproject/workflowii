@@ -3,8 +3,8 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use fproject\workflow\base\WorkflowBehavior;
-use fproject\workflow\base\IWorkflowDefinitionProvider;
+use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\IWorkflowDefinitionProvider;
 
 /**
  * @property integer $id

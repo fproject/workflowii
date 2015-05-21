@@ -1,18 +1,18 @@
 <?php
 namespace fproject\workflow\source\php;
 
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use Yii;
 use yii\base\Object;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\Workflow;
-use fproject\workflow\base\WorkflowException;
-use fproject\workflow\base\IWorkflowDefinitionProvider;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\Workflow;
+use fproject\workflow\core\WorkflowException;
+use fproject\workflow\core\IWorkflowDefinitionProvider;
 use fproject\workflow\source\IWorkflowSource;
 
 
@@ -98,9 +98,9 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	 * @var array
 	 */
 	private $_classMap = [
-		self::TYPE_WORKFLOW   => 'fproject\workflow\base\Workflow',
-		self::TYPE_STATUS     => 'fproject\workflow\base\Status',
-		self::TYPE_TRANSITION => 'fproject\workflow\base\Transition'
+		self::TYPE_WORKFLOW   => 'fproject\workflow\core\Workflow',
+		self::TYPE_STATUS     => 'fproject\workflow\core\Status',
+		self::TYPE_TRANSITION => 'fproject\workflow\core\Transition'
 	];
 
     /**

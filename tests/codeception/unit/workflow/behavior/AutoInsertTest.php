@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item00;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use yii\codeception\DbTestCase;
 
 class AutoInsertTest extends DbTestCase
@@ -143,7 +143,7 @@ class AutoInsertTest extends DbTestCase
     	});
     }    
     /**
-	 * @expectedException fproject\workflow\base\WorkflowException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUND does not exist
 	 */	
     public function testAutoInsertFails1()
@@ -156,7 +156,7 @@ class AutoInsertTest extends DbTestCase
     	]);
     }   
     /**
-     * @expectedException fproject\workflow\base\WorkflowException
+     * @expectedException fproject\workflow\core\WorkflowException
      * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUND does not exist
      */
     public function testAutoInsertFails2()

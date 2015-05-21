@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\base;
+namespace fproject\workflow\core;
 
 use Yii;
 
@@ -43,7 +43,7 @@ use yii\base\Exception;
  * </pre>
  *
  *
- * @see fproject\workflow\base\IStatusIdConverter
+ * @see fproject\workflow\core\IStatusIdConverter
  */
 class StatusIdConverter extends Object implements IStatusIdConverter
 {

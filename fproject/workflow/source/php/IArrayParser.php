@@ -1,6 +1,6 @@
 <?php 
 namespace fproject\workflow\source\php;
-use fproject\workflow\base\WorkflowValidationException;
+use fproject\workflow\core\WorkflowValidationException;
 
 /**
  * This class converts a workflow definition PHP array into its normalized form

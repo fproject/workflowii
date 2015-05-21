@@ -1,13 +1,13 @@
 <?php
 namespace tests\codeception\unit\models;
 
-use fproject\workflow\base\StatusInterface;
+use fproject\workflow\core\StatusInterface;
 
 
 class MyStatus implements StatusInterface
 {
 	/* (non-PHPdoc)
-	 * @see \fproject\workflow\base\StatusInterface::getId()
+	 * @see \fproject\workflow\core\StatusInterface::getId()
 	 */
 	public function getId() {
 		// TODO: Auto-generated method stub
@@ -15,7 +15,7 @@ class MyStatus implements StatusInterface
 	}
 
 	/* (non-PHPdoc)
-	 * @see \fproject\workflow\base\StatusInterface::getLabel()
+	 * @see \fproject\workflow\core\StatusInterface::getLabel()
 	 */
 	public function getLabel() {
 		// TODO: Auto-generated method stub
@@ -23,7 +23,7 @@ class MyStatus implements StatusInterface
 	}
 
 	/* (non-PHPdoc)
-	 * @see \fproject\workflow\base\StatusInterface::getWorkflowId()
+	 * @see \fproject\workflow\core\StatusInterface::getWorkflowId()
 	 */
 	public function getWorkflowId() {
 		// TODO: Auto-generated method stub
@@ -31,7 +31,7 @@ class MyStatus implements StatusInterface
 	}
 
 	/* (non-PHPdoc)
-	 * @see \fproject\workflow\base\StatusInterface::getTransitions()
+	 * @see \fproject\workflow\core\StatusInterface::getTransitions()
 	 */
 	public function getTransitions() {
 		// TODO: Auto-generated method stub

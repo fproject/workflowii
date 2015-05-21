@@ -3,8 +3,8 @@ namespace fproject\workflow\validation;
 
 use Yii;
 use yii\validators\Validator;
-use fproject\workflow\base\WorkflowBehavior;
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\WorkflowException;
 
 /**
  * WorkflowValidator run validation for the current workflow event.
@@ -40,7 +40,7 @@ class WorkflowValidator extends Validator
 	 */
 	public function validateAttribute($object, $attribute)
 	{
-		if (  ! WorkflowBehavior::isAttachedTo($object) ) {
+		if (!WorkflowBehavior::isAttachedTo($object) ) {
 			throw new WorkflowException('Validation error : the model does not have the WorkflowBehavior');
 		}
 
@@ -51,7 +51,7 @@ class WorkflowValidator extends Validator
 			$scenarioList = [];
 		}
 
-		if ( count($scenarioList) != 0 ) {
+		if (count($scenarioList) != 0 ) {
 			foreach ($object->getValidators() as $validator) {
 				foreach ($scenarioList as $scenario) {
 					if ($this->_isActiveValidator($validator, $scenario)) {
@@ -72,7 +72,7 @@ class WorkflowValidator extends Validator
 	private function _isActiveValidator($validator, $currentScenario)
 	{
 		foreach ($validator->on as $scenario) {
-			if ( WorkflowScenario::match($scenario, $currentScenario)) {
+			if (WorkflowScenario::match($scenario, $currentScenario)) {
 				return true;
 			}
 		}

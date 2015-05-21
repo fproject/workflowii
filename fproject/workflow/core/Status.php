@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\base;
+namespace fproject\workflow\core;
 
 use Yii;
 use yii\base\InvalidConfigException;

@@ -5,9 +5,9 @@ use Yii;
 use yii\codeception\TestCase;
 use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item01;
-use fproject\workflow\base\Workflow;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
+use fproject\workflow\core\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
 
 class StatusObjectTest extends TestCase
 {
@@ -66,7 +66,7 @@ class StatusObjectTest extends TestCase
 	{
 		$this->specify('status creation fails when no id is provided', function ()
 		{
-			$this->setExpectedException('fproject\workflow\base\WorkflowException');
+			$this->setExpectedException('fproject\workflow\core\WorkflowException');
 
 			$s = new Status([
 				'id' => 'draft',
@@ -167,7 +167,7 @@ class StatusObjectTest extends TestCase
 		$this->specify('an exception is thrown if empty transition argument is provided', function ()
 		{
 			$this->setExpectedException(
-				'fproject\workflow\base\WorkflowException',
+				'fproject\workflow\core\WorkflowException',
 				'"transition" must be an instance of Transition'
 			);
 			$start = new Status([
@@ -184,7 +184,7 @@ class StatusObjectTest extends TestCase
 		$this->specify('an exception is thrown if Transition instance is not provided', function ()
 		{
 			$this->setExpectedException(
-				'fproject\workflow\base\WorkflowException',
+				'fproject\workflow\core\WorkflowException',
 				'"transition" must be an instance of Transition'
 			);
 			$start = new Status([

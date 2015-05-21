@@ -1,10 +1,10 @@
 <?php
 namespace fproject\workflow\helpers;
 
-use fproject\workflow\base\Status;
+use fproject\workflow\core\Status;
 use yii\db\BaseActiveRecord;
-use fproject\workflow\base\WorkflowBehavior;
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\WorkflowException;
 
 class WorkflowHelper
 {
@@ -20,7 +20,7 @@ class WorkflowHelper
 	 */
 	public static function getNextStatusListData($model, $validate = false, $beforeEvents = false)
 	{
-		if (! WorkflowBehavior::isAttachedTo($model))
+		if (!WorkflowBehavior::isAttachedTo($model))
         {
 			throw new WorkflowException('The model does not have a WorkflowBehavior behavior');
 		}
@@ -29,7 +29,7 @@ class WorkflowHelper
 		$report = $model->getNextStatuses($validate, $beforeEvents);
 		foreach ($report as $endStatusId => $info)
         {
-			if (! isset($info['isValid']) || $info['isValid'] === true)
+			if (!isset($info['isValid']) || $info['isValid'] === true)
             {
                 /** @var Status $sts */
                 $sts = $info['status'];
@@ -97,7 +97,7 @@ class WorkflowHelper
 	{
 		if($model->hasWorkflowStatus()) {
 			$labelTemplate = $model->getWorkflowStatus()->getMetadata('labelTemplate');
-			if( ! empty($labelTemplate)) {
+			if( !empty($labelTemplate)) {
 				return strtr($labelTemplate, ['{label}' => $model->getWorkflowStatus()->getLabel()]);
 			}
 		}

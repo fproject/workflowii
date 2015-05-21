@@ -1,10 +1,10 @@
 <?php
 namespace fproject\workflow\events;
 
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
 use yii\base\ModelEvent;
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\WorkflowException;
 
 
 /**

@@ -41,7 +41,7 @@ class PhpArrayParserTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Missing "initialStatusId"#
 	 */
 	public function testParseNoInitStatus()
@@ -51,7 +51,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Not a valid status id : incorrect status local id format in 'hello A'#
 	 */
 	public function testParseInvalidInitStatusID()
@@ -61,7 +61,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #No status definition found#
 	 */
 	public function testParseNoStatus()
@@ -71,7 +71,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Wrong definition for status A : array expected#
 	 */
 	public function testParseWrongStatusDefinition1()
@@ -83,7 +83,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp /Wrong status definition : key = 1 value =[.*0 => 'A'.*]/
 	 */
 	public function testParseWrongStatusDefinition2()
@@ -94,7 +94,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Invalid Status definition : array expected#
 	 */
 	public function testParseWrongStatusDefinition3()
@@ -106,7 +106,7 @@ class PhpArrayParserTest extends TestCase
 	}		
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Invalid metadata definition for status WID/A : array expected#
 	 */
 	public function testParseWrongMetadataDefinition1()
@@ -121,7 +121,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Invalid metadata definition for status WID/A : associative array expected#
 	 */
 	public function testParseWrongMetadataDefinition2()
@@ -136,7 +136,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}		
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Wrong definition for between WID/A and B : array expected#
 	 */
 	public function testParseWrongTransitionDefinition1()
@@ -151,7 +151,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * 
 	 * expectedExceptionMessageRegExp /Wrong transition definition for status WID.A : key = 1 value = [.*0 => 'B'.*]/
 	 */
@@ -167,7 +167,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Invalid transition definition format for status WID/A : string or array expected#
 	 */
 	public function testParseWrongTransitionDefinition3()
@@ -182,7 +182,7 @@ class PhpArrayParserTest extends TestCase
 		],$this->src);
 	}		
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Initial status not defined : WID/C#
 	 */
 	public function testParseValidationFailedMissingInitStatus()
@@ -199,7 +199,7 @@ class PhpArrayParserTest extends TestCase
 	}	
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Initial status must belong to workflow : EXT/C#
 	 */
 	public function testParseValidationFailedExternalInitStatus()
@@ -216,7 +216,7 @@ class PhpArrayParserTest extends TestCase
 	}		
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Status must belong to workflow : EXT/B#
 	 */
 	public function testParseValidationFailedExternalStatus1()
@@ -233,7 +233,7 @@ class PhpArrayParserTest extends TestCase
 	}		
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #Status must belong to workflow : EXT/A#
 	 */
 	public function testParseValidationFailedExternalStatus2()
@@ -250,7 +250,7 @@ class PhpArrayParserTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp /One or more end status are not defined :.*?/
 	 */
 	public function testParseValidationFailedMissingStatus()

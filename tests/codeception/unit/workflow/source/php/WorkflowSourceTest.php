@@ -8,9 +8,9 @@ use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\source\php\WorkflowPhpSource;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\Workflow;
 
 
 class WorkflowSourceTest extends TestCase
@@ -61,8 +61,8 @@ class WorkflowSourceTest extends TestCase
 				'namespace' =>'a\b\c',
 				'classMap' =>  [
 					'workflow'   => null,
-					'status'     => 'fproject\workflow\base\Status',
-					'transition' => 'fproject\workflow\base\Transition'
+					'status'     => 'fproject\workflow\core\Status',
+					'transition' => 'fproject\workflow\core\Transition'
 				]
 			]);
 

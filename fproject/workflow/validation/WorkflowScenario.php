@@ -1,7 +1,7 @@
 <?php
 namespace fproject\workflow\validation;
 
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\WorkflowException;
 
 class WorkflowScenario
 {
@@ -10,11 +10,11 @@ class WorkflowScenario
 
 	public static function changeStatus($start, $end)
 	{
-		if ( empty($start) || ! is_string($start)) {
+		if (empty($start) || ! is_string($start)) {
 			throw new WorkflowException('$start must be a string');
 		}
 
-		if ( empty($end) || ! is_string($end)) {
+		if (empty($end) || ! is_string($end)) {
 			throw new WorkflowException('$end must be a string');
 		}
 
@@ -47,17 +47,17 @@ class WorkflowScenario
 	public static function match($scenario1, $scenario2)
 	{
 		$match1 = $match2 = [];
-		if ( preg_match_all('/([^\\}{]*)\{([^\{\}]+)\}/', $scenario1, $match1, PREG_SET_ORDER) &&
+		if (preg_match_all('/([^\\}{]*)\{([^\{\}]+)\}/', $scenario1, $match1, PREG_SET_ORDER) &&
 			 preg_match_all('/([^\\}{]*)\{([^\{\}]+)\}/', $scenario2, $match2, PREG_SET_ORDER) ) {
 
-				if ( count($match1) != count($match2) ) {
+				if (count($match1) != count($match2) ) {
 					return false;
 				}
 				for ($i = 0; $i < count($match1); $i++) {
-					if ( str_replace(' ', '', $match1[$i][1]) != str_replace(' ', '', $match2[$i][1]) ) {
+					if (str_replace(' ', '', $match1[$i][1]) != str_replace(' ', '', $match2[$i][1]) ) {
 						return false;
 					}
-					if ( $match1[$i][2] != $match2[$i][2] &&  $match1[$i][2] != '*' && $match2[$i][2] != '*' ) {
+					if ($match1[$i][2] != $match2[$i][2] &&  $match1[$i][2] != '*' && $match2[$i][2] != '*' ) {
 						return false;
 					}
 				}

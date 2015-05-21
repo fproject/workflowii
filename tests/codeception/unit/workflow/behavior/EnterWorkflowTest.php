@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item04;
 
@@ -65,7 +65,7 @@ class EnterWorkflowTest extends DbTestCase
     		verify('current status is not set',$item->hasWorkflowStatus())->false();
     		$item->sendToStatus('Item04Workflow/A');
     		verify('current status is set',$item->hasWorkflowStatus())->true();
-			$this->setExpectedException('fproject\workflow\base\WorkflowException', 'Model already in a workflow');
+			$this->setExpectedException('fproject\workflow\core\WorkflowException', 'Model already in a workflow');
 			$item->enterWorkflow();
 		});
 	}
@@ -76,7 +76,7 @@ class EnterWorkflowTest extends DbTestCase
 		$this->specify('enterWorkflow fails if workflow not found for ID',function() use($item) {
 
     		$this->setExpectedException(
-    			'fproject\workflow\base\WorkflowException',
+    			'fproject\workflow\core\WorkflowException',
     			'Failed to load workflow definition : Class tests\codeception\unit\models\INVALIDID does not exist'
 			);
 

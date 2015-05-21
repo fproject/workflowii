@@ -2,16 +2,16 @@
 
 namespace tests\unit\workflow\source\php;
 
-use fproject\workflow\base\WorkflowValidationException;
+use fproject\workflow\core\WorkflowValidationException;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\source\php\WorkflowPhpSource;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\Workflow;
 
 
 class WorkflowTest extends TestCase
@@ -63,7 +63,7 @@ class WorkflowTest extends TestCase
 		$this->assertTrue(count($this->src->parseStatusId('Wid/Id')) == 2);
 	}
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #No status definition found#
 	 */	
 	public function testAddInvalidWorkflowDefinition()
@@ -80,26 +80,26 @@ class WorkflowTest extends TestCase
 
 		$this->specify('exception thrown on invalid workflow id', function() {
 			$this->src->getClassName('');
-		},['throws'=> 'fproject\workflow\base\WorkflowException']);
+		},['throws'=> 'fproject\workflow\core\WorkflowException']);
 
 	}
     public function testFailToLoadWorkflowClass()
     {
     	$this->specify('incorrect status id format', function () {
     		$this->src->getStatus('id');
-    	},['throws' => 'fproject\workflow\base\WorkflowException']);
+    	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load workflow from non-existant workflow class', function () {
     		$this->src->getWorkflow('id');
-    	},['throws' => 'fproject\workflow\base\WorkflowException']);
+    	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load status from non-existant workflow class', function () {
     		$this->src->getStatus('w/s');
-    	},['throws' => 'fproject\workflow\base\WorkflowException']);
+    	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load transition from non-existant workflow class', function ()  {
     		$this->src->getTransitions('w/s');
-    	},['throws' => 'fproject\workflow\base\WorkflowException']);
+    	},['throws' => 'fproject\workflow\core\WorkflowException']);
     }
 
     public function testLoadMinimalWorkflowSuccess()
@@ -112,7 +112,7 @@ class WorkflowTest extends TestCase
     	
     	$this->specify('can load workflow', function () use ($src) {
     		$w = $src->getWorkflow('wid');
-    		verify('a Workflow instance is returned', get_class($w) )->equals('fproject\workflow\base\Workflow');
+    		verify('a Workflow instance is returned', get_class($w) )->equals('fproject\workflow\core\Workflow');
     		verify('workflow id is consistent', $w->getId())->equals('wid');
     	});
     }

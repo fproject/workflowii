@@ -8,9 +8,9 @@ use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\source\php\WorkflowPhpSource;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\Workflow;
 
 
 class ClassMapTest extends TestCase
@@ -28,9 +28,9 @@ class ClassMapTest extends TestCase
 				]
 			]);
 
-			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_WORKFLOW))->equals(	'fproject\workflow\base\Workflow'  );
+			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_WORKFLOW))->equals(	'fproject\workflow\core\Workflow'  );
 			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_STATUS))->equals(	'tests\codeception\unit\models\MyStatus'  );
-			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_TRANSITION))->equals('fproject\workflow\base\Transition');
+			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_TRANSITION))->equals('fproject\workflow\core\Transition');
 
 			$status = $src->getStatus('Item04Workflow/A');
 

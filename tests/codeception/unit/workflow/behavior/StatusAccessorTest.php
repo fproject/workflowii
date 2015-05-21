@@ -6,9 +6,9 @@ use yii\codeception\TestCase;
 use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item07;
 use tests\codeception\unit\models\StatusAccessor07;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\WorkflowBehavior;
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\WorkflowException;
 
 class StatusAccessorTest extends TestCase
 {
@@ -52,7 +52,7 @@ class StatusAccessorTest extends TestCase
 	public function testOnConstructFails()
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'NOT FOUND';
-		$this->setExpectedException('fproject\workflow\base\WorkflowException',"Not a valid status id format: failed to get workflow id - status = 'NOT FOUND'");
+		$this->setExpectedException('fproject\workflow\core\WorkflowException',"Not a valid status id format: failed to get workflow id - status = 'NOT FOUND'");
 		new Item07();
 	}
 	public function testOnEnterWorkflowByMethodSuccess()
@@ -106,7 +106,7 @@ class StatusAccessorTest extends TestCase
 		verify('item status is Item07Workflow/B', $item->getworkflowStatus()->getId())->equals('Item07Workflow/B');
 		verify('getStatus has been called ',$this->statusAccessor->callGetStatusCount)->equals(1);
 
-		$this->setExpectedException('fproject\workflow\base\WorkflowException',"Model already in a workflow");
+		$this->setExpectedException('fproject\workflow\core\WorkflowException',"Model already in a workflow");
 
  		$item->enterWorkflow();
 	}

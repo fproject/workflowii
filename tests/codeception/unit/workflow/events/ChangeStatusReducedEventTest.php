@@ -5,12 +5,12 @@ namespace tests\unit\workflow\events;
 use Yii;
 use yii\codeception\DbTestCase;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use tests\codeception\unit\models\Item04;
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\WorkflowException;
 use fproject\workflow\events\WorkflowEvent;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
 use yii\base\Exception;
 
 class ChangeStatusReducedEventTest extends DbTestCase

@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\fixtures\ItemFixture04;
 
@@ -43,7 +43,7 @@ class AfterFindTest extends DbTestCase
 
 		$this->specify('item2 cannot be read from db (invalid status)', function() {
 			$this->items('item2');
-		},['throws' => 'fproject\workflow\base\WorkflowException']);
+		},['throws' => 'fproject\workflow\core\WorkflowException']);
 
 		$this->specify('item3 can be read from db : short name', function() {
 			$this->items('item3');

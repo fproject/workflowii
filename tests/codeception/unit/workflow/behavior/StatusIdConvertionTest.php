@@ -5,11 +5,11 @@ use Yii;
 use yii\codeception\TestCase;
 use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item04;
-use fproject\workflow\base\Workflow;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\StatusIdConverter;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\StatusIdConverter;
+use fproject\workflow\core\WorkflowBehavior;
 
 class StatusIdConvertionTest extends TestCase
 {
@@ -26,7 +26,7 @@ class StatusIdConvertionTest extends TestCase
 		]);
 
 		Yii::$app->set('converter',[
-			'class'=> 'fproject\workflow\base\StatusIdConverter',
+			'class'=> 'fproject\workflow\core\StatusIdConverter',
 			'map' => [
 				'Item04Workflow/A' => '1',
 				'Item04Workflow/C' => '2',

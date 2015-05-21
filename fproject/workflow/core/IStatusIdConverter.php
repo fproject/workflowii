@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\base;
+namespace fproject\workflow\core;
 
 /**
  * The interface for status ID converters.

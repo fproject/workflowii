@@ -5,10 +5,10 @@ use Yii;
 use yii\codeception\TestCase;
 use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item01;
-use fproject\workflow\base\Workflow;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\StatusIdConverter;
+use fproject\workflow\core\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\StatusIdConverter;
 
 class StatusIdConverterTest extends TestCase
 {
@@ -17,11 +17,11 @@ class StatusIdConverterTest extends TestCase
 	public function testCreateFails()
 	{
 		$this->specify('a map parameter must be provided', function(){
-			Yii::createObject(['class'=> 'fproject\workflow\base\StatusIdConverter']);
+			Yii::createObject(['class'=> 'fproject\workflow\core\StatusIdConverter']);
 		},['throws' => 'yii\base\InvalidConfigException']);
 
 		$this->specify(' the map parameter must be an array', function() {
-			Yii::createObject(['class'=> 'fproject\workflow\base\StatusIdConverter', 'map' => 'string']);
+			Yii::createObject(['class'=> 'fproject\workflow\core\StatusIdConverter', 'map' => 'string']);
 		},['throws' => 'yii\base\InvalidConfigException']);
 	}
 
@@ -29,7 +29,7 @@ class StatusIdConverterTest extends TestCase
 	{
 		$this->specify('a status converter is created successfully', function(){
 			Yii::createObject([
-				'class'=> 'fproject\workflow\base\StatusIdConverter',
+				'class'=> 'fproject\workflow\core\StatusIdConverter',
 				'map' => [
 					'Post/ready' => '1',
 					'Post/draft' => '2',
@@ -43,7 +43,7 @@ class StatusIdConverterTest extends TestCase
 	public function testConvertionSuccess()
 	{
 		$c = Yii::createObject([
-			'class'=> 'fproject\workflow\base\StatusIdConverter',
+			'class'=> 'fproject\workflow\core\StatusIdConverter',
 			'map' => [
 				'Post/ready' => '1',
 				'Post/draft' => '2',
@@ -69,7 +69,7 @@ class StatusIdConverterTest extends TestCase
 	public function testConvertionFails()
 	{
 		$c = Yii::createObject([
-			'class'=> 'fproject\workflow\base\StatusIdConverter',
+			'class'=> 'fproject\workflow\core\StatusIdConverter',
 			'map' => [
 				'Post/ready' => '1',
 			]

@@ -5,8 +5,8 @@ use Yii;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryBuilder;
 use yii\db\Query;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\IStatusAccessor;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\IStatusAccessor;
 
 class ExternalStatusAccessor implements IStatusAccessor
 {
@@ -54,7 +54,7 @@ class ExternalStatusAccessor implements IStatusAccessor
 		$this->_status = $status != null ? $status->getId() : null;
 	}
 	/* (non-PHPdoc)
-	 * @see \fproject\workflow\base\IStatusAccessor::readStatus()
+	 * @see \fproject\workflow\core\IStatusAccessor::readStatus()
 	 */
 	public function readStatus($model) {
 		// TODO: Auto-generated method stub
@@ -62,7 +62,7 @@ class ExternalStatusAccessor implements IStatusAccessor
 	}
 
 	/* (non-PHPdoc)
-	 * @see \fproject\workflow\base\IStatusAccessor::updateStatus()
+	 * @see \fproject\workflow\core\IStatusAccessor::updateStatus()
 	 */
 	public function updateStatus($model, Status $status = null) {
 		// TODO: Auto-generated method stub

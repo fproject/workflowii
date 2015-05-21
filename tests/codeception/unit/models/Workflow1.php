@@ -2,7 +2,7 @@
 
 namespace tests\codeception\unit\models;
 
-use fproject\workflow\base\IWorkflowDefinitionProvider;
+use fproject\workflow\core\IWorkflowDefinitionProvider;
 
 class Workflow1 implements IWorkflowDefinitionProvider
 {

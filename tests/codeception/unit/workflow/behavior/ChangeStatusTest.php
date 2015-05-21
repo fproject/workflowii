@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 
 class ChangeStatusTest extends DbTestCase
@@ -39,7 +39,7 @@ class ChangeStatusTest extends DbTestCase
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 
     	$this->setExpectedException(
-    		'fproject\workflow\base\WorkflowException',
+    		'fproject\workflow\core\WorkflowException',
     		'No status found with id Item04Workflow/Z'
     	);
 
@@ -53,7 +53,7 @@ class ChangeStatusTest extends DbTestCase
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 
     	$this->setExpectedException(
-    		'fproject\workflow\base\WorkflowException',
+    		'fproject\workflow\core\WorkflowException',
     		'No status found with id Item04Workflow/Z'
     	);
 

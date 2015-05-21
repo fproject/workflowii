@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
-use fproject\workflow\base\WorkflowBehavior;
+use fproject\workflow\core\WorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item05;
 use fproject\workflow\events\WorkflowEvent;
@@ -87,7 +87,7 @@ class GetNextStatusTest extends DbTestCase
 
     	$this->specify('getNextStatus throws exception if default workflow Id is invalid',function() use ($item) {
 			$this->setExpectedException(
-				'fproject\workflow\base\WorkflowException',
+				'fproject\workflow\core\WorkflowException',
 				"Invalid workflow Id : 'INVALID_ID'"
     		);
     		$item->getNextStatuses();
@@ -108,7 +108,7 @@ class GetNextStatusTest extends DbTestCase
     	$report = $model->getNextStatuses(false,true);
     	$this->assertCount(1, $report);
     	$this->assertArrayHasKey('Item04Workflow/A', $report);
-    	$this->assertInstanceOf('fproject\workflow\base\Status', $report['Item04Workflow/A']['status']);
+    	$this->assertInstanceOf('fproject\workflow\core\Status', $report['Item04Workflow/A']['status']);
 
     	$this->assertCount(2, $report['Item04Workflow/A']['event']);
 
@@ -144,7 +144,7 @@ class GetNextStatusTest extends DbTestCase
 
     	$this->assertArrayHasKey('Item05Workflow/correction', $report,'  a transition exists between "new" and "correction" ');
     	$this->assertTrue($report['Item05Workflow/correction']['isValid'] == false);
-    	$this->assertInstanceOf('fproject\workflow\base\Status', $report['Item05Workflow/correction']['status']);
+    	$this->assertInstanceOf('fproject\workflow\core\Status', $report['Item05Workflow/correction']['status']);
     	$this->assertEquals('Item05Workflow/correction', $report['Item05Workflow/correction']['status']->getId());
 
     	$this->assertEquals(
@@ -173,7 +173,7 @@ class GetNextStatusTest extends DbTestCase
 
     	$this->assertArrayHasKey('Item05Workflow/published',  $report,'  a transition exists between "new" and "published" ');
     	$this->assertTrue($report['Item05Workflow/published']['isValid'] == true);
-    	$this->assertInstanceOf('fproject\workflow\base\Status', $report['Item05Workflow/published']['status']);
+    	$this->assertInstanceOf('fproject\workflow\core\Status', $report['Item05Workflow/published']['status']);
     	$this->assertEquals('Item05Workflow/published', $report['Item05Workflow/published']['status']->getId());
 
     	$this->assertEquals(

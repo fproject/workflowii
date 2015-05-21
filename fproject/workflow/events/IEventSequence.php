@@ -1,8 +1,8 @@
 <?php
 namespace fproject\workflow\events;
 use yii\base\Event;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
 
 /**
  *
@@ -37,7 +37,7 @@ interface IEventSequence
 	/**
 	 * Creates and returns the sequence of events that occurs when a model leaves a workflow.
 	 *
-	 * @param \fproject\workflow\base\Status $finalStatus the status that the model last visited in the workflow it is leaving
+	 * @param \fproject\workflow\core\Status $finalStatus the status that the model last visited in the workflow it is leaving
 	 * (the <i>final status</i>)
 	 * @param Object $sender
 	 * @return Event[]

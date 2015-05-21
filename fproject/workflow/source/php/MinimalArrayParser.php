@@ -5,7 +5,7 @@ namespace fproject\workflow\source\php;
 use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
-use fproject\workflow\base\WorkflowValidationException;
+use fproject\workflow\core\WorkflowValidationException;
 use yii\helpers\VarDumper;
 /**
  * Parse a workflow definition provided as a minimal PHP array.

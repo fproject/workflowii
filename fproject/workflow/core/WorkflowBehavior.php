@@ -1,6 +1,6 @@
 <?php
 
-namespace fproject\workflow\base;
+namespace fproject\workflow\core;
 
 use fproject\workflow\events\WorkflowEvent;
 use fproject\workflow\source\IWorkflowSource;
@@ -20,7 +20,7 @@ use fproject\workflow\validation\WorkflowScenario;
  *
  * To use WorkflowBehavior with the default parameters, simply attach it to the model class.
  * ~~~
- * use fproject\workflow\base\WorkflowBehavior;
+ * use fproject\workflow\core\WorkflowBehavior;
  *
  * public function behaviors()
  * {
@@ -45,7 +45,7 @@ use fproject\workflow\validation\WorkflowScenario;
  *
  * Below is an example behavior initialization :
  * ~~~
- * use fproject\workflow\base\WorkflowBehavior;
+ * use fproject\workflow\core\WorkflowBehavior;
  *
  * public function behaviors()
  * {
@@ -214,7 +214,7 @@ class WorkflowBehavior extends Behavior
      * @throws InvalidConfigException
      * @throws WorkflowException
      * @see \yii\base\Behavior::attach()
-     * @see \fproject\workflow\base\WorkflowBehavior::InitStatus()
+     * @see \fproject\workflow\core\WorkflowBehavior::InitStatus()
      */
 	public function attach($owner)
 	{
@@ -862,7 +862,7 @@ class WorkflowBehavior extends Behavior
 	 * or the default workflow id as it has been configured.
 	 * 
 	 * @return string workflow Id
-	 * @see \fproject\workflow\base\WorkflowBehavior::getDefaultWorkflowId()
+	 * @see \fproject\workflow\core\WorkflowBehavior::getDefaultWorkflowId()
 	 */
 	private function selectDefaultWorkflowId()
 	{

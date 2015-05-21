@@ -29,7 +29,7 @@ class MinimalArrayParserTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage Workflow definition must be provided as an array
 	 */
 	public function testParseInvalidType()
@@ -37,7 +37,7 @@ class MinimalArrayParserTest extends TestCase
 		Yii::$app->parser->parse('WID',null,$this->src);
 	}
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage Missing argument : workflow Id
 	 */
 	public function testMissingWorkflowId()
@@ -45,7 +45,7 @@ class MinimalArrayParserTest extends TestCase
 		Yii::$app->parser->parse('',null,$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage Workflow definition must be provided as associative array
 	 */
 	public function testNonAssociativeArray1()
@@ -53,7 +53,7 @@ class MinimalArrayParserTest extends TestCase
 		Yii::$app->parser->parse('WID',['a'],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage Workflow definition must be provided as associative array
 	 */
 	public function testNonAssociativeArray2()
@@ -61,7 +61,7 @@ class MinimalArrayParserTest extends TestCase
 		Yii::$app->parser->parse('WID',['a'=> [], 'b'],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage Status must belong to workflow : EXT/a
 	 */
 	public function testExternalStatusError()
@@ -73,7 +73,7 @@ class MinimalArrayParserTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage  Associative array not supported (status : WID/a)
 	 */
 	public function testEndStatusAssociativeError()
@@ -84,7 +84,7 @@ class MinimalArrayParserTest extends TestCase
 		],$this->src);
 	}
 	/**
-	 * @expectedException fproject\workflow\base\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessage End status list must be an array for status  : WID/a
 	 */
 	public function testEndStatusTypeNotSupported()

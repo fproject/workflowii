@@ -8,9 +8,9 @@ use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\source\php\WorkflowPhpSource;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\Workflow;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\Workflow;
 
 
 class TransitionTest extends TestCase
@@ -64,12 +64,12 @@ class TransitionTest extends TestCase
 			//$startId = key($tr);
 			$transition = current($tr);
 
-			verify('transition is a Transition', get_class($transition))->equals('fproject\workflow\base\Transition');
+			verify('transition is a Transition', get_class($transition))->equals('fproject\workflow\core\Transition');
 
-			verify('start status is a Status instance',get_class($transition->getStartStatus()) )->equals('fproject\workflow\base\Status');
+			verify('start status is a Status instance',get_class($transition->getStartStatus()) )->equals('fproject\workflow\core\Status');
 			verify('start status is A', $transition->getStartStatus()->getId())->equals('wid/A');
 
-			verify('end status is a Status instance',get_class($transition->getStartStatus()) )->equals('fproject\workflow\base\Status');
+			verify('end status is a Status instance',get_class($transition->getStartStatus()) )->equals('fproject\workflow\core\Status');
 			verify('end status is B', $transition->getEndStatus()->getId())->equals('wid/B');
     	});
     }

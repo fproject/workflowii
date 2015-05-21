@@ -1,10 +1,10 @@
 <?php
 namespace fproject\workflow\source;
 
-use fproject\workflow\base\Status;
-use fproject\workflow\base\Transition;
-use fproject\workflow\base\Workflow;
-use fproject\workflow\base\WorkflowException;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\Transition;
+use fproject\workflow\core\Workflow;
+use fproject\workflow\core\WorkflowException;
 use yii\base\Component;
 
 interface IWorkflowSource

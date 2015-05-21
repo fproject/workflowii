@@ -5,8 +5,8 @@ use Yii;
 use yii\db\BaseActiveRecord;
 use yii\db\QueryBuilder;
 use yii\db\Query;
-use fproject\workflow\base\Status;
-use fproject\workflow\base\IStatusAccessor;
+use fproject\workflow\core\Status;
+use fproject\workflow\core\IStatusAccessor;
 use yii\base\Exception;
 
 class StatusAccessor07 implements IStatusAccessor
