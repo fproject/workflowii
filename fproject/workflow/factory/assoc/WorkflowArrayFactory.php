@@ -51,7 +51,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	 * by the 'parser' configuration setting.
 	 * Example : 
 	 * 'workflowSource' => [
-	 * 		'class' => 'fproject\workflow\factory\assoc\WorkflowPhpSource',
+	 * 		'class' => 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 	 * 		'parser' => 'myparser'
 	 * ]
 	 */	
@@ -61,7 +61,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	 */
 	public $namespace = 'app\models';
 	/**
-	 * @var Object reference to the parser to use with this WorkflowPhpSource
+	 * @var Object reference to the parser to use with this WorkflowArrayFactory
 	 */
 	private $_parser;
 	/**
@@ -160,8 +160,8 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      * @throws WorkflowException
      *
      * @see IWorkflowFactory::getStatus()
-     * @see WorkflowPhpSource::evaluateWorkflowId()
-     * @see WorkflowPhpSource::parseStatusId()
+     * @see WorkflowArrayFactory::evaluateWorkflowId()
+     * @see WorkflowArrayFactory::parseStatusId()
      */
 	public function getStatus($id, $wfIdOrModel = null)
 	{
@@ -405,7 +405,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      * in the second
      * @throws WorkflowException
      *
-     * @see WorkflowPhpSource::evaluateWorkflowId()
+     * @see WorkflowArrayFactory::evaluateWorkflowId()
      */
 	public function parseStatusId($val, $wfIdOrModel = null)
 	{
@@ -448,7 +448,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	 *
 	 * @param string $id the status ID to test
 	 * @return boolean TRUE if $id is a valid status ID, FALSE otherwise.
-	 * @see WorkflowPhpSource::parseStatusId()
+	 * @see WorkflowArrayFactory::parseStatusId()
 	 */
 	public function isValidStatusId($id)
 	{

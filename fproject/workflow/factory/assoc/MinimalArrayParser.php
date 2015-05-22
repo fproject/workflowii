@@ -45,7 +45,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 	 * Parse a workflow defined as a PHP Array.
 	 *
 	 * The workflow definition passed as argument is turned into an array that can be
-	 * used by the WorkflowPhpSource components. 
+	 * used by the WorkflowArrayFactory components.
 	 * 
 	 * @param string $wId
 	 * @param array $definition
