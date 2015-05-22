@@ -6,14 +6,14 @@ use yii\base\InvalidConfigException;
 use yii\base\UnknownPropertyException;
 
 /**
- * This class is the base class for Workflow, Transition and Status objects.
+ * This is the abstract class for Workflow, Transition and Status objects.
  *
  * It mainly provides a way to store additional class properties without the need to
  * declare them in the class definition. Theses properties are called metadata and stored into
  * an array. They can be accessed like regular class properties.
  *
  */
-abstract class WorkflowItem extends Object
+abstract class AbstractWorkflowItem extends Object
 {
 	private $_metadata = [];
 

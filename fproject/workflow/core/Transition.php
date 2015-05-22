@@ -7,7 +7,7 @@ use yii\base\InvalidConfigException;
 /**
  * Transition object is an oriented link between a start and an end status.
  */
-class Transition extends WorkflowItem implements ITransition
+class Transition extends AbstractWorkflowItem implements ITransition
 {
 	/**
 	 * @var IStatus the status this transition is starting from
