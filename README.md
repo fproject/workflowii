@@ -5,7 +5,7 @@
 [![Build](https://travis-ci.org/fproject/workflowii.svg?branch=master)](https://travis-ci.org/fproject/workflowii)
 [![License](https://poser.pugx.org/fproject/workflowii/license)](https://packagist.org/packages/fproject/workflowii)
 
-## Installation
+## INSTALLATION
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
@@ -25,14 +25,20 @@ or add this line to the require section of your `composer.json` file.
 	}
 ```
 
-# Quick Start 
+## REQUIREMENTS
 
-## Configuration
+The minimum requirement by Workflowii:
+- Your Web server supports PHP 5.4 or above
+- You Web server is running on Yii 2.0.0 or above
+
+## Quick Start 
+
+### Configuration
 
 For this "*Quick start Guide*" we will be using default configuration settings, but note that *workflowii* is designed to be highly
 flexible so to adapt to a lot of execution contexts... well at least that was my goal.
 
-## Create A Workflow
+### Create A Workflow
  
 A workflow is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowDefinitionProvider` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
@@ -69,7 +75,7 @@ class ArticleWorkflow implements \fproject\workflow\core\IWorkflowDefinitionProv
 }
 ```
 
-## Attach To The Model
+### Attach To The Model
 
 Now let's have a look to our Post model. We decide to store the status of a article in a column named `status` of type STRING(40). 
 
@@ -99,7 +105,7 @@ class Article extends \yii\db\ActiveRecord
 
 That's it ! We are ready to play with *WorkflowBehavior*.
 
-## Use It !
+### Use It !
 
 Now that we are all setup, we can use the *WorkflowBehavior* methods to set/get the status of our articles : the *WorkflowBehavior* will 
 take care that the article doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
@@ -139,26 +145,25 @@ fearless Article object:
 	
 Yes, that's severe, but there was many ways to avoid this exception like for instance by first validating that the transition was possible. 
 
-## What's Next ?
+### What's Next ?
 
 This is just one way of using the *WorkflowBehavior* but there's much more and hopefully enough to assist you
 in your workflow management inside your Yii2 web app.
 
 In the meantime you can have a look to the [Usage Guide](guide) (still under dev) and send any feedback. 
 
-#Roadmap
+##ROADMAP
 
 - At the first stage, we build a workflow engine based on Yii 2 Framework with basic functionalities.
 - At the second stage, we are planning to develop a web component that allows users display/edit workflows by
 interacting with a RIA GUI, using HTML5 or Flex.
 
-#License
+##LICENSE
 
 
 **workflowii** is released under the Apache 2.0 License. See the bundled `LICENSE.md` for details.
 
-#Links
-
+##LINKS
 
 - [GitHub](https://github.com/fproject/workflowii)
 - [Packagist](https://packagist.org/packages/fproject/workflowii)
