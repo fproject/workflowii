@@ -38,7 +38,7 @@ class DiscoverWorkflowTest extends TestCase
 //     	$this->specify('the provided workflow is accessible', function () {
 //     		$model = new Item03();
 //     		expect('model should have workflow is set to "Item03Workflow"', $model->getDefaultWorkflowId() == 'Item03Workflow' )->true();
-//     		$source = $model->getWorkflowSource();
+//     		$source = $model->getWorkflowFactory();
 //     		$w =  $source->getWorkflow('Item03Workflow');
 //     		expect('provided workflow definition has been injected in the source component', $w != null)->true();
 //     		expect('a status can be retrieved for the provided workflow', $source->getStatus('Item03Workflow/C') != null)->true();

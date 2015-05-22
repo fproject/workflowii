@@ -2,6 +2,7 @@
 namespace fproject\workflow\helpers;
 
 use fproject\workflow\core\Status;
+use fproject\workflow\factory\IWorkflowFactory;
 use yii\base\Component;
 use fproject\workflow\core\WorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
@@ -50,18 +51,18 @@ class WorkflowHelper
 	 * 		null,
 	 * 		WorkflowHelper::getAllStatusListData(
 	 * 			$post->getWorkflow()->getId(),
-	 * 			$post->getWorkflowSource()
+	 * 			$post->getWorkflowFactory()
 	 * 		)
 	 * )
 	 * 
 	 * @param string $workflowId
-	 * @param Object $workflowSource
+	 * @param IWorkflowFactory $workflowFactory
 	 * @return Array
 	 */
-	public static function getAllStatusListData($workflowId, $workflowSource)
+	public static function getAllStatusListData($workflowId, $workflowFactory)
 	{
 		$listData = [];
-		$statuses = $workflowSource->getAllStatuses($workflowId);
+		$statuses = $workflowFactory->getAllStatuses($workflowId);
         /**
          * @var mixed $statusId
          * @var Status $statusInstance

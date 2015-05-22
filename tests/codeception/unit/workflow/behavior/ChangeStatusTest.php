@@ -8,6 +8,7 @@ use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
 use fproject\workflow\core\WorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
+use yii\db\ActiveRecord;
 
 class ChangeStatusTest extends DbTestCase
 {
@@ -22,7 +23,7 @@ class ChangeStatusTest extends DbTestCase
 	protected function setup()
 	{
 		parent::setUp();
-		Yii::$app->set('workflowSource',[
+		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
@@ -35,6 +36,7 @@ class ChangeStatusTest extends DbTestCase
 
     public function testChangeStatusOnSaveFailed()
     {
+        /** @var ActiveRecord $item */
     	$item = $this->items('item1');
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 

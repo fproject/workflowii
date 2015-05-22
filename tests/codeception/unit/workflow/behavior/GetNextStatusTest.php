@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\behavior;
 
+use fproject\workflow\factory\IWorkflowFactory;
 use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
@@ -24,7 +25,7 @@ class GetNextStatusTest extends DbTestCase
 	protected function setup()
 	{
 		parent::setUp();
-		Yii::$app->set('workflowSource',[
+		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
@@ -37,6 +38,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testGetNextStatusInWorkflow()
     {
+        /** @var WorkflowBehavior $item */
     	$item = $this->items('item1');
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 
@@ -56,6 +58,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testGetNextStatusOnEnter()
     {
+        /** @var Item04|WorkflowBehavior $item */
     	$item = new Item04();
 
     	$this->assertTrue($item->hasWorkflowStatus() == false);
@@ -70,7 +73,7 @@ class GetNextStatusTest extends DbTestCase
      		expect('status Item04Workflow/A is returned as Status',$n['Item04Workflow/A']['status']->getId() )->equals('Item04Workflow/A');
 
      		verify('status returned is the initial status',$item
-     			->getWorkflowSource()
+     			->getWorkflowFactory()
      			->getWorkflow('Item04Workflow')
      			->getInitialStatusId() )->equals($n['Item04Workflow/A']['status']->getId());
     	});
@@ -78,6 +81,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testGetNextStatusFails()
     {
+        /** @var Item04|WorkflowBehavior $item */
     	$item = new Item04();
     	$item->detachBehavior('workflow');
     	$item->attachBehavior('workflowForTest', [
@@ -97,6 +101,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithEventsOnEnterWorkflow()
     {
+        /** @var Item04|WorkflowBehavior $item */
     	$model = new Item04();
     	$model->on(
     		WorkflowEvent::beforeEnterStatus('Item04Workflow/A'),
@@ -133,6 +138,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithValidation()
     {
+        /** @var Item05|WorkflowBehavior $model */
     	// prepare
     	$model = new Item05();
     	$model->status = 'Item05Workflow/new';
@@ -197,6 +203,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithNothing()
     {
+        /** @var Item05|WorkflowBehavior $model */
     	// prepare
     	$model = new Item05();
     	$model->status = 'Item05Workflow/new';
@@ -220,6 +227,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnEmptyReport()
     {
+        /** @var Item04|WorkflowBehavior $model */
     	$model = $this->items('item4'); // status = D
     	$report = $model->getNextStatuses();
     	$this->assertCount(0, $report,' report contains no entries : D does not have any next status ');

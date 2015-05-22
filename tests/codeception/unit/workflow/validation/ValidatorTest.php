@@ -15,7 +15,7 @@ class ValidatorTest extends TestCase
 	protected function setup()
 	{
 		parent::setUp();
-		Yii::$app->set('workflowSource',[
+		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);

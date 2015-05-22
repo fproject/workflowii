@@ -51,7 +51,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
 	 * Example : 
-	 * 'workflowSource' => [
+	 * 'workflowFactory' => [
 	 * 		'class' => 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 	 * 		'parser' => 'myparser'
 	 * ]
@@ -287,13 +287,13 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 		if (!isset($this->_workflowDef[$id]) ) {
 			$wfClassName = $this->getClassName($id);
 			try {
-                /** @var Object|IWorkflowSource $wfProvider */
-				$wfProvider = Yii::createObject(['class' => $wfClassName]);
+                /** @var Object|IWorkflowSource $wfSrc */
+				$wfSrc = Yii::createObject(['class' => $wfClassName]);
 			} catch (\ReflectionException $e) {
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
-			if ($this->isWorkflowProvider($wfProvider)) {
-				$this->_workflowDef[$id] = $this->parse($id, $wfProvider->getDefinition());
+			if ($this->isWorkflowSource($wfSrc)) {
+				$this->_workflowDef[$id] = $this->parse($id, $wfSrc->getDefinition());
 			} else {
 				throw new WorkflowException('Invalid workflow provider class : '.$wfClassName);
 			}
@@ -351,7 +351,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	 * @param Object $object
 	 * @return boolean
 	 */
-	public function isWorkflowProvider($object)
+	public function isWorkflowSource($object)
 	{
         return $object instanceof IWorkflowSource;
 	}

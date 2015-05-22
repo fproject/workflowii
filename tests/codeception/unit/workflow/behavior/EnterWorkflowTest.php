@@ -23,7 +23,7 @@ class EnterWorkflowTest extends DbTestCase
 	protected function setup()
 	{
 		parent::setUp();
-		Yii::$app->set('workflowSource',[
+		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
@@ -36,6 +36,7 @@ class EnterWorkflowTest extends DbTestCase
 
     public function testEnterWorkflowSuccess()
     {
+        /** @var WorkflowBehavior $item */
     	$item = new Item04();
 
     	$this->specify('model is inserted in the default workflow',function() use ($item) {
@@ -50,6 +51,7 @@ class EnterWorkflowTest extends DbTestCase
 
 			verify('item can be saved',$item->save())->true();
 
+            /** @var WorkflowBehavior $newitem */
 			$newitem = Item04::findOne(['id' => $item->id]);
 			verify('current status is set',$newitem->hasWorkflowStatus())->true();
 			verify('current status is ok',$newitem->workflowStatus->getId())->equals('Item04Workflow/A');
@@ -59,6 +61,7 @@ class EnterWorkflowTest extends DbTestCase
 
     public function testEnterWorkflowFails1()
     {
+        /** @var WorkflowBehavior $item */
     	$item = new Item04();
     	$this->specify('enterWorkflow fails if the model is already in a workflow',function() use ($item) {
 
@@ -72,6 +75,7 @@ class EnterWorkflowTest extends DbTestCase
 
 	public function testEnterWorkflowFails2()
 	{
+        /** @var WorkflowBehavior $item */
 		$item = new Item04();
 		$this->specify('enterWorkflow fails if workflow not found for ID',function() use($item) {
 

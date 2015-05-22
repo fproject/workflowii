@@ -38,7 +38,7 @@ use yii\db\BaseActiveRecord;
  * - workflow : identifier of the default workflow for the owner model. If no value is provided, the behavior
  * creates a default workflow identifier (see  WorkflowBehavior#getDefaultWorkflowId)
  * - source : name of the workflow source component that the behavior must use to read the workflow. By default
- * the component "workflowSource" is used and if it is not already available it is created by the behavior using the
+ * the component "workflowFactory" is used and if it is not already available it is created by the behavior using the
  * default workflow source component class.
  *
  *
@@ -53,7 +53,7 @@ use yii\db\BaseActiveRecord;
  *             'class' => WorkflowBehavior::className(),
  *             'statusAttribute' => 'col_status',
  *             'defaultWorkflowId' => 'MyWorkflow',
- *             'source' => 'phpWorkflowSource',
+ *             'factory' => 'phpWorkflowFactory',
  *             'statusConverter' => 'myStatusConverter',
  *             'eventSequence' => 'myCustomEventSequence',
  *         ],
@@ -66,7 +66,7 @@ use yii\db\BaseActiveRecord;
  */
 class WorkflowBehavior extends Behavior
 {
-	const DEFAULT_SOURCE_CLASS = 'fproject\workflow\factory\assoc\WorkflowArrayFactory';
+	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\factory\assoc\WorkflowArrayFactory';
 	const DEFAULT_EVENT_SEQUENCE_CLASS = 'fproject\workflow\events\BasicEventSequence';
 	/**
 	 * @var string name of the owner model attribute used to store the current status value. It is also possible
@@ -77,7 +77,7 @@ class WorkflowBehavior extends Behavior
 	/**
 	 * @var string name of the workflow source component to use with the behavior
 	 */
-	public $source = 'workflowSource';
+	public $factoryName = 'workflowFactory';
 	/**
 	 * @var string name of an existing status Id converter component, to use with this behavior. When NULL, no status converter
 	 * component will be used.
@@ -169,12 +169,12 @@ class WorkflowBehavior extends Behavior
 		}
 
 		// init source
-		if (empty($this->source)) {
+		if (empty($this->factoryName)) {
 			throw new InvalidConfigException('The "source" configuration for the Behavior can\'t be empty.');
-		} elseif ( !Yii::$app->has($this->source)) {
-			Yii::$app->set($this->source, ['class'=> self::DEFAULT_SOURCE_CLASS]);
+		} elseif ( !Yii::$app->has($this->factoryName)) {
+			Yii::$app->set($this->factoryName, ['class'=> self::DEFAULT_FACTORY_CLASS]);
 		}
-		$this->_wfSource = Yii::$app->get($this->source);
+		$this->_wfSource = Yii::$app->get($this->factoryName);
 
 		// init Event Sequence
 		if ($this->eventSequence == null) {
@@ -710,7 +710,7 @@ class WorkflowBehavior extends Behavior
 	/**
 	 * @return IWorkflowFactory the workflow source component instance used by this behavior
 	 */
-	public function getWorkflowSource()
+	public function getWorkflowFactory()
 	{
 		return $this->_wfSource;
 	}
@@ -735,7 +735,7 @@ class WorkflowBehavior extends Behavior
 	 */
 	public function getWorkflow()
 	{
-		return $this->hasWorkflowStatus() ? $this->getWorkflowSource()->getWorkflow($this->getWorkflowStatus()->getWorkflowId()) : null;
+		return $this->hasWorkflowStatus() ? $this->getWorkflowFactory()->getWorkflow($this->getWorkflowStatus()->getWorkflowId()) : null;
 	}
 	/**
 	 * The owner model is considered as being in a workflow if its current Status is not null.

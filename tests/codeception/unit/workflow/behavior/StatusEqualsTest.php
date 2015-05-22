@@ -17,7 +17,7 @@ class StatusEqualsTest extends TestCase
 	protected function setup()
 	{
 		parent::setUp();
-		Yii::$app->set('workflowSource',[
+		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
@@ -25,6 +25,7 @@ class StatusEqualsTest extends TestCase
 	
     public function testStatusEqualsSuccess()
     {
+        /** @var WorkflowBehavior $item */
     	$item = new Item04();
     	
     	expect_that($item->statusEquals());
@@ -44,7 +45,8 @@ class StatusEqualsTest extends TestCase
     
     
     public function testStatusEqualsFails()
-    {    	 
+    {
+        /** @var WorkflowBehavior $item */
     	$item = new Item04();
     	$item->sendToStatus('A');
 

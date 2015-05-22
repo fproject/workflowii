@@ -20,7 +20,7 @@ class WorkflowHelperTest extends TestCase
 	protected function setup()
 	{
 		parent::setUp();
-		Yii::$app->set('workflowSource',[
+		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
@@ -33,7 +33,7 @@ class WorkflowHelperTest extends TestCase
 	
 	public function testGetAllStatusListData()
 	{
-		$ar = WorkflowHelper::getAllStatusListData('Item04Workflow', Yii::$app->workflowSource);
+		$ar = WorkflowHelper::getAllStatusListData('Item04Workflow', Yii::$app->workflowFactory);
 		
 		$expected = [
 			'Item04Workflow/A' => 'Entry',
