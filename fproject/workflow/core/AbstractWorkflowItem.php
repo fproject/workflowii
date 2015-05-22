@@ -35,7 +35,6 @@ abstract class AbstractWorkflowItem extends Object
      * @see \yii\base\Object::__get()
      * @param string $name
      * @return mixed
-     * @throws UnknownPropertyException
      * @throws WorkflowException
      */
 	public function __get($name)
