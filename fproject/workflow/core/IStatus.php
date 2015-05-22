@@ -1,7 +1,7 @@
 <?php
 namespace fproject\workflow\core;
 
-interface IStatus
+interface IStatus extends IAbstractWorkflowItem
 {
     /**
      * Returns the id of this status.

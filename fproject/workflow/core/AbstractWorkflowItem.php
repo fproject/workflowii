@@ -13,7 +13,7 @@ use yii\base\UnknownPropertyException;
  * an array. They can be accessed like regular class properties.
  *
  */
-abstract class AbstractWorkflowItem extends Object
+abstract class AbstractWorkflowItem extends Object implements IAbstractWorkflowItem
 {
 	private $_metadata = [];
 
@@ -55,11 +55,7 @@ abstract class AbstractWorkflowItem extends Object
 
 	/**
 	 *
-	 * @param string $paramName when null the method returns the complet metadata array, otherwise it returns the
-	 * value of the corresponding metadata.
-	 * @param string $defaultValue
-	 * @throws InvalidConfigException
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getMetadata($paramName = null, $defaultValue = null)
 	{
