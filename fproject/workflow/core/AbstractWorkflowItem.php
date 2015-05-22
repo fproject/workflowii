@@ -54,7 +54,7 @@ abstract class AbstractWorkflowItem extends Object
 	/**
 	 *
 	 * @param string $paramName when null the method returns the complet metadata array, otherwise it returns the
-	 * value of the correponding metadata.
+	 * value of the corresponding metadata.
 	 * @param string $defaultValue
 	 * @throws InvalidConfigException
 	 * @return string
