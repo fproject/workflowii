@@ -21,7 +21,7 @@ or add this block to the *require* section of your `composer.json` file:
 		"yiisoft/yii2" : "*",
 		"fproject/workflowii": "*",
 		// ...
-	    }
+	}
 ```
 
 ## REQUIREMENTS
