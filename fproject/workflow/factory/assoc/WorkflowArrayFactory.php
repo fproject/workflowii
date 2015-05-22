@@ -17,7 +17,7 @@ use fproject\workflow\factory\IWorkflowFactory;
 
 /**
  * This class provides workflow items (Workflow, Status, Transitions) from
- * a PHP array workflow definition.
+ * a PHP associate array workflow definition.
  */
 class WorkflowArrayFactory extends Object implements IWorkflowFactory
 {

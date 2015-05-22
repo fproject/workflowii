@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 use fproject\workflow\core\WorkflowValidationException;
 use yii\helpers\VarDumper;
 /**
- * Parse a workflow definition provided as a minimal PHP array.
+ * Parse a workflow definition provided as a PHP associate array with minimal information.
  * 
  * Following rules apply :
  * - the array must be associative, each key being a status Id, and each value is an array of target status id.
