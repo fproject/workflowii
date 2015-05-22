@@ -1,6 +1,7 @@
 <?php
 namespace fproject\workflow\factory\assoc;
 
+use fproject\workflow\core\IStatus;
 use fproject\workflow\core\WorkflowBehavior;
 use Yii;
 use yii\base\Object;
@@ -154,7 +155,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      *
      * @param string $id ID of the status to get
      * @param WorkflowBehavior|string $wfIdOrModel
-     * @return Status the status instance
+     * @return IStatus the status instance
      *
      * @throws InvalidConfigException
      * @throws WorkflowException
@@ -191,16 +192,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	}
 
     /**
-     * Returns all out going transitions leaving the status whose id is passed as argument.
-     * This method also create instances for the initial status and all statuses that can be
-     * reached from it.
-     *
-     * @see fproject\workflow\factory\IWorkflowFactory::getTransitions()
-     * @param mixed $statusId
-     * @param WorkflowBehavior|string $wfIdOrModel
-     * @return Transition|Transition[]
-     * @throws InvalidConfigException
-     * @throws WorkflowException
+     * @inheritdoc
      */
 	public function getTransitions($statusId, $wfIdOrModel = null)
 	{
@@ -421,7 +413,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 			if (!empty($wfIdOrModel)) {
 				if (is_string($wfIdOrModel)){
 					$tokens[0] = $wfIdOrModel;
-				} elseif ($wfIdOrModel instanceof WorkflowBehavior && $wfIdOrModel->hasWorkflowStatus()) {
+				} elseif (($wfIdOrModel instanceof WorkflowBehavior || WorkflowBehavior::isAttachedTo($wfIdOrModel)) && $wfIdOrModel->hasWorkflowStatus()) {
 					$tokens[0] = $wfIdOrModel->getWorkflowStatus()->getWorkflowId();
 				}
 			}
@@ -615,10 +607,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	}
 
     /**
-     * @param mixed $workflowId
-     * @return array
-     * @throws WorkflowException
-     * @see IWorkflowFactory::getAllStatuses()
+     * @inheritdoc
      */
 	public function getAllStatuses($workflowId)
 	{
