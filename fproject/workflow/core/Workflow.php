@@ -4,7 +4,7 @@ namespace fproject\workflow\core;
 use Yii;
 use yii\base\InvalidConfigException;
 
-class Workflow extends WorkflowBaseObject
+class Workflow extends WorkflowItem
 {
 	const PARAM_INITIAL_STATUS_ID = 'initialStatusId';
 

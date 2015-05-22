@@ -9,7 +9,7 @@ use yii\base\InvalidConfigException;
  *
  * @author Bui Sy Nguyen
  */
-class Status extends WorkflowBaseObject implements IStatus
+class Status extends WorkflowItem implements IStatus
 {
 	/**
 	 * @var string the status Id

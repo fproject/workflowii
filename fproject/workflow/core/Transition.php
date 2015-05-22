@@ -7,14 +7,14 @@ use yii\base\InvalidConfigException;
 /**
  * Transition object is an oriented link between a start and an end status.
  */
-class Transition extends WorkflowBaseObject implements TransitionInterface
+class Transition extends WorkflowItem implements TransitionInterface
 {
 	/**
-	 * @var Status the status this transition is starting from
+	 * @var IStatus the status this transition is starting from
 	 */
 	private $_startStatus;
 	/**
-	 * @var Status the status this transition is ending to.
+	 * @var IStatus the status this transition is ending to.
 	 */
 	private $_endStatus;
 	private $_id = null;
@@ -65,7 +65,7 @@ class Transition extends WorkflowBaseObject implements TransitionInterface
 	 * between status A and B has an idea equals to "A-B".
 	 *
 	 * @return string the transition Id
-	 * @see \fproject\workflow\core\WorkflowBaseObject::getId()
+	 * @see \fproject\workflow\core\WorkflowItem::getId()
 	 */
 	public function getId()
 	{
@@ -73,15 +73,16 @@ class Transition extends WorkflowBaseObject implements TransitionInterface
 	}
 
 	/**
-	 * @see \fproject\workflow\core\TransitionInterface::getEndStatus()
+	 * @inheritdoc
 	 */
 	public function getEndStatus()
 	{
 		return $this->_endStatus;
 	}
-	/**
-	 * @see \fproject\workflow\core\TransitionInterface::getStartStatus()
-	 */
+
+    /**
+     * @inheritdoc
+     */
 	public function getStartStatus()
 	{
 		return $this->_startStatus;

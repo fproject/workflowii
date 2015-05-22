@@ -13,7 +13,7 @@ use yii\base\UnknownPropertyException;
  * an array. They can be accessed like regular class properties.
  *
  */
-abstract class WorkflowBaseObject extends Object
+abstract class WorkflowItem extends Object
 {
 	private $_metadata = [];
 
