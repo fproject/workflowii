@@ -36,7 +36,7 @@ The minimum requirement by Workflowii:
 ### Configuration
 
 For this "*Quick start Guide*" we will be using default configuration settings, but note that *workflowii* is designed to be highly
-flexible so to adapt to a lot of execution contexts... well at least that was my goal.
+flexible so to adapt to a lot of execution contexts..
 
 ### Create A Workflow
  
