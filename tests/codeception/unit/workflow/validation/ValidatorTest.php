@@ -16,7 +16,7 @@ class ValidatorTest extends TestCase
 	{
 		parent::setUp();
 		Yii::$app->set('workflowSource',[
-			'class'=> 'fproject\workflow\source\php\WorkflowPhpSource',
+			'class'=> 'fproject\workflow\factory\php\WorkflowPhpSource',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 		Item05::deleteAll();

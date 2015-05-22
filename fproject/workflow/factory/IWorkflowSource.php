@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\source;
+namespace fproject\workflow\factory;
 
 use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;

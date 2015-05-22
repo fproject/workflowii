@@ -4,8 +4,8 @@ namespace tests\unit\workflow\source\php;
 
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\source\php\PhpArrayParser;
-use fproject\workflow\source\php\WorkflowPhpSource;
+use fproject\workflow\factory\php\PhpArrayParser;
+use fproject\workflow\factory\php\WorkflowPhpSource;
 
 
 class PhpArrayParserTest extends TestCase

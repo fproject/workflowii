@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\source\php;
+namespace fproject\workflow\factory\php;
 
 use fproject\workflow\core\WorkflowBehavior;
 use Yii;
@@ -12,7 +12,7 @@ use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
 use fproject\workflow\core\WorkflowException;
 use fproject\workflow\core\IWorkflowDefinitionProvider;
-use fproject\workflow\source\IWorkflowSource;
+use fproject\workflow\factory\IWorkflowSource;
 
 
 /**
@@ -45,13 +45,13 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\source\php\PhpArrayParser';
+	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factory\php\PhpArrayParser';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
 	 * Example : 
 	 * 'workflowSource' => [
-	 * 		'class' => 'fproject\workflow\source\php\WorkflowPhpSource',
+	 * 		'class' => 'fproject\workflow\factory\php\WorkflowPhpSource',
 	 * 		'parser' => 'myparser'
 	 * ]
 	 */	
@@ -195,7 +195,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * This method also create instances for the initial status and all statuses that can be
      * reached from it.
      *
-     * @see fproject\workflow\source\IWorkflowSource::getTransitions()
+     * @see fproject\workflow\factory\IWorkflowSource::getTransitions()
      * @param mixed $statusId
      * @param WorkflowBehavior|string $wfIdOrModel
      * @return Transition|Transition[]
@@ -322,6 +322,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 		if (!isset($this->_workflowDef[$id]) ) {
 			$wfClassName = $this->getClassName($id);
 			try {
+                /** @var Object|IWorkflowDefinitionProvider $wfProvider */
 				$wfProvider = Yii::createObject(['class' => $wfClassName]);
 			} catch (\ReflectionException $e) {
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
