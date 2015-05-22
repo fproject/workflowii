@@ -28,11 +28,17 @@ class Workflow extends AbstractWorkflowItem
 		}
 		parent::__construct($config);
 	}
+
+    /** @inheritdoc */
 	public function getId()
 	{
 		return $this->_id;
 	}
-	public function getInitialStatusId()
+
+    /**
+     * Gets the initial status's ID
+     */
+    public function getInitialStatusId()
 	{
 		return $this->_initialStatusId;
 	}

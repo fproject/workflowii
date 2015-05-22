@@ -47,10 +47,12 @@ abstract class AbstractWorkflowItem extends Object
 			throw new WorkflowException("No metadata found is the name '$name'");
 		}
 	}
+
 	/**
 	 * @return string the object identifier
 	 */
 	abstract public function getId();
+
 	/**
 	 *
 	 * @param string $paramName when null the method returns the complet metadata array, otherwise it returns the
