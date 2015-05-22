@@ -147,22 +147,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	}
 
     /**
-     * Returns the status whose id is passed as argument.
-     * If this status was never loaded before, it is loaded now and stored for later use (lazy loading).
-     *
-     * If a $model is provided, it must be a BaseActiveRecord instance with a WorkflowBehavior attached. This model
-     * is used to complete the status ID if the one defined by the $id argument is not complete (e.g. 'draft' instead of 'post/draft').
-     *
-     * @param string $id ID of the status to get
-     * @param WorkflowBehavior|string $wfIdOrModel
-     * @return IStatus the status instance
-     *
-     * @throws InvalidConfigException
-     * @throws WorkflowException
-     *
-     * @see IWorkflowFactory::getStatus()
-     * @see WorkflowArrayFactory::evaluateWorkflowId()
-     * @see WorkflowArrayFactory::parseStatusId()
+     * @inheritdoc
      */
 	public function getStatus($id, $wfIdOrModel = null)
 	{
@@ -236,12 +221,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	}
 
     /**
-     * @param mixed $startId
-     * @param mixed $endId
-     * @param WorkflowBehavior|string $wfIdOrModel
-     * @return Transition|null
-     * @throws WorkflowException
-     * @see IWorkflowFactory::getTransition()
+     * @inheritdoc
      */
 	public function getTransition($startId, $endId, $wfIdOrModel = null)
 	{
@@ -257,14 +237,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	}
 
     /**
-     * Returns the Workflow instance whose id is passed as argument.
-     *
-     * @param mixed $id
-     * @return Workflow|null The workflow instance or NULL if no workflow could be found
-     * @throws InvalidConfigException
-     * @throws WorkflowException
-     *
-     * @see IWorkflowFactory::getWorkflow()
+     * @inheritdoc
      *
      */
 	public function getWorkflow($id)

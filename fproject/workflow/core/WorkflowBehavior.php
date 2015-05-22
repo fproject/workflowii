@@ -889,7 +889,7 @@ class WorkflowBehavior extends Behavior
      * This method returns FALSE if $model is not an instance of BaseActiveRecord (has WorkflowBehavior can only be attached
      * to instances of this class) or if none of its attached behaviors is a or inherit from WorkflowBehavior.
      *
-     * @param Model $model the model to test.
+     * @param Model|WorkflowBehavior $model the model to test.
      * @return bool TRUE if at least one WorkflowBehavior behavior is attached to $model, FALSE otherwise
      * @throws WorkflowException
      */
