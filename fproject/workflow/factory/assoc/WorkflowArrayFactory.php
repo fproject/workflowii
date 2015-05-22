@@ -12,7 +12,7 @@ use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
 use fproject\workflow\core\WorkflowException;
-use fproject\workflow\core\IWorkflowDefinitionProvider;
+use fproject\workflow\core\IWorkflowSource;
 use fproject\workflow\factory\IWorkflowFactory;
 
 
@@ -287,7 +287,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 		if (!isset($this->_workflowDef[$id]) ) {
 			$wfClassName = $this->getClassName($id);
 			try {
-                /** @var Object|IWorkflowDefinitionProvider $wfProvider */
+                /** @var Object|IWorkflowSource $wfProvider */
 				$wfProvider = Yii::createObject(['class' => $wfClassName]);
 			} catch (\ReflectionException $e) {
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
@@ -346,14 +346,14 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	}
 	/**
 	 * Returns TRUE if the $object is a workflow provider.
-	 * An object is a workflow provider if it implements the IWorkflowDefinitionProvider interface.
+	 * An object is a workflow provider if it implements the IWorkflowSource interface.
 	 *
 	 * @param Object $object
 	 * @return boolean
 	 */
 	public function isWorkflowProvider($object)
 	{
-        return $object instanceof IWorkflowDefinitionProvider;
+        return $object instanceof IWorkflowSource;
 	}
 
     /**

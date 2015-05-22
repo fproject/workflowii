@@ -39,7 +39,7 @@ flexible so to adapt to a lot of execution contexts..
 
 ### Create A Workflow
  
-A workflow is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowDefinitionProvider` interface. This interface
+A workflow is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowSource` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
 
 Let's define a very *simple workflow* that will be used to manage articles in a basic blog system.
@@ -53,7 +53,7 @@ Here is the PHP class that implements the definition for our workflow :
 <?php
 namespace app\models;
 
-class ArticleWorkflow implements \fproject\workflow\core\IWorkflowDefinitionProvider 
+class ArticleWorkflow implements \fproject\workflow\core\IWorkflowSource 
 {
 	public function getDefinition() {
 		return [

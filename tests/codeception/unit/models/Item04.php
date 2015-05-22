@@ -4,7 +4,7 @@ namespace tests\codeception\unit\models;
 
 use Yii;
 use fproject\workflow\core\WorkflowBehavior;
-use fproject\workflow\core\IWorkflowDefinitionProvider;
+use fproject\workflow\core\IWorkflowSource;
 
 /**
  * @property integer $id

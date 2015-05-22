@@ -2,9 +2,9 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use fproject\workflow\core\IWorkflowDefinitionProvider;
+use fproject\workflow\core\IWorkflowSource;
 
-class Item08Workflow2 implements IWorkflowDefinitionProvider 
+class Item08Workflow2 implements IWorkflowSource
 {
     public function getDefinition() {
         return [ 

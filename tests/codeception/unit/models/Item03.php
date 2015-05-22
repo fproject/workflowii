@@ -4,14 +4,14 @@ namespace tests\codeception\unit\models;
 
 use Yii;
 use fproject\workflow\core\WorkflowBehavior;
-use fproject\workflow\core\IWorkflowDefinitionProvider;
+use fproject\workflow\core\IWorkflowSource;
 
 /**
  * @property integer $id
  * @property string $name
  * @property string $status
  */
-class Item03 extends \yii\db\ActiveRecord implements IWorkflowDefinitionProvider
+class Item03 extends \yii\db\ActiveRecord implements IWorkflowSource
 {
     /**
      * @inheritdoc

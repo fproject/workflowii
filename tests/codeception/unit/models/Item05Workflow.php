@@ -2,9 +2,9 @@
 
 namespace tests\codeception\unit\models;
 
-use fproject\workflow\core\IWorkflowDefinitionProvider;
+use fproject\workflow\core\IWorkflowSource;
 
-class Item05Workflow implements IWorkflowDefinitionProvider
+class Item05Workflow implements IWorkflowSource
 {
 	public function getDefinition()
 	{
