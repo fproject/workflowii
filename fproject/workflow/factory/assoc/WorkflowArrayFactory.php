@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\factory\array;
+namespace fproject\workflow\factory\assoc;
 
 use fproject\workflow\core\WorkflowBehavior;
 use Yii;
@@ -19,7 +19,7 @@ use fproject\workflow\factory\IWorkflowFactory;
  * This class provides workflow items (Workflow, Status, Transitions) from
  * a PHP array workflow definition.
  */
-class WorkflowPhpSource extends Object implements IWorkflowFactory
+class WorkflowArrayFactory extends Object implements IWorkflowFactory
 {
 	/**
 	 *	The regular expression used to validate status and workflow Ids.
@@ -45,13 +45,13 @@ class WorkflowPhpSource extends Object implements IWorkflowFactory
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factory\array\PhpArrayParser';
+	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factory\assoc\ArrayParser';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
 	 * Example : 
 	 * 'workflowSource' => [
-	 * 		'class' => 'fproject\workflow\factory\array\WorkflowPhpSource',
+	 * 		'class' => 'fproject\workflow\factory\assoc\WorkflowPhpSource',
 	 * 		'parser' => 'myparser'
 	 * ]
 	 */	
@@ -353,7 +353,7 @@ class WorkflowPhpSource extends Object implements IWorkflowFactory
 	}
 
     /**
-     * Returns the class map array for this Workflow source instance.
+     * Returns the class map array for this Workflow factory instance.
      * @return string[]
      */
 	public function getClassMap()

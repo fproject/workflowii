@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\workflow\source\php;
+namespace tests\unit\workflow\factory\assoc;
 
 use fproject\workflow\core\WorkflowValidationException;
 use Yii;
@@ -8,7 +8,7 @@ use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
-use fproject\workflow\factory\array\WorkflowPhpSource;
+use fproject\workflow\factory\assoc\WorkflowArrayFactory;
 use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
@@ -18,13 +18,13 @@ class WorkflowTest extends TestCase
 {
 	use \Codeception\Specify;
 
-    /** @var  WorkflowPhpSource $src*/
+    /** @var  WorkflowArrayFactory $src*/
 	public $src;
 
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new WorkflowPhpSource();
+		$this->src = new WorkflowArrayFactory();
 	}
 
 	public function testIsValidWorkflowId()
@@ -104,7 +104,7 @@ class WorkflowTest extends TestCase
 
     public function testLoadMinimalWorkflowSuccess()
     {
-    	$src = new WorkflowPhpSource();
+    	$src = new WorkflowArrayFactory();
     	$src->addWorkflowDefinition('wid', [
     		'initialStatusId' => 'A',
     		'status' => ['A']

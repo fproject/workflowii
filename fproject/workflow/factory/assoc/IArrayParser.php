@@ -1,5 +1,5 @@
 <?php 
-namespace fproject\workflow\factory\array;
+namespace fproject\workflow\factory\assoc;
 use fproject\workflow\core\WorkflowValidationException;
 
 /**
@@ -39,7 +39,7 @@ interface IArrayParser {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param WorkflowPhpSource $source
+	 * @param WorkflowArrayFactory $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */

@@ -1,13 +1,13 @@
 <?php
 
-namespace tests\unit\workflow\source\php;
+namespace tests\unit\workflow\factory\assoc;
 
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
-use fproject\workflow\factory\array\WorkflowPhpSource;
+use fproject\workflow\factory\assoc\WorkflowArrayFactory;
 use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
@@ -21,16 +21,16 @@ class ClassMapTest extends TestCase
 	{
 		$this->specify('Replace default status class with custom one',function (){
 
-			$src = new WorkflowPhpSource([
+			$src = new WorkflowArrayFactory([
 				'namespace' =>'tests\codeception\unit\models',
 				'classMap' =>  [
-					WorkflowPhpSource::TYPE_STATUS     => 'tests\codeception\unit\models\MyStatus',
+					WorkflowArrayFactory::TYPE_STATUS     => 'tests\codeception\unit\models\MyStatus',
 				]
 			]);
 
-			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_WORKFLOW))->equals(	'fproject\workflow\core\Workflow'  );
-			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_STATUS))->equals(	'tests\codeception\unit\models\MyStatus'  );
-			verify($src->getClassMapByType(WorkflowPhpSource::TYPE_TRANSITION))->equals('fproject\workflow\core\Transition');
+			verify($src->getClassMapByType(WorkflowArrayFactory::TYPE_WORKFLOW))->equals(	'fproject\workflow\core\Workflow'  );
+			verify($src->getClassMapByType(WorkflowArrayFactory::TYPE_STATUS))->equals(	'tests\codeception\unit\models\MyStatus'  );
+			verify($src->getClassMapByType(WorkflowArrayFactory::TYPE_TRANSITION))->equals('fproject\workflow\core\Transition');
 
 			$status = $src->getStatus('Item04Workflow/A');
 

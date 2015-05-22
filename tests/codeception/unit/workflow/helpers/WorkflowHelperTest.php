@@ -21,7 +21,7 @@ class WorkflowHelperTest extends TestCase
 	{
 		parent::setUp();
 		Yii::$app->set('workflowSource',[
-			'class'=> 'fproject\workflow\factory\array\WorkflowPhpSource',
+			'class'=> 'fproject\workflow\factory\assoc\WorkflowPhpSource',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 	}

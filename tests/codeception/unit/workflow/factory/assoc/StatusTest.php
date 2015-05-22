@@ -1,13 +1,13 @@
 <?php
 
-namespace tests\unit\workflow\source\php;
+namespace tests\unit\workflow\factory\assoc;
 
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
-use fproject\workflow\factory\array\WorkflowPhpSource;
+use fproject\workflow\factory\assoc\WorkflowArrayFactory;
 use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
@@ -22,7 +22,7 @@ class StatusTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new WorkflowPhpSource();
+		$this->src = new WorkflowArrayFactory();
 	}
 
     /**
@@ -31,7 +31,7 @@ class StatusTest extends TestCase
      */
 	public function testStatusNotFoundSuccess()
 	{
-		$src = new WorkflowPhpSource();
+		$src = new WorkflowArrayFactory();
 		$src->addWorkflowDefinition('wid', [
 			'initialStatusId' => 'A',
 			'status' => null
