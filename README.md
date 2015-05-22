@@ -15,7 +15,7 @@ You can either run
 php composer.phar require fproject/workflowii "*"
 ```
 
-or add this line to the require section of your `composer.json` file.
+or add this block to the require section of your `composer.json` file.
 ```javascript
 "require" : {
 		"php" : ">=5.4.0",
