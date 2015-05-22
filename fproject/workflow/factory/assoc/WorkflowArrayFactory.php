@@ -1,7 +1,6 @@
 <?php
 namespace fproject\workflow\factory\assoc;
 
-use fproject\workflow\core\IStatus;
 use fproject\workflow\core\WorkflowBehavior;
 use Yii;
 use yii\base\Object;
