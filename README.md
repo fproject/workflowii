@@ -7,22 +7,21 @@
 
 ## INSTALLATION
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+The preferred way to install **Workflowii** is through [composer](http://getcomposer.org/download/).
 
-You can either run
-
+You can either run:
 ```
 php composer.phar require fproject/workflowii "*"
 ```
 
-or add this block to the require section of your `composer.json` file.
+or add this block to the require section of your `composer.json` file:
 ```javascript
 "require" : {
 		"php" : ">=5.4.0",
 		"yiisoft/yii2" : "*",
 		"fproject/workflowii": "*",
-		...
-	}
+		// ...
+	    }
 ```
 
 ## REQUIREMENTS
