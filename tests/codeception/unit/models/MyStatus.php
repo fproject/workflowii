@@ -2,6 +2,7 @@
 namespace tests\codeception\unit\models;
 
 use fproject\workflow\core\IStatus;
+use fproject\workflow\core\WorkflowException;
 
 
 class MyStatus implements IStatus
@@ -38,4 +39,18 @@ class MyStatus implements IStatus
 
 	}
 
+    /**
+     *
+     * @param string $paramName when null the method returns the complet metadata array, otherwise it returns the
+     * value of the corresponding metadata.
+     * @param string $defaultValue
+     *
+     * @return string
+     *
+     * @throws WorkflowException
+     */
+    public function getMetadata($paramName = null, $defaultValue = null)
+    {
+        // TODO: Implement getMetadata() method.
+    }
 }
