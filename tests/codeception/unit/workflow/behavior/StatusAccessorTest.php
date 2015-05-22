@@ -22,7 +22,7 @@ class StatusAccessorTest extends TestCase
 		parent::setUp();
 
 		Yii::$app->set('workflowSource',[
-			'class'=> 'fproject\workflow\factory\php\WorkflowPhpSource',
+			'class'=> 'fproject\workflow\factory\array\WorkflowPhpSource',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 

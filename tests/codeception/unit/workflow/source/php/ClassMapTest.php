@@ -7,7 +7,7 @@ use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
-use fproject\workflow\factory\php\WorkflowPhpSource;
+use fproject\workflow\factory\array\WorkflowPhpSource;
 use fproject\workflow\core\Status;
 use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;

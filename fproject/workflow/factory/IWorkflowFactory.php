@@ -7,7 +7,11 @@ use fproject\workflow\core\Workflow;
 use fproject\workflow\core\WorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
 
-interface IWorkflowSource
+/**
+ * Provides workflow items (Workflow, Status, Transitions) from
+ * a workflow definition source.
+ */
+interface IWorkflowFactory
 {
     /**
      * Returns the Status instance with id $id.

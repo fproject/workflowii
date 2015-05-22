@@ -22,7 +22,7 @@ class EnterWorkflowReducedEventTest extends TestCase
 		$this->eventsAfter = [];
 
 		Yii::$app->set('workflowSource',[
-			'class'=> 'fproject\workflow\factory\php\WorkflowPhpSource',
+			'class'=> 'fproject\workflow\factory\array\WorkflowPhpSource',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 		Yii::$app->set('eventSequence',[

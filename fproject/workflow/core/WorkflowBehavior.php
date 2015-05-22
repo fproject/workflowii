@@ -3,7 +3,7 @@
 namespace fproject\workflow\core;
 
 use fproject\workflow\events\WorkflowEvent;
-use fproject\workflow\factory\IWorkflowSource;
+use fproject\workflow\factory\IWorkflowFactory;
 use Yii;
 use yii\base\Behavior;
 use yii\base\Model;
@@ -66,7 +66,7 @@ use yii\db\BaseActiveRecord;
  */
 class WorkflowBehavior extends Behavior
 {
-	const DEFAULT_SOURCE_CLASS = 'fproject\workflow\factory\php\WorkflowPhpSource';
+	const DEFAULT_SOURCE_CLASS = 'fproject\workflow\factory\array\WorkflowPhpSource';
 	const DEFAULT_EVENT_SEQUENCE_CLASS = 'fproject\workflow\events\BasicEventSequence';
 	/**
 	 * @var string name of the owner model attribute used to store the current status value. It is also possible
@@ -116,7 +116,7 @@ class WorkflowBehavior extends Behavior
 	 */
 	private $_statusConverter = null;
 	/**
-	 * @var IWorkflowSource reference to the workflow source component used by this behavior
+	 * @var IWorkflowFactory reference to the workflow source component used by this behavior
 	 */
 	private $_wfSource;
 	/**
@@ -708,7 +708,7 @@ class WorkflowBehavior extends Behavior
 		return $this->_defaultWorkflowId;
 	}
 	/**
-	 * @return IWorkflowSource the workflow source component instance used by this behavior
+	 * @return IWorkflowFactory the workflow source component instance used by this behavior
 	 */
 	public function getWorkflowSource()
 	{

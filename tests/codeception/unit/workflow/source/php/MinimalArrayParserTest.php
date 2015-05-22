@@ -4,9 +4,9 @@ namespace tests\unit\workflow\source\php;
 
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factory\php\PhpArrayParser;
-use fproject\workflow\factory\php\WorkflowPhpSource;
-use fproject\workflow\factory\php\MinimalArrayParser;
+use fproject\workflow\factory\array\PhpArrayParser;
+use fproject\workflow\factory\array\WorkflowPhpSource;
+use fproject\workflow\factory\array\MinimalArrayParser;
 use yii\helpers\VarDumper;
 
 

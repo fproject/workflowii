@@ -1,6 +1,6 @@
 <?php 
 
-namespace fproject\workflow\factory\php;
+namespace fproject\workflow\factory\array;
 
 use Yii;
 use yii\base\Object;

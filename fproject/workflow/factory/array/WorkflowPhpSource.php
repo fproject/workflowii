@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\factory\php;
+namespace fproject\workflow\factory\array;
 
 use fproject\workflow\core\WorkflowBehavior;
 use Yii;
@@ -12,14 +12,14 @@ use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
 use fproject\workflow\core\WorkflowException;
 use fproject\workflow\core\IWorkflowDefinitionProvider;
-use fproject\workflow\factory\IWorkflowSource;
+use fproject\workflow\factory\IWorkflowFactory;
 
 
 /**
  * This class provides workflow items (Workflow, Status, Transitions) from
  * a PHP array workflow definition.
  */
-class WorkflowPhpSource extends Object implements IWorkflowSource
+class WorkflowPhpSource extends Object implements IWorkflowFactory
 {
 	/**
 	 *	The regular expression used to validate status and workflow Ids.
@@ -45,13 +45,13 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factory\php\PhpArrayParser';
+	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factory\array\PhpArrayParser';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
 	 * Example : 
 	 * 'workflowSource' => [
-	 * 		'class' => 'fproject\workflow\factory\php\WorkflowPhpSource',
+	 * 		'class' => 'fproject\workflow\factory\array\WorkflowPhpSource',
 	 * 		'parser' => 'myparser'
 	 * ]
 	 */	
@@ -159,7 +159,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * @throws InvalidConfigException
      * @throws WorkflowException
      *
-     * @see IWorkflowSource::getStatus()
+     * @see IWorkflowFactory::getStatus()
      * @see WorkflowPhpSource::evaluateWorkflowId()
      * @see WorkflowPhpSource::parseStatusId()
      */
@@ -195,7 +195,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * This method also create instances for the initial status and all statuses that can be
      * reached from it.
      *
-     * @see fproject\workflow\factory\IWorkflowSource::getTransitions()
+     * @see fproject\workflow\factory\IWorkflowFactory::getTransitions()
      * @param mixed $statusId
      * @param WorkflowBehavior|string $wfIdOrModel
      * @return Transition|Transition[]
@@ -249,7 +249,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * @param WorkflowBehavior|string $wfIdOrModel
      * @return Transition|null
      * @throws WorkflowException
-     * @see IWorkflowSource::getTransition()
+     * @see IWorkflowFactory::getTransition()
      */
 	public function getTransition($startId, $endId, $wfIdOrModel = null)
 	{
@@ -272,7 +272,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * @throws InvalidConfigException
      * @throws WorkflowException
      *
-     * @see IWorkflowSource::getWorkflow()
+     * @see IWorkflowFactory::getWorkflow()
      *
      */
 	public function getWorkflow($id)
@@ -618,7 +618,7 @@ class WorkflowPhpSource extends Object implements IWorkflowSource
      * @param mixed $workflowId
      * @return array
      * @throws WorkflowException
-     * @see IWorkflowSource::getAllStatuses()
+     * @see IWorkflowFactory::getAllStatuses()
      */
 	public function getAllStatuses($workflowId)
 	{
