@@ -9,7 +9,7 @@ use Yii;
  * If status "A" has a transition to status "B", then it only means that it is possible to go from
  * status "A" to status "B".
  */
-interface TransitionInterface
+interface ITransition
 {
 	/**
 	 * @return string the transition id
