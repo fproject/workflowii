@@ -76,7 +76,7 @@ class ArticleWorkflow implements \fproject\workflow\core\IWorkflowDefinitionProv
 
 ### Attach To The Model
 
-Now let's have a look to our Post model. We decide to store the status of a article in a column named `status` of type STRING(40). 
+Now let's have a look to our Artical model. We decide to store the status of a article in a column named `status` of type STRING(40). 
 
 The last step is to associate the workflow definition with articles models. To do so we must declare the *WorkflowBehavior* behavior 
 in the Article model class and let the default configuration settings do the rest.
