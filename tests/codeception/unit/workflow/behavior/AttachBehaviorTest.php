@@ -5,7 +5,6 @@ namespace tests\unit\workflow\behavior;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\WorkflowBehavior;
 
 class AttachBehaviorTest extends TestCase

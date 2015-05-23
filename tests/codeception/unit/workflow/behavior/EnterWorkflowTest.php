@@ -36,7 +36,7 @@ class EnterWorkflowTest extends DbTestCase
 
     public function testEnterWorkflowSuccess()
     {
-        /** @var WorkflowBehavior $item */
+        /** @var WorkflowBehavior|Item04 $item */
     	$item = new Item04();
 
     	$this->specify('model is inserted in the default workflow',function() use ($item) {

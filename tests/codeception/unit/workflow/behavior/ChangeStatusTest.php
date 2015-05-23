@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\behavior;
 
+use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item01;
@@ -51,6 +52,7 @@ class ChangeStatusTest extends DbTestCase
 
     public function testChangeStatusByMethodFailed()
     {
+        /** @var WorkflowBehavior|Item04 $item */
     	$item = $this->items('item1');
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 
@@ -64,6 +66,7 @@ class ChangeStatusTest extends DbTestCase
 
     public function testChangeStatusOnSaveSuccess()
     {
+        /** @var WorkflowBehavior|Item04 $item */
     	$item = $this->items('item1');
     	$this->specify('success saving model and perform transition',function() use ($item) {
 

@@ -4,12 +4,10 @@ namespace tests\unit\workflow\events;
 
 use Yii;
 use yii\codeception\TestCase;
-use yii\base\InvalidConfigException;
 
 use tests\codeception\unit\models\Item04;
 use fproject\workflow\core\WorkflowBehavior;
 use fproject\workflow\events\WorkflowEvent;
-use fproject\workflow\core\WorkflowException;
 
 class EnterWorkflowReducedEventTest extends TestCase
 {

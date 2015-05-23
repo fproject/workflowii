@@ -3,11 +3,6 @@ namespace tests\unit\workflow\core;
 
 use Yii;
 use yii\codeception\TestCase;
-use yii\base\InvalidConfigException;
-use tests\codeception\unit\models\Item01;
-use fproject\workflow\core\Workflow;
-use fproject\workflow\core\Status;
-use fproject\workflow\core\Transition;
 use fproject\workflow\core\StatusIdConverter;
 
 class StatusIdConverterTest extends TestCase

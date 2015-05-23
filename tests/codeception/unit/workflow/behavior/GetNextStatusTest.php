@@ -4,6 +4,8 @@ namespace tests\unit\workflow\behavior;
 
 use fproject\workflow\factory\IWorkflowFactory;
 use Yii;
+use yii\base\Event;
+use yii\base\ModelEvent;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
@@ -101,11 +103,11 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithEventsOnEnterWorkflow()
     {
-        /** @var Item04|WorkflowBehavior $item */
+        /** @var Item04|WorkflowBehavior $model */
     	$model = new Item04();
     	$model->on(
     		WorkflowEvent::beforeEnterStatus('Item04Workflow/A'),
-    		function($event)  {
+    		function($event)  {/** @var WorkflowEvent $event*/
     			$event->invalidate('my error message');
     		}
     	);

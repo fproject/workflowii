@@ -3,18 +3,17 @@ namespace tests\unit\workflow\behavior;
 
 use Yii;
 use yii\codeception\TestCase;
-use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item07;
 use tests\codeception\unit\models\StatusAccessor07;
-use fproject\workflow\core\Status;
 use fproject\workflow\core\WorkflowBehavior;
-use fproject\workflow\core\WorkflowException;
 
 class StatusAccessorTest extends TestCase
 {
 	use\Codeception\Specify;
 
 	public $item;
+
+    /** @var StatusAccessor07 $statusAccessor */
 	public $statusAccessor = null;
 
 	protected function setup()
@@ -40,6 +39,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'Item07Workflow/B';
 
+        /** @var Item07|WorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -59,6 +59,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = null;
 
+        /** @var Item07|WorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -80,6 +81,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = null;
 
+        /** @var Item07|WorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -100,6 +102,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'Item07Workflow/B';
 
+        /** @var Item07|WorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -114,6 +117,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'Item07Workflow/B';
 
+        /** @var Item07|WorkflowBehavior $item */
 		$item = new Item07();
 
 		verify('getStatus has been called ',$this->statusAccessor->callGetStatusCount)->equals(1);
@@ -132,6 +136,5 @@ class StatusAccessorTest extends TestCase
 
 		expect('setStatus has been called ',$this->statusAccessor->callSetStatusCount)->equals(2);
 		expect('commitStatus has not bee called',$this->statusAccessor->callCommitStatusCount)->equals(1);
-
 	}
 }

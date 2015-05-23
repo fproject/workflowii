@@ -17,6 +17,7 @@ class DiscoverWorkflowTest extends TestCase
     public function testDefaultWorkflowIdCreation()
     {
     	$this->specify('a workflow Id is created if not provided', function () {
+            /** @var WorkflowBehavior|Item01 $model */
     		$model = new Item01();
     		expect('model should have workflow id set to "Item01"', $model->getDefaultWorkflowId() == 'Item01Workflow' )->true();
     	});
@@ -24,6 +25,7 @@ class DiscoverWorkflowTest extends TestCase
     public function testConfiguredWorkflowId()
     {
     	$this->specify('use the configured workflow Id', function () {
+            /** @var WorkflowBehavior|Item01 $model */
     		$model = new Item01();
     		$model->attachBehavior('workflow', [
     			'class' => WorkflowBehavior::className(),

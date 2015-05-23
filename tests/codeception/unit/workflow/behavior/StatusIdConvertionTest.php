@@ -3,17 +3,13 @@ namespace tests\unit\workflow\behavior;
 
 use Yii;
 use yii\codeception\TestCase;
-use yii\base\InvalidConfigException;
 use tests\codeception\unit\models\Item04;
-use fproject\workflow\core\Workflow;
-use fproject\workflow\core\Status;
-use fproject\workflow\core\Transition;
 use fproject\workflow\core\StatusIdConverter;
 use fproject\workflow\core\WorkflowBehavior;
 
 class StatusIdConvertionTest extends TestCase
 {
-	use\Codeception\Specify;
+	use \Codeception\Specify;
 
 	public $item;
 	protected function setup()
@@ -38,6 +34,7 @@ class StatusIdConvertionTest extends TestCase
 
 	public function testConvertionOnAttachSuccess()
 	{
+        /** @var Item04|WorkflowBehavior $item */
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
 			'class' => WorkflowBehavior::className(),
@@ -60,6 +57,7 @@ class StatusIdConvertionTest extends TestCase
 	}
 	public function testConvertionOnChangeStatus()
 	{
+        /** @var Item04|WorkflowBehavior $item */
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
 			'class' => WorkflowBehavior::className(),
@@ -82,6 +80,7 @@ class StatusIdConvertionTest extends TestCase
 
 	public function testConvertionOnLeaveWorkflow()
 	{
+        /** @var Item04|WorkflowBehavior $item */
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
 			'class' => WorkflowBehavior::className(),

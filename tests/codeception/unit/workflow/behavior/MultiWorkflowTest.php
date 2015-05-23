@@ -73,19 +73,25 @@ class MultiWorkflowTest extends DbTestCase {
 		
 	public function testSetStatusBehaviorSuccess()
 	{
+        /** @var Item08|WorkflowBehavior $o */
 		$o = new Item08();
-		
-		$o->getBehavior('w1')->sendToStatus('draft');
-		$o->getBehavior('w2')->sendToStatus('success');
 
-		verify_that( $o->getBehavior('w1')->getWorkflowStatus()->getId() == 'Item08Workflow1/draft');
-		verify_that( $o->getBehavior('w2')->getWorkflowStatus()->getId() == 'Item08Workflow2/success');
+        /** @var WorkflowBehavior $b1 */
+		$b1 = $o->getBehavior('w1');
+		$b1->sendToStatus('draft');
+
+        /** @var WorkflowBehavior $b2 */
+        $b2 = $o->getBehavior('w2');
+		$b2->sendToStatus('success');
+
+		verify_that( $b1->getWorkflowStatus()->getId() == 'Item08Workflow1/draft');
+		verify_that( $b2->getWorkflowStatus()->getId() == 'Item08Workflow2/success');
 		
-		$o->getBehavior('w1')->sendToStatus('correction');
-		$o->getBehavior('w2')->sendToStatus('onHold');
+		$b1->sendToStatus('correction');
+		$b2->sendToStatus('onHold');
 		
-		verify_that( $o->getBehavior('w1')->getWorkflowStatus()->getId() == 'Item08Workflow1/correction');
-		verify_that( $o->getBehavior('w2')->getWorkflowStatus()->getId() == 'Item08Workflow2/onHold');		
+		verify_that( $b1->getWorkflowStatus()->getId() == 'Item08Workflow1/correction');
+		verify_that( $b2->getWorkflowStatus()->getId() == 'Item08Workflow2/onHold');
 	}	
 	
 	/**
@@ -94,9 +100,11 @@ class MultiWorkflowTest extends DbTestCase {
 	 */	
 	public function testSetStatusBehaviorFails1()
 	{
+        /** @var Item08|WorkflowBehavior $o */
 		$o = new Item08();
-	
-		$o->getBehavior('w1')->sendToStatus('DUMMY');
+        /** @var WorkflowBehavior $b */
+        $b = $o->getBehavior('w1');
+		$b->sendToStatus('DUMMY');
 	}	
 	
 	/**
@@ -105,19 +113,28 @@ class MultiWorkflowTest extends DbTestCase {
 	 */
 	public function testSetStatusBehaviorFails2()
 	{
+        /** @var Item08|WorkflowBehavior $o */
 		$o = new Item08();
-	
-		$o->getBehavior('w2')->sendToStatus('DUMMY');
+        /** @var WorkflowBehavior $b */
+        $b = $o->getBehavior('w2');
+		$b->sendToStatus('DUMMY');
 	}	
 	
 	public function testEnterWorkflowSuccess()
 	{
+        /** @var Item08|WorkflowBehavior $o */
 		$o = new Item08();
-	
-		$o->getBehavior('w1')->enterWorkflow();
-		$o->getBehavior('w2')->enterWorkflow();
-	
-		verify_that( $o->getBehavior('w1')->getWorkflowStatus()->getId() == 'Item08Workflow1/draft');
-		verify_that( $o->getBehavior('w2')->getWorkflowStatus()->getId() == 'Item08Workflow2/success');
+
+        /** @var WorkflowBehavior $b1 */
+        $b1 = $o->getBehavior('w1');
+		$b1->enterWorkflow();
+
+        /** @var WorkflowBehavior $b2 */
+        $b2 = $o->getBehavior('w2');
+		$b2->enterWorkflow();
+
+
+		verify_that( $b1->getWorkflowStatus()->getId() == 'Item08Workflow1/draft');
+		verify_that( $b2->getWorkflowStatus()->getId() == 'Item08Workflow2/success');
 	}	
 }

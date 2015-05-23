@@ -12,6 +12,13 @@
 	"support" : {
 		"issues" : "https://github.com/fproject/workflowii/issues"
 	},
+    "authors": [
+      {
+        "name": "Bui Sy Nguyen",
+        "email": "nguyenbs@f-project.net",
+        "homepage": "http://f-project.net"
+      }
+    ],
 	"minimum-stability" : "stable",
 	"require" : {
 		"php" : ">=5.4.0",

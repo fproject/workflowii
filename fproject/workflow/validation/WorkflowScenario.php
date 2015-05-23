@@ -10,11 +10,11 @@ class WorkflowScenario
 
 	public static function changeStatus($start, $end)
 	{
-		if (empty($start) || ! is_string($start)) {
+		if (empty($start) || !is_string($start)) {
 			throw new WorkflowException('$start must be a string');
 		}
 
-		if (empty($end) || ! is_string($end)) {
+		if (empty($end) || !is_string($end)) {
 			throw new WorkflowException('$end must be a string');
 		}
 

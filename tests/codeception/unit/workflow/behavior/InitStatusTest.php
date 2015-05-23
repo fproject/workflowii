@@ -31,7 +31,7 @@ class InitStatusTest extends TestCase
     public function testInitStatusOnAttachSuccess()
     {
 		$this->specify('current status initialization is ok', function() {
-
+            /** @var Item01|WorkflowBehavior $model */
 			$model = new Item01();
 			$model->status = 'Workflow1/A';
 			$model->attachBehavior('workflow', [
@@ -77,7 +77,7 @@ class InitStatusTest extends TestCase
     public function testInitStatusAfterFindSuccess()
     {
     	$this->specify('status initialisation when reading model from db (after find)', function(){
-
+            /** @var Item01|WorkflowBehavior $model */
     		$model = new Item01();
     		$model->detachBehavior('workflow');
     		$model->id = 1;
@@ -99,7 +99,7 @@ class InitStatusTest extends TestCase
     public function testInitStatusAfterFindFails()
     {
     	$this->specify('status initialisation success when saving model', function(){
-
+            /** @var Item01|WorkflowBehavior $model */
     		$model = new Item01();
     		$model->detachBehavior('workflow');
     		$model->id = 1;

@@ -2,17 +2,11 @@
 
 namespace tests\unit\workflow\events;
 
+use fproject\workflow\core\WorkflowBehavior;
 use Yii;
 use yii\codeception\DbTestCase;
-use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
 use tests\codeception\unit\models\Item06;
 use tests\codeception\unit\models\Item06Behavior;
-use fproject\workflow\core\WorkflowException;
-use fproject\workflow\events\WorkflowEvent;
-use fproject\workflow\core\Status;
-use fproject\workflow\core\Transition;
-use yii\base\Exception;
 
 class BehaviorEventHandlerTest extends DbTestCase
 {
@@ -40,16 +34,19 @@ class BehaviorEventHandlerTest extends DbTestCase
 
     public function testEnterWorkflowSuccess()
     {
+        /** @var Item06|WorkflowBehavior $post */
     	$post = new Item06();
 		verify('no post instance created', Item06Behavior::$countPost)->equals(0);
 
 		expect('post is inserted in workflow',$post->enterWorkflow())->true();
 		expect('post count is 1',Item06Behavior::$countPost)->equals(1);
 
+        /** @var Item06|WorkflowBehavior $post1 */
 		$post1 = new Item06();
 		expect('post is inserted in workflow',$post1->enterWorkflow())->true();
 		expect('post count is 2',Item06Behavior::$countPost)->equals(2);
 
+        /** @var Item06|WorkflowBehavior $post2 */
 		$post2 = new Item06();
 		expect('post is not inserted in workflow',$post2->enterWorkflow())->false();
 		expect('post count is 2',Item06Behavior::$countPost)->equals(2);
@@ -61,6 +58,7 @@ class BehaviorEventHandlerTest extends DbTestCase
      */
     public function testPublishSuccess()
     {
+        /** @var Item06|WorkflowBehavior|Item06Behavior $post */
     	$post = new Item06();
     	verify('no post instance in the workflow', Item06Behavior::$countPost)->equals(0);
     	verify('post is inserted in workflow',$post->enterWorkflow())->true();
@@ -83,6 +81,7 @@ class BehaviorEventHandlerTest extends DbTestCase
 
     public function testArchiveSuccess()
     {
+        /** @var Item06|WorkflowBehavior|Item06Behavior $post */
     	$post = new Item06();
 
     	verify('post is inserted in workflow',$post->enterWorkflow())->true();
@@ -93,6 +92,5 @@ class BehaviorEventHandlerTest extends DbTestCase
     	expect('fail to send to archive',$post->sendToStatus('Item06Workflow/archive'))->false();
     	$post->markAsCandidateForArchive();
     	expect('post is sent to archive',$post->sendToStatus('Item06Workflow/archive'))->true();
-
     }
 }
