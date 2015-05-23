@@ -39,7 +39,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factories\assoc\ArrayParser';
+	const DEFAULT_PARSER_CLASS = '\fproject\workflow\serialize\parsers\ArrayParser';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
