@@ -28,6 +28,18 @@ class SimpleArrayDeserializerTest extends TestCase
 		]);
 	}
 
+    public function __get($name)
+    {
+        $getter = 'get' . $name;
+        if (method_exists($this, $getter)) {
+            return $this->$getter();
+        }
+        else
+        {
+            return parent::__get($name);
+        }
+    }
+
     public function getDeserializer()
     {
         return Yii::$app->deserializer;
