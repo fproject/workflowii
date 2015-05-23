@@ -24,6 +24,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateFailsOnTransition()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->status = 'Item05Workflow/new';
 
@@ -47,6 +48,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateSuccessOnTransition()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->status = 'Item05Workflow/new';
 
@@ -67,6 +69,7 @@ class ValidatorTest extends TestCase
 	}
 	public function testValidationIsSkipped()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->status = 'Item05Workflow/new';
 
@@ -86,9 +89,8 @@ class ValidatorTest extends TestCase
 	}
 	public function testValidateFailsOnEnterWorkflow()
 	{
-
 		$this->specify('model validation fails on enter workflow for attribute "category"', function () {
-
+            /** @var ActiveWorkflowBehavior|Item05 $model */
 			$model = new Item05();
 			$model->status = 'Item05Workflow/new';
 			$model->category = null;
@@ -106,7 +108,7 @@ class ValidatorTest extends TestCase
 	public function testValidateSuccessOnEnterWorkflow()
 	{
 		$this->specify('model validation success on enter workflow for attribute "category"', function () {
-
+            /** @var ActiveWorkflowBehavior|Item05 $model */
 			$model = new Item05();
 			$model->status = 'Item05Workflow/new';
 			$model->category = 'sport';
@@ -121,6 +123,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateFailsOnLeaveWorkflow()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->status = 'Item05Workflow/new';
 		expect_that($model->save());
@@ -143,6 +146,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateSuccessOnLeaveWorkflow()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->status = 'Item05Workflow/new';
 		expect_that($model->save());
@@ -163,6 +167,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateSuccessOnFromStatus()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->sendToStatus('Item05Workflow/new');
 		$model->sendToStatus('Item05Workflow/correction');
@@ -184,6 +189,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateFailsOnFromStatus()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->sendToStatus('Item05Workflow/new');
 		$model->sendToStatus('Item05Workflow/correction');
@@ -206,6 +212,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateSuccessOnToStatus()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->sendToStatus('Item05Workflow/new');
 		$model->sendToStatus('Item05Workflow/correction');
@@ -225,6 +232,7 @@ class ValidatorTest extends TestCase
 
 	public function testValidateFailsOnToStatus()
 	{
+        /** @var ActiveWorkflowBehavior|Item05 $model */
 		$model = new Item05();
 		$model->sendToStatus('Item05Workflow/new');
 		$model->sendToStatus('Item05Workflow/correction');
