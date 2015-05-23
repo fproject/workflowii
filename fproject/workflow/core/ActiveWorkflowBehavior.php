@@ -11,7 +11,7 @@ use yii\base\ModelEvent;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\events\IEventSequence;
-use fproject\workflow\validation\WorkflowScenario;
+use fproject\workflow\validator\WorkflowScenario;
 use yii\db\BaseActiveRecord;
 
 /**

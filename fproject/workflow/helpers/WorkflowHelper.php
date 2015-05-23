@@ -39,6 +39,7 @@ class WorkflowHelper
 		}
 		return $listData;
 	}
+
 	/**
 	 * Returns an associative array containing all statuses that belong to a workflow.
 	 * The array returned is suitable to be used as list data value in (for instance) a dropdown list control.

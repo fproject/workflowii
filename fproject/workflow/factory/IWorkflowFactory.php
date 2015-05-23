@@ -32,6 +32,7 @@ interface IWorkflowFactory
      *
      */
 	public function getStatus($id, $wfIdOrModel = null);
+
 	/**
 	 * Returns an array containing all Status instances belonging to the workflow
 	 * whose id is passed as argument.
@@ -44,6 +45,7 @@ interface IWorkflowFactory
      *
 	 */
 	public function getAllStatuses($id);
+
 	/**
 	 * Returns an array of out going transitions leaving the status whose id is passed as argument.
 	 *

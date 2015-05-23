@@ -2,8 +2,6 @@
 namespace fproject\workflow\core;
 
 use yii\base\Object;
-use yii\base\InvalidConfigException;
-use yii\base\UnknownPropertyException;
 
 /**
  * This is the abstract class for Workflow, Transition and Status objects.
