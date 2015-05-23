@@ -71,7 +71,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 		$endStatusIdIndex   = [];
 		
 		foreach($definition as $id => $targetStatusList) {
-			list($workflowId, $statusId) = $source->parseStatusId($id, $wId);
+			list($workflowId, $statusId) = $source->parseStatusId($id, $wId, null);
 			$absoluteStatusId = $workflowId . WorkflowArrayFactory::SEPARATOR_STATUS_NAME .$statusId;
 			if ( $workflowId != $wId) {
 				throw new WorkflowValidationException('Status must belong to workflow : ' . $absoluteStatusId);
@@ -116,7 +116,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 			if ( count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid, ) = $source->parseStatusId($id, $wId);
+					list($thisWid, ) = $source->parseStatusId($id, $wId, null);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}
@@ -140,7 +140,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 	{
 		$normalizedIds = [];
 		foreach ($ids as $id) {
-			$pieces = $source->parseStatusId($id, $workflowId);
+			$pieces = $source->parseStatusId($id, $workflowId, null);
 			$normalizedIds[] = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
 		}
 		return $normalizedIds;		

@@ -39,7 +39,7 @@ class ArrayParser extends Object implements IArrayParser
 			throw new WorkflowValidationException('Missing "initialStatusId"');
 		}
 	
-		list($workflowId, $statusId) = $source->parseStatusId($definition['initialStatusId'],$wId);
+		list($workflowId, $statusId) = $source->parseStatusId($definition['initialStatusId'], $wId, null);
 		$initialStatusId = $workflowId . WorkflowArrayFactory::SEPARATOR_STATUS_NAME .$statusId;
 		if($workflowId != $wId)
         {
@@ -65,7 +65,7 @@ class ArrayParser extends Object implements IArrayParser
         {
             list($parsedId, $startStatusDef) = $this->parseStatusIdAndDef($key, $value);
 	
-			list($workflowId, $statusId) = $source->parseStatusId($parsedId, $wId);
+			list($workflowId, $statusId) = $source->parseStatusId($parsedId, $wId, null);
 			$startStatusId = $startStatusIdIndex[] = $workflowId . WorkflowArrayFactory::SEPARATOR_STATUS_NAME . $statusId;
 			if($workflowId != $wId) {
 				throw new WorkflowValidationException('Status must belong to workflow : '.$startStatusId);
@@ -121,7 +121,7 @@ class ArrayParser extends Object implements IArrayParser
 								 */
 								$ids = array_map('trim', explode(',', $transitionDefinition));
 								foreach ($ids as $id) {
-									$pieces = $source->parseStatusId($id,$wId);
+									$pieces = $source->parseStatusId($id, $wId, null);
 									$canEndStId = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
 									$result[WorkflowArrayFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
@@ -154,7 +154,7 @@ class ArrayParser extends Object implements IArrayParser
 												. VarDumper::dumpAsString($tKey). " value = ". VarDumper::dumpAsString($tValue));
 									}
 										
-									$pieces = $source->parseStatusId($endStatusId,$wId);
+									$pieces = $source->parseStatusId($endStatusId, $wId, null);
 									$canEndStId = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
 										
@@ -213,7 +213,7 @@ class ArrayParser extends Object implements IArrayParser
 			if (count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid, ) = $source->parseStatusId($id,$wId);
+					list($thisWid, ) = $source->parseStatusId($id, $wId, null);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}

@@ -151,9 +151,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
-        $wfIdOrModel = isset($model) ? $model : $wfId;
-
-		list($wId, $stId) = $this->parseStatusId($id, $wfIdOrModel);
+		list($wId, $stId) = $this->parseStatusId($id, $wfId, $model);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
@@ -183,8 +181,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      */
 	public function getTransitions($statusId, $wfId, $model)
 	{
-        $wfIdOrModel = isset($model) ? $model : $wfId;
-		list($wId, $lid) = $this->parseStatusId($statusId, $wfIdOrModel);
+		list($wId, $lid) = $this->parseStatusId($statusId, $wfId, $model);
 		$statusId = $wId.self::SEPARATOR_STATUS_NAME.$lid;
 
 		if (!array_key_exists($statusId, $this->_t) ) {
@@ -204,7 +201,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 			if ($trDef != null) {
 				
 				foreach ($trDef as $endStId => $trCfg) {					
-					$ids = $this->parseStatusId($endStId, $wId);
+					$ids = $this->parseStatusId($endStId, $wId, null);
 					$endId =  implode(self::SEPARATOR_STATUS_NAME, $ids);
 					$end = $this->getStatus($endId, null, null);
 					
@@ -254,7 +251,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 				unset($def[self::KEY_NODES]);
 				$def['id'] = $id;
 				if (isset($def[Workflow::PARAM_INITIAL_STATUS_ID])) {
-					$ids = $this->parseStatusId($def[Workflow::PARAM_INITIAL_STATUS_ID], $id);
+					$ids = $this->parseStatusId($def[Workflow::PARAM_INITIAL_STATUS_ID], $id, null);
 					$def[Workflow::PARAM_INITIAL_STATUS_ID] = implode(self::SEPARATOR_STATUS_NAME, $ids);
 				} else {
 					throw new WorkflowException('failed to load Workflow '.$id.' : missing initial status id');
@@ -369,14 +366,17 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      *
      * @param string $val the status ID to parse. If it is not an absolute ID, $helper is used to get the
      * workflow ID.
-     * @param ActiveWorkflowBehavior|string $wfIdOrModel model used as workflow ID provider if needed
+     * @param mixed $wfId the workflow ID
+     * @param Component|ActiveWorkflowBehavior $model model used as workflow ID provider if needed
+     *
      * @return string[] array containing the workflow ID in its first index, and the status Local ID
      * in the second
+     *
      * @throws WorkflowException
      *
      * @see WorkflowArrayFactory::evaluateWorkflowId()
      */
-	public function parseStatusId($val, $wfIdOrModel = null)
+	public function parseStatusId($val, $wfId, $model)
 	{
 		if (empty($val) || ! is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
@@ -387,13 +387,12 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
-			if (!empty($wfIdOrModel)) {
-				if (is_string($wfIdOrModel)){
-					$tokens[0] = $wfIdOrModel;
-				} elseif (($wfIdOrModel instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($wfIdOrModel)) && $wfIdOrModel->hasWorkflowStatus()) {
-					$tokens[0] = $wfIdOrModel->getWorkflowStatus()->getWorkflowId();
-				}
-			}
+            if (isset($wfId) && is_string($wfId)){
+                $tokens[0] = $wfId;
+            }
+            elseif (($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
+                $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
+            }
 			if ($tokens[0] === null ) {
 				throw new WorkflowException('Not a valid status id format: failed to get workflow id - status = '.VarDumper::dumpAsString($val));
 			}
@@ -422,7 +421,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	public function isValidStatusId($id)
 	{
 		try {
-			$this->parseStatusId($id);
+			$this->parseStatusId($id, null, null);
 			return true;
 		} catch (WorkflowException $e) {
 			return false;

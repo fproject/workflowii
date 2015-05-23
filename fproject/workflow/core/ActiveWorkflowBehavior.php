@@ -15,7 +15,7 @@ use fproject\workflow\helpers\WorkflowScenario;
 use yii\db\BaseActiveRecord;
 
 /**
- * ActiveWorkflowBehavior implements the behavior of db model evolving inside a simple workflow.
+ * ActiveWorkflowBehavior implements the behavior of db model evolving inside a workflow.
  *
  * To use ActiveWorkflowBehavior with the default parameters, simply attach it to the model class.
  * ~~~
@@ -62,8 +62,8 @@ use yii\db\BaseActiveRecord;
  * ~~~
  * Please note that the model must be an instance of yii\base\Model.
  *
- * @property Model $owner
- * @property IStatus $workflowStatus
+ * @property Model owner
+ * @property IStatus workflowStatus
  */
 class ActiveWorkflowBehavior extends Behavior
 {

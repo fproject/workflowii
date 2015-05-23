@@ -49,10 +49,10 @@ class WorkflowTest extends TestCase
 
 	public function testParseStatusId()
 	{
-		list($wId, $lid) = $this->src->parseStatusId('Wid/Id');
+		list($wId, $lid) = $this->src->parseStatusId('Wid/Id', null, null);
 		$this->assertEquals('Wid', $wId);
 		$this->assertEquals('Id', $lid);
-		$this->assertTrue(count($this->src->parseStatusId('Wid/Id')) == 2);
+		$this->assertTrue(count($this->src->parseStatusId('Wid/Id', null, null)) == 2);
 	}
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowValidationException
