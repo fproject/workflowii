@@ -1,7 +1,7 @@
 <?php
 namespace fproject\workflow\factory\assoc;
 
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use Yii;
 use yii\base\Object;
 use yii\base\InvalidConfigException;
@@ -364,7 +364,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      *
      * @param string $val the status ID to parse. If it is not an absolute ID, $helper is used to get the
      * workflow ID.
-     * @param WorkflowBehavior|string $wfIdOrModel model used as workflow ID provider if needed
+     * @param ActiveWorkflowBehavior|string $wfIdOrModel model used as workflow ID provider if needed
      * @return string[] array containing the workflow ID in its first index, and the status Local ID
      * in the second
      * @throws WorkflowException
@@ -385,7 +385,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 			if (!empty($wfIdOrModel)) {
 				if (is_string($wfIdOrModel)){
 					$tokens[0] = $wfIdOrModel;
-				} elseif (($wfIdOrModel instanceof WorkflowBehavior || WorkflowBehavior::isAttachedTo($wfIdOrModel)) && $wfIdOrModel->hasWorkflowStatus()) {
+				} elseif (($wfIdOrModel instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($wfIdOrModel)) && $wfIdOrModel->hasWorkflowStatus()) {
 					$tokens[0] = $wfIdOrModel->getWorkflowStatus()->getWorkflowId();
 				}
 			}
@@ -454,7 +454,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      * If a workflow with same id already exist in this source, it is overwritten if the last parameter
      * is set to TRUE. Note that in this case the overwritten workflow is not available anymore.
      *
-     * @see WorkflowBehavior::attach()
+     * @see ActiveWorkflowBehavior::attach()
      * @param string $workflowId
      * @param array $definition
      * @param boolean $overwrite When set to TRUE, the operation will fail if a workflow definition

@@ -5,7 +5,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item07;
 use tests\codeception\unit\models\StatusAccessor07;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class StatusAccessorTest extends TestCase
 {
@@ -39,7 +39,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'Item07Workflow/B';
 
-        /** @var Item07|WorkflowBehavior $item */
+        /** @var Item07|ActiveWorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -59,7 +59,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = null;
 
-        /** @var Item07|WorkflowBehavior $item */
+        /** @var Item07|ActiveWorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -81,7 +81,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = null;
 
-        /** @var Item07|WorkflowBehavior $item */
+        /** @var Item07|ActiveWorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -102,7 +102,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'Item07Workflow/B';
 
-        /** @var Item07|WorkflowBehavior $item */
+        /** @var Item07|ActiveWorkflowBehavior $item */
 		$item = new Item07();
 
 		verify(StatusAccessor07::$instanceCount)->equals(1);
@@ -117,7 +117,7 @@ class StatusAccessorTest extends TestCase
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'Item07Workflow/B';
 
-        /** @var Item07|WorkflowBehavior $item */
+        /** @var Item07|ActiveWorkflowBehavior $item */
 		$item = new Item07();
 
 		verify('getStatus has been called ',$this->statusAccessor->callGetStatusCount)->equals(1);

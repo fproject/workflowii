@@ -4,7 +4,7 @@ namespace fproject\workflow\validation;
 use Yii;
 use yii\base\Model;
 use yii\validators\Validator;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
 
 /**
@@ -36,7 +36,7 @@ class WorkflowValidator extends Validator
      *
      * If a workflow event sequence is about to occur, this method scan all validators defined in the
      * owner model, and applies the ones which are valid for the upcomming events.
-     * @param Model|WorkflowBehavior $object
+     * @param Model|ActiveWorkflowBehavior $object
      * @param string $attribute
      * @throws WorkflowException
      *
@@ -45,8 +45,8 @@ class WorkflowValidator extends Validator
      */
 	public function validateAttribute($object, $attribute)
 	{
-		if (!WorkflowBehavior::isAttachedTo($object) ) {
-			throw new WorkflowException('Validation error : the model does not have the WorkflowBehavior');
+		if (!ActiveWorkflowBehavior::isAttachedTo($object) ) {
+			throw new WorkflowException('Validation error : the model does not have the ActiveWorkflowBehavior');
 		}
 
 		try {

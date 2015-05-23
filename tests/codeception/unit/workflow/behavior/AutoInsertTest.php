@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item00;
 use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use yii\codeception\DbTestCase;
 
 class AutoInsertTest extends DbTestCase
@@ -30,10 +30,10 @@ class AutoInsertTest extends DbTestCase
     public function testAutoInsertTRUE()
     {
     	$this->specify('autoInsert True : insert the model in default workflow', function() {
-            /** @var WorkflowBehavior|Item00 $o */
+            /** @var ActiveWorkflowBehavior|Item00 $o */
 	    	$o = new Item00();
 	    	$o->attachBehavior('workflow', [
-	    		'class' =>  WorkflowBehavior::className(),
+	    		'class' =>  ActiveWorkflowBehavior::className(),
 	    		'autoInsert' => true,
 	    		'defaultWorkflowId' => 'Item04Workflow'
 	    	]);
@@ -53,11 +53,11 @@ class AutoInsertTest extends DbTestCase
     	});
     	
     	$this->specify('autoInsert True : no update if status already set', function() {
-            /** @var WorkflowBehavior|Item00 $o */
+            /** @var ActiveWorkflowBehavior|Item00 $o */
     		$o = new Item00();
     		$o->status = 'Item05Workflow/new';
     		$o->attachBehavior('workflow', [
-    			'class' =>  WorkflowBehavior::className(),
+    			'class' =>  ActiveWorkflowBehavior::className(),
     			'autoInsert' => true,
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
@@ -83,10 +83,10 @@ class AutoInsertTest extends DbTestCase
     public function testAutoInsertSTATUS()
     {
     	$this->specify('autoInsert Status : insert the model in provided workflow', function() {
-            /** @var WorkflowBehavior|Item00 $o */
+            /** @var ActiveWorkflowBehavior|Item00 $o */
     		$o = new Item00();
     		$o->attachBehavior('workflow', [
-    			'class' =>  WorkflowBehavior::className(),
+    			'class' =>  ActiveWorkflowBehavior::className(),
     			'autoInsert' => 'Item05Workflow',
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
@@ -106,11 +106,11 @@ class AutoInsertTest extends DbTestCase
     	});
     	
     	$this->specify('autoInsert Status : no update if status already set', function() {
-            /** @var WorkflowBehavior|Item00 $o */
+            /** @var ActiveWorkflowBehavior|Item00 $o */
     		$o = new Item00();
     		$o->status = 'Item05Workflow/new';
     		$o->attachBehavior('workflow', [
-    			'class' =>  WorkflowBehavior::className(),
+    			'class' =>  ActiveWorkflowBehavior::className(),
     			'autoInsert' => 'Item04Workflow',
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
@@ -135,10 +135,10 @@ class AutoInsertTest extends DbTestCase
     public function testAutoInsertDEFAULT()
     {
     	$this->specify('autoInsert Status : insert the model in provided workflow', function() {
-            /** @var WorkflowBehavior|Item00 $o */
+            /** @var ActiveWorkflowBehavior|Item00 $o */
     		$o = new Item00();
     		$o->attachBehavior('workflow', [
-    			'class' =>  WorkflowBehavior::className(),
+    			'class' =>  ActiveWorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Item04Workflow'
     		]);
     
@@ -155,7 +155,7 @@ class AutoInsertTest extends DbTestCase
     {
     	$o = new Item00();
     	$o->attachBehavior('workflow', [
-    		'class' =>  WorkflowBehavior::className(),
+    		'class' =>  ActiveWorkflowBehavior::className(),
     		'autoInsert' => true,
     		'defaultWorkflowId' => 'NOTFOUND'
     	]);
@@ -168,7 +168,7 @@ class AutoInsertTest extends DbTestCase
     {
     	$o = new Item00();
     	$o->attachBehavior('workflow', [
-    		'class' =>  WorkflowBehavior::className(),
+    		'class' =>  ActiveWorkflowBehavior::className(),
     		'autoInsert' => 'NOTFOUND',
     		'defaultWorkflowId' => 'Item04Workflow'
     	]);

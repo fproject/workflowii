@@ -15,28 +15,28 @@ use fproject\workflow\validation\WorkflowScenario;
 use yii\db\BaseActiveRecord;
 
 /**
- * WorkflowBehavior implements the behavior of db model evolving inside a simple workflow.
+ * ActiveWorkflowBehavior implements the behavior of db model evolving inside a simple workflow.
  *
- * To use WorkflowBehavior with the default parameters, simply attach it to the model class.
+ * To use ActiveWorkflowBehavior with the default parameters, simply attach it to the model class.
  * ~~~
- * use fproject\workflow\core\WorkflowBehavior;
+ * use fproject\workflow\core\ActiveWorkflowBehavior;
  *
  * public function behaviors()
  * {
  *     return [
- *         'simpleWorkflow' => [
- *             'class' => WorkflowBehavior::className()
+ *         'workflow' => [
+ *             'class' => ActiveWorkflowBehavior::className()
  *         ],
  *     ];
  * }
  * ~~~
  *
- * You can customize the WorkflowBehavior with the following parameters :
+ * You can customize the ActiveWorkflowBehavior with the following parameters :
  *
  * - statusAttribute : name of the attribute that is used by the owner model to hold the status value. The
  * default value is "status".
  * - workflow : identifier of the default workflow for the owner model. If no value is provided, the behavior
- * creates a default workflow identifier (see  WorkflowBehavior#getDefaultWorkflowId)
+ * creates a default workflow identifier (see  ActiveWorkflowBehavior#getDefaultWorkflowId)
  * - source : name of the workflow source component that the behavior must use to read the workflow. By default
  * the component "workflowFactory" is used and if it is not already available it is created by the behavior using the
  * default workflow source component class.
@@ -44,13 +44,13 @@ use yii\db\BaseActiveRecord;
  *
  * Below is an example behavior initialization :
  * ~~~
- * use fproject\workflow\core\WorkflowBehavior;
+ * use fproject\workflow\core\ActiveWorkflowBehavior;
  *
  * public function behaviors()
  * {
  *     return [
- *         'simpleWorkflow' => [
- *             'class' => WorkflowBehavior::className(),
+ *         'workflow' => [
+ *             'class' => ActiveWorkflowBehavior::className(),
  *             'statusAttribute' => 'col_status',
  *             'defaultWorkflowId' => 'MyWorkflow',
  *             'factory' => 'phpWorkflowFactory',
@@ -64,7 +64,7 @@ use yii\db\BaseActiveRecord;
  *
  * @property Model $owner
  */
-class WorkflowBehavior extends Behavior
+class ActiveWorkflowBehavior extends Behavior
 {
 	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\factory\assoc\WorkflowArrayFactory';
 	const DEFAULT_EVENT_SEQUENCE_CLASS = 'fproject\workflow\events\BasicEventSequence';
@@ -213,7 +213,7 @@ class WorkflowBehavior extends Behavior
      * @throws InvalidConfigException
      * @throws WorkflowException
      * @see \yii\base\Behavior::attach()
-     * @see \fproject\workflow\core\WorkflowBehavior::InitStatus()
+     * @see \fproject\workflow\core\ActiveWorkflowBehavior::InitStatus()
      */
 	public function attach($owner)
 	{
@@ -341,7 +341,7 @@ class WorkflowBehavior extends Behavior
 	/**
 	 * Send owner model into status if needed.
 	 *
-	 * @see WorkflowBehavior::sendToStatusInternal()
+	 * @see ActiveWorkflowBehavior::sendToStatusInternal()
 	 * @param ModelEvent $event
 	 */
 	public function beforeSaveStatus($event)
@@ -490,7 +490,7 @@ class WorkflowBehavior extends Behavior
 				];
 			}
 			if ($eventSequence && $this->_eventSequence !== null) {
-                /** @var Object|WorkflowBehavior $this */
+                /** @var Object|ActiveWorkflowBehavior $this */
 				$events = $this->_eventSequence->createEnterWorkflowSequence($end, $this);
 			}
 			$newStatus = $end;
@@ -506,7 +506,7 @@ class WorkflowBehavior extends Behavior
 				];
 			}
 			if ($eventSequence && $this->_eventSequence !== null) {
-                /** @var Object|WorkflowBehavior $this */
+                /** @var Object|ActiveWorkflowBehavior $this */
 				$events = $this->_eventSequence->createLeaveWorkflowSequence($start, $this);
 			}
 			$newStatus = $end;
@@ -531,7 +531,7 @@ class WorkflowBehavior extends Behavior
 					];
 				}
 				if ($eventSequence && $this->_eventSequence !== null) {
-                    /** @var Object|WorkflowBehavior $this */
+                    /** @var Object|ActiveWorkflowBehavior $this */
 					$events = $this->_eventSequence->createChangeStatusSequence($transition, $this);
 				}
 			}
@@ -872,7 +872,7 @@ class WorkflowBehavior extends Behavior
 	 * or the default workflow id as it has been configured.
 	 * 
 	 * @return string workflow Id
-	 * @see \fproject\workflow\core\WorkflowBehavior::getDefaultWorkflowId()
+	 * @see \fproject\workflow\core\ActiveWorkflowBehavior::getDefaultWorkflowId()
 	 */
 	private function selectDefaultWorkflowId()
 	{
@@ -884,20 +884,20 @@ class WorkflowBehavior extends Behavior
 	}
 
     /**
-     * Tests that a WorkflowBehavior behavior is attached to the object passed as argument.
+     * Tests that a ActiveWorkflowBehavior behavior is attached to the object passed as argument.
      *
-     * This method returns FALSE if $model is not an instance of BaseActiveRecord (has WorkflowBehavior can only be attached
-     * to instances of this class) or if none of its attached behaviors is a or inherit from WorkflowBehavior.
+     * This method returns FALSE if $model is not an instance of BaseActiveRecord (has ActiveWorkflowBehavior can only be attached
+     * to instances of this class) or if none of its attached behaviors is a or inherit from ActiveWorkflowBehavior.
      *
-     * @param Model|WorkflowBehavior $model the model to test.
-     * @return bool TRUE if at least one WorkflowBehavior behavior is attached to $model, FALSE otherwise
+     * @param Model|ActiveWorkflowBehavior $model the model to test.
+     * @return bool TRUE if at least one ActiveWorkflowBehavior behavior is attached to $model, FALSE otherwise
      * @throws WorkflowException
      */
 	public static function isAttachedTo($model)
 	{
 		if ($model instanceof BaseActiveRecord) {
 			foreach ($model->getBehaviors() as $behavior) {
-				if ($behavior instanceof WorkflowBehavior) {
+				if ($behavior instanceof ActiveWorkflowBehavior) {
 					return true;
 				}
 			}

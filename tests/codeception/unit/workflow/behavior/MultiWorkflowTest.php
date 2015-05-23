@@ -5,7 +5,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item08;
 use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\fixtures\ItemFixture04;
 
@@ -73,14 +73,14 @@ class MultiWorkflowTest extends DbTestCase {
 		
 	public function testSetStatusBehaviorSuccess()
 	{
-        /** @var Item08|WorkflowBehavior $o */
+        /** @var Item08|ActiveWorkflowBehavior $o */
 		$o = new Item08();
 
-        /** @var WorkflowBehavior $b1 */
+        /** @var ActiveWorkflowBehavior $b1 */
 		$b1 = $o->getBehavior('w1');
 		$b1->sendToStatus('draft');
 
-        /** @var WorkflowBehavior $b2 */
+        /** @var ActiveWorkflowBehavior $b2 */
         $b2 = $o->getBehavior('w2');
 		$b2->sendToStatus('success');
 
@@ -100,9 +100,9 @@ class MultiWorkflowTest extends DbTestCase {
 	 */	
 	public function testSetStatusBehaviorFails1()
 	{
-        /** @var Item08|WorkflowBehavior $o */
+        /** @var Item08|ActiveWorkflowBehavior $o */
 		$o = new Item08();
-        /** @var WorkflowBehavior $b */
+        /** @var ActiveWorkflowBehavior $b */
         $b = $o->getBehavior('w1');
 		$b->sendToStatus('DUMMY');
 	}	
@@ -113,23 +113,23 @@ class MultiWorkflowTest extends DbTestCase {
 	 */
 	public function testSetStatusBehaviorFails2()
 	{
-        /** @var Item08|WorkflowBehavior $o */
+        /** @var Item08|ActiveWorkflowBehavior $o */
 		$o = new Item08();
-        /** @var WorkflowBehavior $b */
+        /** @var ActiveWorkflowBehavior $b */
         $b = $o->getBehavior('w2');
 		$b->sendToStatus('DUMMY');
 	}	
 	
 	public function testEnterWorkflowSuccess()
 	{
-        /** @var Item08|WorkflowBehavior $o */
+        /** @var Item08|ActiveWorkflowBehavior $o */
 		$o = new Item08();
 
-        /** @var WorkflowBehavior $b1 */
+        /** @var ActiveWorkflowBehavior $b1 */
         $b1 = $o->getBehavior('w1');
 		$b1->enterWorkflow();
 
-        /** @var WorkflowBehavior $b2 */
+        /** @var ActiveWorkflowBehavior $b2 */
         $b2 = $o->getBehavior('w2');
 		$b2->enterWorkflow();
 

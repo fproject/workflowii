@@ -31,11 +31,11 @@ class Item08 extends \yii\db\ActiveRecord
     {
     	return [
     		'w1' => [
-    			'class' => \fproject\workflow\core\WorkflowBehavior::className(),
+    			'class' => \fproject\workflow\core\ActiveWorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Item08Workflow1'
     		],    		
     		'w2' => [
-    			'class' => \fproject\workflow\core\WorkflowBehavior::className(),
+    			'class' => \fproject\workflow\core\ActiveWorkflowBehavior::className(),
     			'statusAttribute' => 'status_ex',
     			'defaultWorkflowId' => 'Item08Workflow2'
     		]

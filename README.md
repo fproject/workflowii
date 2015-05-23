@@ -78,7 +78,7 @@ class ArticleWorkflow implements \fproject\workflow\core\IWorkflowSource
 
 Now let's have a look to our Artical model. We decide to store the status of a article in a column named `status` of type STRING(40). 
 
-The last step is to associate the workflow definition with articles models. To do so we must declare the *WorkflowBehavior* behavior 
+The last step is to associate the workflow definition with articles models. To do so we must declare the *ActiveWorkflowBehavior* behavior 
 in the Article model class and let the default configuration settings do the rest.
  
 ```php
@@ -96,17 +96,17 @@ class Article extends \yii\db\ActiveRecord
     public function behaviors()
     {
     	return [
-			\fproject\workflow\core\WorkflowBehavior::className()
+			\fproject\workflow\core\ActiveWorkflowBehavior::className()
     	];
     }
     // ...
 ```
 
-That's it ! We are ready to play with *WorkflowBehavior*.
+That's it ! We are ready to play with *ActiveWorkflowBehavior*.
 
 ### Use It !
 
-Now that we are all setup, we can use the *WorkflowBehavior* methods to set/get the status of our articles : the *WorkflowBehavior* will 
+Now that we are all setup, we can use the *ActiveWorkflowBehavior* methods to set/get the status of our articles : the *ActiveWorkflowBehavior* will 
 take care that the article doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
 
 ```php
@@ -146,7 +146,7 @@ Yes, that's severe, but there was many ways to avoid this exception like for ins
 
 ### What's Next ?
 
-This is just one way of using the *WorkflowBehavior* but there's much more and hopefully enough to assist you
+This is just one way of using the *ActiveWorkflowBehavior* but there's much more and hopefully enough to assist you
 in your workflow management inside your Yii2 web app.
 
 In the meantime you can have a look to the [Usage Guide](guide) (still under dev) and send any feedback. 

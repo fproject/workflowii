@@ -7,7 +7,7 @@ use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use yii\db\ActiveRecord;
 
@@ -52,7 +52,7 @@ class ChangeStatusTest extends DbTestCase
 
     public function testChangeStatusByMethodFailed()
     {
-        /** @var WorkflowBehavior|Item04 $item */
+        /** @var ActiveWorkflowBehavior|Item04 $item */
     	$item = $this->items('item1');
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 
@@ -66,7 +66,7 @@ class ChangeStatusTest extends DbTestCase
 
     public function testChangeStatusOnSaveSuccess()
     {
-        /** @var WorkflowBehavior|Item04 $item */
+        /** @var ActiveWorkflowBehavior|Item04 $item */
     	$item = $this->items('item1');
     	$this->specify('success saving model and perform transition',function() use ($item) {
 

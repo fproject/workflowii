@@ -5,7 +5,7 @@ namespace tests\unit\workflow\behavior;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class AttachBehaviorTest extends TestCase
 {
@@ -19,7 +19,7 @@ class AttachBehaviorTest extends TestCase
     	$this->specify('behavior can be attached to ActiveRecord', function () use ($model) {
     		$behaviors = $model->behaviors();
     		expect('model should have the "workflow" behavior attached', isset($behaviors['workflow']) )->true();
-    		expect('model has a WorkflowBehavior attached', WorkflowBehavior::isAttachedTo($model) )->true();
+    		expect('model has a ActiveWorkflowBehavior attached', ActiveWorkflowBehavior::isAttachedTo($model) )->true();
     	});
     }
 
@@ -27,7 +27,7 @@ class AttachBehaviorTest extends TestCase
     {
     	$this->specify('behavior cannot be attached to a non-ActiveRecord object', function () {
     		$model = Yii::createObject("yii\base\Component",[]);
-    		$model->attachBehavior('workflow', WorkflowBehavior::className());
+    		$model->attachBehavior('workflow', ActiveWorkflowBehavior::className());
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 
@@ -35,10 +35,10 @@ class AttachBehaviorTest extends TestCase
     {
     	$this->specify('the status attribute cannot be empty', function () {
     		$model = new Item01();
-    		expect('model has a WorkflowBehavior attached', WorkflowBehavior::isAttachedTo($model) )->true();
+    		expect('model has a ActiveWorkflowBehavior attached', ActiveWorkflowBehavior::isAttachedTo($model) )->true();
     		$model->detachBehavior('workflow');
-    		expect('model has a NO WorkflowBehavior attached', WorkflowBehavior::isAttachedTo($model) )->false();
-    		$model->attachBehavior('workflow', [ 'class' =>  WorkflowBehavior::className(), 'statusAttribute' => '' ]);
+    		expect('model has a NO ActiveWorkflowBehavior attached', ActiveWorkflowBehavior::isAttachedTo($model) )->false();
+    		$model->attachBehavior('workflow', [ 'class' =>  ActiveWorkflowBehavior::className(), 'statusAttribute' => '' ]);
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 
@@ -47,7 +47,7 @@ class AttachBehaviorTest extends TestCase
     	$this->specify('the status attribute must exist in the owner model', function () {
     		$model = new Item01();
     		$model->detachBehavior('workflow');
-    		$model->attachBehavior('workflow', [ 'class' =>  WorkflowBehavior::className(), 'statusAttribute' => 'not_found' ]);
+    		$model->attachBehavior('workflow', [ 'class' =>  ActiveWorkflowBehavior::className(), 'statusAttribute' => 'not_found' ]);
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 }

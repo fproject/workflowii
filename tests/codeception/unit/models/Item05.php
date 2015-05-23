@@ -3,7 +3,7 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\validation\WorkflowScenario;
 
 /**
@@ -49,7 +49,7 @@ class Item05 extends \yii\db\ActiveRecord
     {
         return [
         	'workflow' => [
-        		'class' => WorkflowBehavior::className()
+        		'class' => ActiveWorkflowBehavior::className()
     	    ]
         ];
     }

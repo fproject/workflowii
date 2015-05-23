@@ -4,7 +4,7 @@ namespace fproject\workflow\helpers;
 use fproject\workflow\core\Status;
 use fproject\workflow\factory\IWorkflowFactory;
 use yii\base\Component;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
 
 class WorkflowHelper
@@ -21,12 +21,12 @@ class WorkflowHelper
 	 */
 	public static function getNextStatusListData($model, $validate = false, $beforeEvents = false)
 	{
-		if (!WorkflowBehavior::isAttachedTo($model))
+		if (!ActiveWorkflowBehavior::isAttachedTo($model))
         {
-			throw new WorkflowException('The model does not have a WorkflowBehavior behavior');
+			throw new WorkflowException('The model does not have a ActiveWorkflowBehavior behavior');
 		}
 		$listData = [];
-        /** @var WorkflowBehavior $model */
+        /** @var ActiveWorkflowBehavior $model */
 		$report = $model->getNextStatuses($validate, $beforeEvents);
 		foreach ($report as $endStatusId => $info)
         {
@@ -43,7 +43,7 @@ class WorkflowHelper
 	 * Returns an associative array containing all statuses that belong to a workflow.
 	 * The array returned is suitable to be used as list data value in (for instance) a dropdown list control.
 	 * 
-	 * Usage example : assuming model Post has a WorkflowBehavior the following code displays a dropdown list
+	 * Usage example : assuming model Post has a ActiveWorkflowBehavior the following code displays a dropdown list
 	 * containing all statuses defined in $post current the workflow : 
 	 * 
 	 * echo Html::dropDownList(
@@ -91,7 +91,7 @@ class WorkflowHelper
 	 *				]
 	 *			],
 	 * 
-	 * @param WorkflowBehavior $model
+	 * @param ActiveWorkflowBehavior $model
 	 * @return string|NULL the HTML rendered status or null if not labelTemplate is found
 	 */
 	public static function renderLabel($model)

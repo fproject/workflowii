@@ -41,7 +41,7 @@ class AfterFindTest extends DbTestCase
     public function testInitStatusOnAfterFind()
     {
 		$this->specify('item1 can be read from db', function() {
-            /** @var WorkflowBehavior $item */
+            /** @var ActiveWorkflowBehavior $item */
 			$item = $this->items('item1');
 			verify('current status is set', $item->getWorkflowStatus()->getId())->equals('Item04Workflow/B');
 		});

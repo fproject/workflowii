@@ -9,7 +9,7 @@ use yii\base\ModelEvent;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
 use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item05;
 use fproject\workflow\events\WorkflowEvent;
@@ -40,7 +40,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testGetNextStatusInWorkflow()
     {
-        /** @var WorkflowBehavior $item */
+        /** @var ActiveWorkflowBehavior $item */
     	$item = $this->items('item1');
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 
@@ -60,7 +60,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testGetNextStatusOnEnter()
     {
-        /** @var Item04|WorkflowBehavior $item */
+        /** @var Item04|ActiveWorkflowBehavior $item */
     	$item = new Item04();
 
     	$this->assertTrue($item->hasWorkflowStatus() == false);
@@ -83,11 +83,11 @@ class GetNextStatusTest extends DbTestCase
 
     public function testGetNextStatusFails()
     {
-        /** @var Item04|WorkflowBehavior $item */
+        /** @var Item04|ActiveWorkflowBehavior $item */
     	$item = new Item04();
     	$item->detachBehavior('workflow');
     	$item->attachBehavior('workflowForTest', [
-    		'class' => WorkflowBehavior::className(),
+    		'class' => ActiveWorkflowBehavior::className(),
     		'defaultWorkflowId' => 'INVALID_ID'
     	]);
 
@@ -103,7 +103,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithEventsOnEnterWorkflow()
     {
-        /** @var Item04|WorkflowBehavior $model */
+        /** @var Item04|ActiveWorkflowBehavior $model */
     	$model = new Item04();
     	$model->on(
     		WorkflowEvent::beforeEnterStatus('Item04Workflow/A'),
@@ -140,7 +140,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithValidation()
     {
-        /** @var Item05|WorkflowBehavior $model */
+        /** @var Item05|ActiveWorkflowBehavior $model */
     	// prepare
     	$model = new Item05();
     	$model->status = 'Item05Workflow/new';
@@ -205,7 +205,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnReportWithNothing()
     {
-        /** @var Item05|WorkflowBehavior $model */
+        /** @var Item05|ActiveWorkflowBehavior $model */
     	// prepare
     	$model = new Item05();
     	$model->status = 'Item05Workflow/new';
@@ -229,7 +229,7 @@ class GetNextStatusTest extends DbTestCase
 
     public function testReturnEmptyReport()
     {
-        /** @var Item04|WorkflowBehavior $model */
+        /** @var Item04|ActiveWorkflowBehavior $model */
     	$model = $this->items('item4'); // status = D
     	$report = $model->getNextStatuses();
     	$this->assertCount(0, $report,' report contains no entries : D does not have any next status ');

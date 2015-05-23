@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 
 use tests\codeception\unit\models\Item04;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\events\WorkflowEvent;
 
 class EnterWorkflowReducedEventTest extends TestCase
@@ -29,7 +29,7 @@ class EnterWorkflowReducedEventTest extends TestCase
 
 		$this->model = new Item04();
 		$this->model->attachBehavior('workflow', [
-			'class' => WorkflowBehavior::className()
+			'class' => ActiveWorkflowBehavior::className()
 		]);
 	}
 

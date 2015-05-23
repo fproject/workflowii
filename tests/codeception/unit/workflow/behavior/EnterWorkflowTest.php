@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item04;
 
@@ -36,7 +36,7 @@ class EnterWorkflowTest extends DbTestCase
 
     public function testEnterWorkflowSuccess()
     {
-        /** @var WorkflowBehavior|Item04 $item */
+        /** @var ActiveWorkflowBehavior|Item04 $item */
     	$item = new Item04();
 
     	$this->specify('model is inserted in the default workflow',function() use ($item) {
@@ -51,7 +51,7 @@ class EnterWorkflowTest extends DbTestCase
 
 			verify('item can be saved',$item->save())->true();
 
-            /** @var WorkflowBehavior $newitem */
+            /** @var ActiveWorkflowBehavior $newitem */
 			$newitem = Item04::findOne(['id' => $item->id]);
 			verify('current status is set',$newitem->hasWorkflowStatus())->true();
 			verify('current status is ok',$newitem->workflowStatus->getId())->equals('Item04Workflow/A');
@@ -61,7 +61,7 @@ class EnterWorkflowTest extends DbTestCase
 
     public function testEnterWorkflowFails1()
     {
-        /** @var WorkflowBehavior $item */
+        /** @var ActiveWorkflowBehavior $item */
     	$item = new Item04();
     	$this->specify('enterWorkflow fails if the model is already in a workflow',function() use ($item) {
 
@@ -75,7 +75,7 @@ class EnterWorkflowTest extends DbTestCase
 
 	public function testEnterWorkflowFails2()
 	{
-        /** @var WorkflowBehavior $item */
+        /** @var ActiveWorkflowBehavior $item */
 		$item = new Item04();
 		$this->specify('enterWorkflow fails if workflow not found for ID',function() use($item) {
 

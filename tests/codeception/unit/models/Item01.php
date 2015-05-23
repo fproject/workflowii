@@ -3,7 +3,7 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 /**
  * This is the model class for table "item".
@@ -26,7 +26,7 @@ class Item01 extends \yii\db\ActiveRecord
     {
         return [
         	'workflow' => [
-        		'class' => WorkflowBehavior::className()
+        		'class' => ActiveWorkflowBehavior::className()
     	    ]
         ];
     }

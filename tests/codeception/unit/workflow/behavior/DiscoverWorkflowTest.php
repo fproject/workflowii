@@ -8,7 +8,7 @@ use yii\base\InvalidConfigException;
 
 use tests\codeception\unit\models\Item01;
 use tests\codeception\unit\models\Item03;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class DiscoverWorkflowTest extends TestCase
 {
@@ -17,7 +17,7 @@ class DiscoverWorkflowTest extends TestCase
     public function testDefaultWorkflowIdCreation()
     {
     	$this->specify('a workflow Id is created if not provided', function () {
-            /** @var WorkflowBehavior|Item01 $model */
+            /** @var ActiveWorkflowBehavior|Item01 $model */
     		$model = new Item01();
     		expect('model should have workflow id set to "Item01"', $model->getDefaultWorkflowId() == 'Item01Workflow' )->true();
     	});
@@ -25,10 +25,10 @@ class DiscoverWorkflowTest extends TestCase
     public function testConfiguredWorkflowId()
     {
     	$this->specify('use the configured workflow Id', function () {
-            /** @var WorkflowBehavior|Item01 $model */
+            /** @var ActiveWorkflowBehavior|Item01 $model */
     		$model = new Item01();
     		$model->attachBehavior('workflow', [
-    			'class' => WorkflowBehavior::className(),
+    			'class' => ActiveWorkflowBehavior::className(),
     			'defaultWorkflowId' => 'myWorkflow'
     		]);
     		expect('model should have workflow id set to "myWorkflow"', $model->getDefaultWorkflowId() == 'myWorkflow' )->true();

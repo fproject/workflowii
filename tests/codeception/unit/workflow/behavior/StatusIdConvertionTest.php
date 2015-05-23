@@ -5,7 +5,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item04;
 use fproject\workflow\core\StatusIdConverter;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class StatusIdConvertionTest extends TestCase
 {
@@ -34,10 +34,10 @@ class StatusIdConvertionTest extends TestCase
 
 	public function testConvertionOnAttachSuccess()
 	{
-        /** @var Item04|WorkflowBehavior $item */
+        /** @var Item04|ActiveWorkflowBehavior $item */
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
-			'class' => WorkflowBehavior::className(),
+			'class' => ActiveWorkflowBehavior::className(),
 			'statusConverter' => 'converter'
 		]);
 		$this->specify('on attach, initialize status and convert NULL to status ID', function() use ($item) {
@@ -51,16 +51,16 @@ class StatusIdConvertionTest extends TestCase
 		$item = new Item04();
 		$this->setExpectedException('yii\base\InvalidConfigException', 'Unknown component ID: not_found_component');
 		$item->attachBehavior('workflow',[
-			'class' => WorkflowBehavior::className(),
+			'class' => ActiveWorkflowBehavior::className(),
 			'statusConverter' => 'not_found_component'
 		]);
 	}
 	public function testConvertionOnChangeStatus()
 	{
-        /** @var Item04|WorkflowBehavior $item */
+        /** @var Item04|ActiveWorkflowBehavior $item */
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
-			'class' => WorkflowBehavior::className(),
+			'class' => ActiveWorkflowBehavior::className(),
 			'statusConverter' => 'converter'
 			]);
 
@@ -80,10 +80,10 @@ class StatusIdConvertionTest extends TestCase
 
 	public function testConvertionOnLeaveWorkflow()
 	{
-        /** @var Item04|WorkflowBehavior $item */
+        /** @var Item04|ActiveWorkflowBehavior $item */
 		$item = new Item04();
 		$item->attachBehavior('workflow',[
-			'class' => WorkflowBehavior::className(),
+			'class' => ActiveWorkflowBehavior::className(),
 			'statusConverter' => 'converter'
 		]);
 

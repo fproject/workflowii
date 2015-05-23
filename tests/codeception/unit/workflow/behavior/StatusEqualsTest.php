@@ -5,7 +5,7 @@ namespace tests\unit\workflow\behavior;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item04;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class StatusEqualsTest extends TestCase
 {
@@ -23,7 +23,7 @@ class StatusEqualsTest extends TestCase
 	
     public function testStatusEqualsSuccess()
     {
-        /** @var WorkflowBehavior $item */
+        /** @var ActiveWorkflowBehavior $item */
     	$item = new Item04();
     	
     	expect_that($item->statusEquals());
@@ -44,7 +44,7 @@ class StatusEqualsTest extends TestCase
     
     public function testStatusEqualsFails()
     {
-        /** @var WorkflowBehavior $item */
+        /** @var ActiveWorkflowBehavior $item */
     	$item = new Item04();
     	$item->sendToStatus('A');
 

@@ -6,7 +6,7 @@ use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use yii\base\InvalidConfigException;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class InitStatusTest extends TestCase
 {
@@ -31,11 +31,11 @@ class InitStatusTest extends TestCase
     public function testInitStatusOnAttachSuccess()
     {
 		$this->specify('current status initialization is ok', function() {
-            /** @var Item01|WorkflowBehavior $model */
+            /** @var Item01|ActiveWorkflowBehavior $model */
 			$model = new Item01();
 			$model->status = 'Workflow1/A';
 			$model->attachBehavior('workflow', [
-				'class' => WorkflowBehavior::className(),
+				'class' => ActiveWorkflowBehavior::className(),
 				'defaultWorkflowId' => 'Workflow1'
 			]);
 
@@ -55,7 +55,7 @@ class InitStatusTest extends TestCase
     			'No status found with id Workflow1/X'
     		);
     		$model->attachBehavior('workflow', [
-    			'class' => WorkflowBehavior::className(),
+    			'class' => ActiveWorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Workflow1'
     		]);
     	});
@@ -67,7 +67,7 @@ class InitStatusTest extends TestCase
 
 			$model = new Item01();
 			$model->attachBehavior('workflow', [
-				'class' => WorkflowBehavior::className(),
+				'class' => ActiveWorkflowBehavior::className(),
 				'defaultWorkflowId' => 'Workflow1'
 			]);
 			expect('model is saved', $model->save())->true();
@@ -77,7 +77,7 @@ class InitStatusTest extends TestCase
     public function testInitStatusAfterFindSuccess()
     {
     	$this->specify('status initialisation when reading model from db (after find)', function(){
-            /** @var Item01|WorkflowBehavior $model */
+            /** @var Item01|ActiveWorkflowBehavior $model */
     		$model = new Item01();
     		$model->detachBehavior('workflow');
     		$model->id = 1;
@@ -88,7 +88,7 @@ class InitStatusTest extends TestCase
     		$model = Item01::findOne(1);
 
     		$model->attachBehavior('workflow', [
-    			'class' => WorkflowBehavior::className(),
+    			'class' => ActiveWorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Workflow1'
     		]);
 
@@ -99,7 +99,7 @@ class InitStatusTest extends TestCase
     public function testInitStatusAfterFindFails()
     {
     	$this->specify('status initialisation success when saving model', function(){
-            /** @var Item01|WorkflowBehavior $model */
+            /** @var Item01|ActiveWorkflowBehavior $model */
     		$model = new Item01();
     		$model->detachBehavior('workflow');
     		$model->id = 1;
@@ -123,7 +123,7 @@ class InitStatusTest extends TestCase
     
 //     		$model = new Item01();
 //     		$model->attachBehavior('workflow', [
-//     				'class' => WorkflowBehavior::className(),
+//     				'class' => ActiveWorkflowBehavior::className(),
 //     				'defaultWorkflowId' => 'Workflow1',
 //     				'autoInsert' => true
 //     		]);

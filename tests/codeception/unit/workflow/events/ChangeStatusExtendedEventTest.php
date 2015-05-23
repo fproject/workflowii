@@ -4,7 +4,7 @@ namespace tests\unit\workflow\events;
 
 use Yii;
 use yii\codeception\DbTestCase;
-use fproject\workflow\core\WorkflowBehavior;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\models\Item04;
 use fproject\workflow\events\WorkflowEvent;
 
@@ -30,7 +30,7 @@ class ChangeStatusExtendedEventTest extends DbTestCase
 
 		$this->model = new Item04();
 		$this->model->attachBehavior('workflow', [
-			'class' => WorkflowBehavior::className()
+			'class' => ActiveWorkflowBehavior::className()
 		]);
 	}
 

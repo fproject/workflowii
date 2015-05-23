@@ -10,7 +10,7 @@ use yii\base\Exception;
 /**
  * This class implements a status Id converter.
  *
- * The conversion is based on an array where key are valid status ID from the simpleWorkflow
+ * The conversion is based on an array where key are valid status ID from the workflow
  * behavior point of view, and values are status ID suitable to be stored in the owner model.
  *
  * A typical usage for this converter is when the definition of the status column in the underlying table
