@@ -2,17 +2,9 @@
 
 namespace tests\unit\workflow\factory\assoc;
 
-use fproject\workflow\core\WorkflowValidationException;
 use Yii;
 use yii\codeception\TestCase;
-use tests\codeception\unit\models\Item01;
-use yii\base\InvalidConfigException;
-use yii\base\Exception;
 use fproject\workflow\factory\assoc\WorkflowArrayFactory;
-use fproject\workflow\core\Status;
-use fproject\workflow\core\Transition;
-use fproject\workflow\core\Workflow;
-
 
 class WorkflowTest extends TestCase
 {
