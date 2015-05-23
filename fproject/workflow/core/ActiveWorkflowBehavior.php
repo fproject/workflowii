@@ -37,9 +37,9 @@ use yii\db\BaseActiveRecord;
  * default value is "status".
  * - workflow : identifier of the default workflow for the owner model. If no value is provided, the behavior
  * creates a default workflow identifier (see  ActiveWorkflowBehavior#getDefaultWorkflowId)
- * - source : name of the workflow source component that the behavior must use to read the workflow. By default
- * the component "workflowFactory" is used and if it is not already available it is created by the behavior using the
- * default workflow source component class.
+ * - factory : name of the workflow factory component that the behavior must use to read the workflow. By default
+ * the Yii application component "workflowFactory" is used and if it is not already available it is created by the
+ * behavior using the default workflow factory component class.
  *
  *
  * Below is an example behavior initialization :
@@ -53,7 +53,7 @@ use yii\db\BaseActiveRecord;
  *             'class' => ActiveWorkflowBehavior::className(),
  *             'statusAttribute' => 'col_status',
  *             'defaultWorkflowId' => 'MyWorkflow',
- *             'factory' => 'phpWorkflowFactory',
+ *             'factory' => 'workflowArrayFactory',
  *             'statusConverter' => 'myStatusConverter',
  *             'eventSequence' => 'myCustomEventSequence',
  *         ],
@@ -78,7 +78,7 @@ class ActiveWorkflowBehavior extends Behavior
 	public $statusAttribute = 'status';
 
 	/**
-	 * @var string name of the workflow source component to use with the behavior
+	 * @var string name of the workflow factory component to use with the behavior
 	 */
 	public $factoryName = 'workflowFactory';
 
@@ -127,9 +127,9 @@ class ActiveWorkflowBehavior extends Behavior
 	private $_statusConverter = null;
 
 	/**
-	 * @var IWorkflowFactory reference to the workflow source component used by this behavior
+	 * @var IWorkflowFactory reference to the workflow factory component used by this behavior
 	 */
-	private $_wfSource;
+	private $_factory;
 
 	/**
 	 * @var array workflow events that are fired after save
@@ -167,7 +167,7 @@ class ActiveWorkflowBehavior extends Behavior
 	/**
 	 * At initialization time, following actions are taken :
 	 * - perform validation
-	 * - get a reference to the workflow source component. If it doesn't exist, it is created.
+	 * - get a reference to the workflow factory component. If it doesn't exist, it is created.
 	 * - get a reference to the event model component or create it if needed
 	 * - get a reference to the status converter component
 	 * - get a reference to the status accessor component
@@ -188,7 +188,7 @@ class ActiveWorkflowBehavior extends Behavior
 		} elseif ( !Yii::$app->has($this->factoryName)) {
 			Yii::$app->set($this->factoryName, ['class'=> self::DEFAULT_FACTORY_CLASS]);
 		}
-		$this->_wfSource = Yii::$app->get($this->factoryName);
+		$this->_factory = Yii::$app->get($this->factoryName);
 
 		// init Event Sequence
 		if ($this->eventSequence == null) {
@@ -276,10 +276,10 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		if ($this->autoInsert !== false) {
 			$workflowId = $this->autoInsert === true ? $this->getDefaultWorkflowId() : $this->autoInsert;
-			$workflow = $this->_wfSource->getWorkflow($workflowId);
+			$workflow = $this->_factory->getWorkflow($workflowId, $this->owner);
 			if ($workflow !== null) {
 				$this->setStatusInternal(
-					$this->_wfSource->getStatus($workflow->getInitialStatusId())
+					$this->_factory->getStatus($workflow->getInitialStatusId(), null, $this->owner)
 				);
 			} else {
 				throw new WorkflowException("autoInsert failed - No workflow found for id : ".$workflowId);
@@ -305,7 +305,8 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 
 		if (!empty($oStatus) ) {
-			$status = $this->_wfSource->getStatus($oStatus, self::isAttachedTo($this->owner) ? $this->selectDefaultWorkflowId() : null);
+            $wfId = self::isAttachedTo($this->owner) ? $this->selectDefaultWorkflowId() : null;
+			$status = $this->_factory->getStatus($oStatus, $wfId, $this->owner);
 			if ($status === null) {
 				throw new WorkflowException('Status not found : '.$oStatus);
 			}
@@ -331,7 +332,7 @@ class ActiveWorkflowBehavior extends Behavior
 			throw new WorkflowException("Model already in a workflow");
 		}
 		$wId = ($workflowId === null ? $this->getDefaultWorkflowId() : $workflowId);
-		$workflow = $this->_wfSource->getWorkflow($wId);
+		$workflow = $this->_factory->getWorkflow($wId, $this->owner);
 		if ($workflow !== null) {
 			$initialStatusId = $workflow->getInitialStatusId();
 			$result = $this->sendToStatusInternal($initialStatusId, false);
@@ -495,7 +496,7 @@ class ActiveWorkflowBehavior extends Behavior
 			// (potential) entering workflow -----------------------------------
 
 			$end = $this->ensureStatusInstance($end, true);
-			$workflow = $this->_wfSource->getWorkflow($end->getWorkflowId());
+			$workflow = $this->_factory->getWorkflow($end->getWorkflowId(), $this->owner);
 			$initialStatusId = $workflow->getInitialStatusId();
 			if ($end->getId() !== $initialStatusId) {
 				throw new WorkflowException('Not an initial status : '.$end->getId().' ("'.$initialStatusId.'" expected)');
@@ -533,7 +534,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 			$end = $this->ensureStatusInstance($end, true);
 
-			$transition = $this->_wfSource->getTransition($start->getId(), $end->getId(), $this->selectDefaultWorkflowId());
+			$transition = $this->_factory->getTransition($start->getId(), $end->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 
 			if ($transition === null && $start->getId() != $end->getId() ) {
 				throw new WorkflowException('No transition found between status '.$start->getId().' and '.$end->getId());
@@ -614,14 +615,15 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		$nextStatus = [];
 		if (!$this->hasWorkflowStatus() ) {
-			$workflow = $this->_wfSource->getWorkflow($this->getDefaultWorkflowId());
+			$workflow = $this->_factory->getWorkflow($this->getDefaultWorkflowId(), $this->owner);
 			if ($workflow === null) {
 				throw new WorkflowException("Failed to load default workflow ID = ".$this->getDefaultWorkflowId());
 			}
-			$initialStatus = $this->_wfSource->getStatus($workflow->getInitialStatusId(), $this->selectDefaultWorkflowId() );
+			$initialStatus =
+                $this->_factory->getStatus($workflow->getInitialStatusId(), $this->selectDefaultWorkflowId(), $this->owner);
 			$nextStatus[$initialStatus->getId()] = ['status' => $initialStatus];
 		} else {
-			$transitions = $this->_wfSource->getTransitions($this->getWorkflowStatus()->getId(), $this->selectDefaultWorkflowId());
+			$transitions = $this->_factory->getTransitions($this->getWorkflowStatus()->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 			foreach ($transitions as $transition) {
 				$nextStatus[$transition->getEndStatus()->getId()] = [ 'status' => $transition->getEndStatus()];
 			}
@@ -727,11 +729,11 @@ class ActiveWorkflowBehavior extends Behavior
 	}
 
 	/**
-	 * @return IWorkflowFactory the workflow source component instance used by this behavior
+	 * @return IWorkflowFactory the workflow factory component instance used by this behavior
 	 */
 	public function getWorkflowFactory()
 	{
-		return $this->_wfSource;
+		return $this->_factory;
 	}
 
 	/**
@@ -757,7 +759,7 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public function getWorkflow()
 	{
-		return $this->hasWorkflowStatus() ? $this->getWorkflowFactory()->getWorkflow($this->getWorkflowStatus()->getWorkflowId()) : null;
+		return $this->hasWorkflowStatus() ? $this->getWorkflowFactory()->getWorkflow($this->getWorkflowStatus()->getWorkflowId(), $this->owner) : null;
 	}
 
 	/**
@@ -811,28 +813,28 @@ class ActiveWorkflowBehavior extends Behavior
 	/**
 	 * Returns a IStatus instance for the value passed as argument.
 	 *
-	 * If $mixed is a IStatus instance, it is returned without change, otherwise $mixed is considered as a
-	 * status id that is used to retrieve the corresponding status instance.
+	 * If $idOrInstance is a IStatus instance, it is returned the instance itself without change,
+     * otherwise $mixed is considered as a status id that is used to retrieve the corresponding status instance.
 	 *
-	 * @param mixed $mixed status id or IStatus instance
+	 * @param mixed $idOrInstance status id or IStatus instance
 	 * @param boolean $strict when TRUE and exception is thrown if no status instance can be returned.
 	 * @throws WorkflowException
 	 * @return IStatus the status instance or NULL if no IStatus instance could be found
 	 */
-	private function ensureStatusInstance($mixed, $strict = false)
+	private function ensureStatusInstance($idOrInstance, $strict = false)
 	{
-		if (empty($mixed)) {
+		if (empty($idOrInstance)) {
 			if ($strict ) {
 				throw new WorkflowException('Invalid argument : null');
 			} else {
 				return null;
 			}
-		} elseif ($mixed instanceof IStatus ) {
-			return $mixed;
+		} elseif ($idOrInstance instanceof IStatus ) {
+			return $idOrInstance;
 		} else {
-			$status = $this->_wfSource->getStatus($mixed, $this->selectDefaultWorkflowId());
+			$status = $this->_factory->getStatus($idOrInstance, $this->selectDefaultWorkflowId(), $this->owner);
 			if ($status === null && $strict) {
-				throw new WorkflowException('Status not found : '.$mixed);
+				throw new WorkflowException('Status not found : '.$idOrInstance);
 			}
 			return $status;
 		}

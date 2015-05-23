@@ -2,12 +2,9 @@
 namespace tests\unit\workflow\activebehavior;
 
 use Yii;
-use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item08;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use yii\codeception\DbTestCase;
-use tests\codeception\unit\fixtures\ItemFixture04;
 
 class MultiWorkflowTest extends DbTestCase {
 	

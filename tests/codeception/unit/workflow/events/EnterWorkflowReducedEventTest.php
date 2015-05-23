@@ -9,6 +9,12 @@ use tests\codeception\unit\models\Item04;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\events\WorkflowEvent;
 
+/**
+ *
+ * @property Item04|ActiveWorkflowBehavior model
+ * @property array eventsAfter
+ * @property array eventsBefore
+ */
 class EnterWorkflowReducedEventTest extends TestCase
 {
 	use \Codeception\Specify;

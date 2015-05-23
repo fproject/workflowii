@@ -42,6 +42,7 @@ class StatusObjectTest extends TestCase
 	{
 		$this->specify('create a status instance with metadata', function ()
 		{
+            /** @var Status|\stdClass $s */
 			$s = new Status([
 				'id' => 'draft',
 				'workflowId' => 'workflow1',
@@ -65,6 +66,7 @@ class StatusObjectTest extends TestCase
 		{
 			$this->setExpectedException('fproject\workflow\core\WorkflowException');
 
+            /** @var Status|\stdClass $s */
 			$s = new Status([
 				'id' => 'draft',
 				'workflowId' => 'workflow1',
@@ -176,6 +178,7 @@ class StatusObjectTest extends TestCase
 
 		});
 	}
+
 	public function testAddTransitionFails2()
 	{
 		$this->specify('an exception is thrown if Transition instance is not provided', function ()
@@ -184,13 +187,14 @@ class StatusObjectTest extends TestCase
 				'fproject\workflow\core\WorkflowException',
 				'"transition" must be an instance of Transition'
 			);
+
+            /** @var Status|\stdClass $start */
 			$start = new Status([
 				'id' => 'draft',
 				'workflowId' => 'workflow1'
 			]);
 
 			$start->addTransition($start);
-
 		});
 	}
 

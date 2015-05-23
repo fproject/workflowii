@@ -4,14 +4,7 @@ namespace tests\unit\workflow\helpers;
 
 use Yii;
 use yii\codeception\TestCase;
-use tests\codeception\unit\models\Item04;
-use yii\base\InvalidConfigException;
-use yii\base\Exception;
 use fproject\workflow\helpers\WorkflowHelper;
-use fproject\workflow\core\Status;
-use fproject\workflow\core\Transition;
-use fproject\workflow\core\Workflow;
-
 
 class WorkflowHelperTest extends TestCase
 {
@@ -33,7 +26,7 @@ class WorkflowHelperTest extends TestCase
 	
 	public function testGetAllStatusListData()
 	{
-		$ar = WorkflowHelper::getAllStatusListData('Item04Workflow', Yii::$app->workflowFactory);
+		$ar = WorkflowHelper::getAllStatusListData('Item04Workflow', Yii::$app->workflowFactory, null);
 		
 		$expected = [
 			'Item04Workflow/A' => 'Entry',

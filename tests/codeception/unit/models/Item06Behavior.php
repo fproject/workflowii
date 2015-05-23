@@ -3,8 +3,6 @@ namespace tests\codeception\unit\models;
 
 use Yii;
 use yii\base\Behavior;
-use yii\db\ActiveRecord;
-use yii\base\Event;
 use fproject\workflow\events\WorkflowEvent;
 
 class Item06Behavior  extends Behavior

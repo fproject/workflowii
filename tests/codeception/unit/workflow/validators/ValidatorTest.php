@@ -4,9 +4,7 @@ namespace tests\unit\workflow\validators;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item05;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
-use yii\codeception\DbTestCase;
 
 class ValidatorTest extends TestCase
 {

@@ -44,7 +44,7 @@ class EnterWorkflowTest extends DbTestCase
     		$item->enterWorkflow();
     		verify('current status is set',$item->hasWorkflowStatus())->true();
 
-    		verify('current status is ok',$item->workflowStatus->getId())->equals('Item04Workflow/A');
+    		verify('current status is ok',$item->getWorkflowStatus()->getId())->equals('Item04Workflow/A');
     		//verify('current status is the initial status for the current workflow', $item->engine->getInitialStatus($item->getWorkflowId())->getId() )->equals($item->currentStatus->id);
 
 			verify('item can be saved',$item->save())->true();
@@ -52,7 +52,7 @@ class EnterWorkflowTest extends DbTestCase
             /** @var ActiveWorkflowBehavior|Item04 $newitem */
 			$newitem = Item04::findOne(['id' => $item->id]);
 			verify('current status is set',$newitem->hasWorkflowStatus())->true();
-			verify('current status is ok',$newitem->workflowStatus->getId())->equals('Item04Workflow/A');
+			verify('current status is ok',$newitem->getWorkflowStatus()->getId())->equals('Item04Workflow/A');
 
     	});
     }

@@ -43,7 +43,7 @@ class ChangeStatusTest extends DbTestCase
     {
         /** @var Item04|ActiveWorkflowBehavior $item */
     	$item = $this->items('item1');
-    	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
+    	$this->assertTrue($item->getWorkflowStatus()->getId() == 'Item04Workflow/B');
 
     	$this->setExpectedException(
     		'fproject\workflow\core\WorkflowException',
@@ -58,7 +58,7 @@ class ChangeStatusTest extends DbTestCase
     {
         /** @var ActiveWorkflowBehavior|Item04 $item */
     	$item = $this->items('item1');
-    	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
+    	$this->assertTrue($item->getWorkflowStatus()->getId() == 'Item04Workflow/B');
 
     	$this->setExpectedException(
     		'fproject\workflow\core\WorkflowException',
@@ -75,7 +75,7 @@ class ChangeStatusTest extends DbTestCase
     	$this->specify('success saving model and perform transition',function() use ($item) {
 
     		$item->status = 'Item04Workflow/C';
-    		verify('current status is ok',$item->workflowStatus->getId())->equals('Item04Workflow/B');
+    		verify('current status is ok',$item->getWorkflowStatus()->getId())->equals('Item04Workflow/B');
     		expect('save returns true',$item->save(false))->equals(true);
     		verify('model status attribute has not been modified',$item->status)->equals('Item04Workflow/C');
     		verify('model current status has not been modified',$item->getWorkflowStatus()->getId())->equals('Item04Workflow/C');

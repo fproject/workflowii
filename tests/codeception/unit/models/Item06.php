@@ -4,7 +4,6 @@ namespace tests\codeception\unit\models;
 
 use Yii;
 use fproject\workflow\core\ActiveWorkflowBehavior;
-use fproject\workflow\events\WorkflowEvent;
 
 /**
  * @property integer $id

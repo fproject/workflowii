@@ -13,7 +13,7 @@ class WorkflowHelper
 	 * Returns an associative array containing all statuses that can be reached by model.
 	 * 
 	 * Note that the current model status is NOT included in this list.
-	 * @param Component $model
+	 * @param Model|ActiveWorkflowBehavior
 	 * @param boolean $validate
 	 * @param boolean $beforeEvents
 	 * @throws WorkflowException
@@ -58,12 +58,14 @@ class WorkflowHelper
 	 * 
 	 * @param string $workflowId
 	 * @param IWorkflowFactory $workflowFactory
+     * @param Component|ActiveWorkflowBehavior $model
+     *
 	 * @return Array
 	 */
-	public static function getAllStatusListData($workflowId, $workflowFactory)
+	public static function getAllStatusListData($workflowId, $workflowFactory, $model)
 	{
 		$listData = [];
-		$statuses = $workflowFactory->getAllStatuses($workflowId);
+		$statuses = $workflowFactory->getAllStatuses($workflowId, $model);
         /**
          * @var mixed $statusId
          * @var Status $statusInstance

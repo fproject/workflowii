@@ -2,6 +2,7 @@
 
 namespace tests\codeception\unit\models;
 
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use Yii;
 
 /**
@@ -30,11 +31,11 @@ class Item08 extends \yii\db\ActiveRecord
     {
     	return [
     		'w1' => [
-    			'class' => \fproject\workflow\core\ActiveWorkflowBehavior::className(),
+    			'class' => ActiveWorkflowBehavior::className(),
     			'defaultWorkflowId' => 'Item08Workflow1'
     		],    		
     		'w2' => [
-    			'class' => \fproject\workflow\core\ActiveWorkflowBehavior::className(),
+    			'class' => ActiveWorkflowBehavior::className(),
     			'statusAttribute' => 'status_ex',
     			'defaultWorkflowId' => 'Item08Workflow2'
     		]

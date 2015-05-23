@@ -7,7 +7,12 @@ use yii\codeception\DbTestCase;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\models\Item04;
 use fproject\workflow\events\WorkflowEvent;
+use yii\db\BaseActiveRecord;
 
+/**
+ *
+ * @property Item04|ActiveWorkflowBehavior model
+ */
 class ChangeStatusExtendedEventTest extends DbTestCase
 {
 	use \Codeception\Specify;

@@ -10,6 +10,7 @@ class TransitionTest extends TestCase
 {
 	use \Codeception\Specify;
 
+    /** @var  WorkflowArrayFactory $src */
 	public $src;
 
 	protected function setUp()
@@ -31,7 +32,7 @@ class TransitionTest extends TestCase
 		]);
 
 		$this->specify('empty transition set', function () {
-			$tr = $this->src->getTransitions('wid/A');
+			$tr = $this->src->getTransitions('wid/A', null, null);
 			verify('empty transition set is returned', count($tr) )->equals(0);
 		});
 	}
@@ -49,7 +50,7 @@ class TransitionTest extends TestCase
     	]);
 
     	$this->specify('end and start status can be obtained',function() {
-			$tr = $this->src->getTransitions('wid/A');
+			$tr = $this->src->getTransitions('wid/A', null, null);
 
 			verify('empty transition set is returned', count($tr) )->equals(1);
 
@@ -77,13 +78,13 @@ class TransitionTest extends TestCase
     			'B' => []
     		]
     	]);
-    	$tr = $this->src->getTransitions('wid/A');
+    	$tr = $this->src->getTransitions('wid/A', null, null);
     	reset($tr);
     	//$startId = key($tr);
     	$transition1 = current($tr);
 
     	$tr=null;
-    	$tr = $this->src->getTransitions('wid/A');
+    	$tr = $this->src->getTransitions('wid/A', null, null);
     	reset($tr);
     	//$startId = key($tr);
     	$transition2 = current($tr);

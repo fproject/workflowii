@@ -78,19 +78,19 @@ class WorkflowTest extends TestCase
     public function testFailToLoadWorkflowClass()
     {
     	$this->specify('incorrect status id format', function () {
-    		$this->src->getStatus('id');
+    		$this->src->getStatus('id', null, null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load workflow from non-existant workflow class', function () {
-    		$this->src->getWorkflow('id');
+    		$this->src->getWorkflow('id', null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load status from non-existant workflow class', function () {
-    		$this->src->getStatus('w/s');
+    		$this->src->getStatus('w/s', null, null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load transition from non-existant workflow class', function ()  {
-    		$this->src->getTransitions('w/s');
+    		$this->src->getTransitions('w/s', null, null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
     }
 
@@ -103,7 +103,7 @@ class WorkflowTest extends TestCase
     	]);
     	
     	$this->specify('can load workflow', function () use ($src) {
-    		$w = $src->getWorkflow('wid');
+    		$w = $src->getWorkflow('wid', null);
     		verify('a Workflow instance is returned', get_class($w) )->equals('fproject\workflow\core\Workflow');
     		verify('workflow id is consistent', $w->getId())->equals('wid');
     	});
@@ -117,7 +117,7 @@ class WorkflowTest extends TestCase
     	]);
 
     	$this->specify('workflow are loaded once',function() {
-    		verify('workflow instances are the same', spl_object_hash($this->src->getWorkflow('wid')) )->equals(spl_object_hash($this->src->getWorkflow('wid')));
+    		verify('workflow instances are the same', spl_object_hash($this->src->getWorkflow('wid', null)) )->equals(spl_object_hash($this->src->getWorkflow('wid', null)));
     	});
     }
 }

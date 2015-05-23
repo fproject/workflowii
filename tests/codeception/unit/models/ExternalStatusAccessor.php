@@ -3,8 +3,6 @@ namespace tests\codeception\unit\models;
 
 use Yii;
 use yii\db\BaseActiveRecord;
-use yii\db\QueryBuilder;
-use yii\db\Query;
 use fproject\workflow\core\Status;
 use fproject\workflow\core\IStatusAccessor;
 
@@ -64,9 +62,8 @@ class ExternalStatusAccessor implements IStatusAccessor
 	/* (non-PHPdoc)
 	 * @see \fproject\workflow\core\IStatusAccessor::updateStatus()
 	 */
-	public function updateStatus($model, Status $status = null) {
+	public function updateStatus($model, $status = null) {
 		// TODO: Auto-generated method stub
-
 	}
 
 }

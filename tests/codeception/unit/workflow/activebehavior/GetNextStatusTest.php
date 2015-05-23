@@ -2,18 +2,20 @@
 
 namespace tests\unit\workflow\activebehavior;
 
-use fproject\workflow\factories\IWorkflowFactory;
+use fproject\workflow\core\IStatus;
 use Yii;
-use yii\base\Event;
-use yii\base\ModelEvent;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item05;
 use fproject\workflow\events\WorkflowEvent;
 
+/**
+ * Class GetNextStatusTest
+ * @package tests\unit\workflow\activebehavior
+ * @method ActiveWorkflowBehavior[] items()
+ */
 class GetNextStatusTest extends DbTestCase
 {
 	use \Codeception\Specify;
@@ -42,7 +44,7 @@ class GetNextStatusTest extends DbTestCase
     {
         /** @var ActiveWorkflowBehavior $item */
     	$item = $this->items('item1');
-    	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
+    	$this->assertTrue($item->getWorkflowStatus()->getId() == 'Item04Workflow/B');
 
     	$this->specify('2 status are returned as next status',function() use ($item) {
 
@@ -51,10 +53,17 @@ class GetNextStatusTest extends DbTestCase
     		expect('array is returned',is_array($n) )->true();
     		expect('array has 2 items',count($n) )->equals(2);
     		expect('status Item04Workflow/A is returned as index',isset($n['Item04Workflow/A']) )->true();
-    		expect('status Item04Workflow/A is returned as Status',$n['Item04Workflow/A']['status']->getId() )->equals('Item04Workflow/A');
+
+            /** @var IStatus $stsA */
+            $stsA = $n['Item04Workflow/A']['status'];
+
+    		expect('status Item04Workflow/A is returned as Status',$stsA->getId() )->equals('Item04Workflow/A');
 
     		expect('status Item04Workflow/C is returned as index',isset($n['Item04Workflow/C']) )->true();
-    		expect('status Item04Workflow/A is returned as Status',$n['Item04Workflow/C']['status']->getId() )->equals('Item04Workflow/C');
+
+            /** @var IStatus $stsC */
+            $stsC = $n['Item04Workflow/C']['status'];
+    		expect('status Item04Workflow/A is returned as Status',$stsC->getId() )->equals('Item04Workflow/C');
     	});
     }
 
@@ -72,12 +81,16 @@ class GetNextStatusTest extends DbTestCase
     		expect('array is returned',is_array($n) )->true();
     		expect('array has 1 items',count($n) )->equals(1);
      		expect('status Item04Workflow/A is returned as index',isset($n['Item04Workflow/A']) )->true();
-     		expect('status Item04Workflow/A is returned as Status',$n['Item04Workflow/A']['status']->getId() )->equals('Item04Workflow/A');
+
+            /** @var IStatus $sts */
+            $sts = $n['Item04Workflow/A']['status'];
+
+     		expect('status Item04Workflow/A is returned as Status',$sts->getId() )->equals('Item04Workflow/A');
 
      		verify('status returned is the initial status',$item
      			->getWorkflowFactory()
-     			->getWorkflow('Item04Workflow')
-     			->getInitialStatusId() )->equals($n['Item04Workflow/A']['status']->getId());
+     			->getWorkflow('Item04Workflow', $item)
+     			->getInitialStatusId() )->equals($sts->getId());
     	});
     }
 
@@ -153,7 +166,11 @@ class GetNextStatusTest extends DbTestCase
     	$this->assertArrayHasKey('Item05Workflow/correction', $report,'  a transition exists between "new" and "correction" ');
     	$this->assertTrue($report['Item05Workflow/correction']['isValid'] == false);
     	$this->assertInstanceOf('fproject\workflow\core\Status', $report['Item05Workflow/correction']['status']);
-    	$this->assertEquals('Item05Workflow/correction', $report['Item05Workflow/correction']['status']->getId());
+
+        /** @var IStatus $sts */
+        $sts = $report['Item05Workflow/correction']['status'];
+
+    	$this->assertEquals('Item05Workflow/correction', $sts->getId());
 
     	$this->assertEquals(
     		[
@@ -182,7 +199,10 @@ class GetNextStatusTest extends DbTestCase
     	$this->assertArrayHasKey('Item05Workflow/published',  $report,'  a transition exists between "new" and "published" ');
     	$this->assertTrue($report['Item05Workflow/published']['isValid'] == true);
     	$this->assertInstanceOf('fproject\workflow\core\Status', $report['Item05Workflow/published']['status']);
-    	$this->assertEquals('Item05Workflow/published', $report['Item05Workflow/published']['status']->getId());
+
+        /** @var IStatus $sts */
+        $sts = $report['Item05Workflow/published']['status'];
+    	$this->assertEquals('Item05Workflow/published', $sts->getId());
 
     	$this->assertEquals(
 			[

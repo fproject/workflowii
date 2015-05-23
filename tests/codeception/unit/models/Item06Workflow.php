@@ -6,7 +6,7 @@ use fproject\workflow\core\IWorkflowSource;
 
 class Item06Workflow implements IWorkflowSource
 {
-	public function getDefinition()
+	public function getDefinition($model)
 	{
 		return [
 			'initialStatusId' => 'new',

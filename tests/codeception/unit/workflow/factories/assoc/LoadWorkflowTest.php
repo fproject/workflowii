@@ -40,12 +40,12 @@ class LoadWorkflowTest extends TestCase
 			]
 		]);
     	
-    	verify($src->getStatus('wid/A'))->notNull();
-    	verify($src->getStatus('wid/B'))->notNull();
-    	verify($src->getStatus('wid/C'))->notNull();
-    	verify($src->getStatus('wid/D'))->notNull();
+    	verify($src->getStatus('wid/A', null, null))->notNull();
+    	verify($src->getStatus('wid/B', null, null))->notNull();
+    	verify($src->getStatus('wid/C', null, null))->notNull();
+    	verify($src->getStatus('wid/D', null, null))->notNull();
     	
-    	verify(count($src->getTransitions('wid/A')))->equals(2);
+    	verify(count($src->getTransitions('wid/A', null, null)))->equals(2);
     }
     
     public function testLoadWorkflowSuccess2()
@@ -65,9 +65,9 @@ class LoadWorkflowTest extends TestCase
     		]
     	]);
     	 
-    	verify($src->getStatus('wid/A'))->notNull();
-    	verify($src->getStatus('wid/B'))->notNull();
+    	verify($src->getStatus('wid/A', null, null))->notNull();
+    	verify($src->getStatus('wid/B', null, null))->notNull();
     	 
-    	verify(count($src->getTransitions('wid/A')))->equals(2);
+    	verify(count($src->getTransitions('wid/A', null, null)))->equals(2);
     }    
 }

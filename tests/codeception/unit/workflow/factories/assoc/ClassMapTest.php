@@ -25,7 +25,7 @@ class ClassMapTest extends TestCase
 			verify($src->getClassMapByType(WorkflowArrayFactory::TYPE_STATUS))->equals(	'tests\codeception\unit\models\MyStatus'  );
 			verify($src->getClassMapByType(WorkflowArrayFactory::TYPE_TRANSITION))->equals('fproject\workflow\core\Transition');
 
-			$status = $src->getStatus('Item04Workflow/A');
+			$status = $src->getStatus('Item04Workflow/A', null, null);
 
 			expect(get_class($status))->equals('tests\codeception\unit\models\MyStatus');
 		});

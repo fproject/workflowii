@@ -25,26 +25,29 @@ interface IWorkflowFactory
      * complete (e.g. 'draft' instead of 'post/draft').
      *
      * @param mixed $id the status id
-     * @param Component|ActiveWorkflowBehavior|string $wfIdOrModel
+     * @param mixed $wfId the workflow ID
+     * @param Component|ActiveWorkflowBehavior $model
      * @return IStatus the status instance or NULL if no status could be found for this id.
      *
      * @see IStatus
      *
      */
-	public function getStatus($id, $wfIdOrModel = null);
+	public function getStatus($id, $wfId, $model);
 
 	/**
 	 * Returns an array containing all Status instances belonging to the workflow
 	 * whose id is passed as argument.
 	 * 
 	 * @param string $id workflow Id
+     * @param Component|ActiveWorkflowBehavior $model
+     *
 	 * @return IStatus[] An array of IStatus instances
 	 * @throws WorkflowException no workflow is found with this Id
      *
      * @see IStatus
      *
 	 */
-	public function getAllStatuses($id);
+	public function getAllStatuses($id, $model);
 
 	/**
 	 * Returns an array of out going transitions leaving the status whose id is passed as argument.
@@ -54,7 +57,8 @@ interface IWorkflowFactory
 	 * The array returned must be indexed by ....
 	 *
 	 * @param mixed $statusId
-     * @param Component|ActiveWorkflowBehavior|string $wfIdOrModel
+     * @param mixed $wfId the workflow ID
+     * @param Component|ActiveWorkflowBehavior $model
      *
 	 * @return Transition[] an array containing all out going transition from $statusId. If no such
 	 * transition exist, this method returns an empty array.
@@ -64,25 +68,29 @@ interface IWorkflowFactory
      *
      * @see Transition
 	 */
-	public function getTransitions($statusId, $wfIdOrModel = null);
+	public function getTransitions($statusId, $wfId, $model);
 
 	/**
 	 * Returns the transitions that leaving a specified status an go to another specified status.
      *
 	 * @param mixed $startId the ID of start status
 	 * @param mixed $endId the ID of end status
-     * @param Component|ActiveWorkflowBehavior|string $wfIdOrModel
+     * @param mixed $wfId the workflow ID
+     * @param Component|ActiveWorkflowBehavior $model
      *
 	 */
-	public function getTransition($startId, $endId, $wfIdOrModel = null);
+	public function getTransition($startId, $endId, $wfId, $model);
 
 	/**
 	 * Returns the workflow instance whose id is passed as argument.
 	 * In case of unexpected error the implementation must return a WorkflowException.
 	 *
-	 * @see Workflow
 	 * @param mixed $id the workflow id
+     * @param Component|ActiveWorkflowBehavior $model
+     *
 	 * @return Workflow the workflow instance or NULL if no workflow could be found.
+     *
+     * @see Workflow
 	 */
-	public function getWorkflow($id);
+	public function getWorkflow($id, $model);
 }

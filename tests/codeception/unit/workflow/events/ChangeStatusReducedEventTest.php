@@ -8,6 +8,10 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\models\Item04;
 use fproject\workflow\events\WorkflowEvent;
 
+/**
+ *
+ * @property Item04|ActiveWorkflowBehavior model
+ */
 class ChangeStatusReducedEventTest extends DbTestCase
 {
 	use \Codeception\Specify;

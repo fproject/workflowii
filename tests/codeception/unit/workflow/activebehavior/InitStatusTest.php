@@ -5,7 +5,6 @@ namespace tests\unit\workflow\activebehavior;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class InitStatusTest extends TestCase
@@ -40,7 +39,7 @@ class InitStatusTest extends TestCase
 			]);
 
 			verify('current status is set', $model->getWorkflowStatus() != null)->true();
-			verify('current status is set (use attribute notation)', $model->workflowStatus != null)->true();
+			verify('current status is set (use attribute notation)', $model->getWorkflowStatus() != null)->true();
 			verify('current status is Status instance', get_class($model->getWorkflowStatus()))->equals('fproject\workflow\core\Status');
 		});
     }
@@ -112,8 +111,7 @@ class InitStatusTest extends TestCase
     			'No status found with id Workflow1/X'
     		);
 
-    		$model = Item01::findOne(1);
-
+    		Item01::findOne(1);
     	});
     }
     

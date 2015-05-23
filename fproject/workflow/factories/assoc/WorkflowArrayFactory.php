@@ -3,6 +3,7 @@ namespace fproject\workflow\factories\assoc;
 
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use Yii;
+use yii\base\Component;
 use yii\base\Object;
 use yii\base\InvalidConfigException;
 use yii\helpers\Inflector;
@@ -148,14 +149,16 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
     /**
      * @inheritdoc
      */
-	public function getStatus($id, $wfIdOrModel = null)
+	public function getStatus($id, $wfId, $model)
 	{
+        $wfIdOrModel = isset($model) ? $model : $wfId;
+
 		list($wId, $stId) = $this->parseStatusId($id, $wfIdOrModel);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
 		if (!array_key_exists($canonicalStId, $this->_s) ) {
-			$wDef = $this->getWorkflowDefinition($wId);
+			$wDef = $this->getWorkflowDefinition($wId, $model);
 			if ($wDef == null) {
 				throw new WorkflowException('No workflow found with id ' . $wId);
 			}
@@ -178,19 +181,20 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
     /**
      * @inheritdoc
      */
-	public function getTransitions($statusId, $wfIdOrModel = null)
+	public function getTransitions($statusId, $wfId, $model)
 	{
+        $wfIdOrModel = isset($model) ? $model : $wfId;
 		list($wId, $lid) = $this->parseStatusId($statusId, $wfIdOrModel);
 		$statusId = $wId.self::SEPARATOR_STATUS_NAME.$lid;
 
 		if (!array_key_exists($statusId, $this->_t) ) {
 
-			$start = $this->getStatus($statusId);
+			$start = $this->getStatus($statusId, null, null);
 			if ($start == null) {
 				throw new WorkflowException('start status not found : id = '. $statusId);
 			}
 
-			$wDef = $this->getWorkflowDefinition($wId);
+			$wDef = $this->getWorkflowDefinition($wId, $model);
 
 			$trDef = isset($wDef[self::KEY_NODES][$start->getId()][self::KEY_EDGES])
 				? $wDef[self::KEY_NODES][$start->getId()][self::KEY_EDGES]
@@ -202,7 +206,7 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 				foreach ($trDef as $endStId => $trCfg) {					
 					$ids = $this->parseStatusId($endStId, $wId);
 					$endId =  implode(self::SEPARATOR_STATUS_NAME, $ids);
-					$end = $this->getStatus($endId);
+					$end = $this->getStatus($endId, null, null);
 					
 					if ($end == null ) {
 						throw new WorkflowException('end status not found : start(id='.$statusId.') end(id='.$endStId.')');
@@ -222,9 +226,9 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
     /**
      * @inheritdoc
      */
-	public function getTransition($startId, $endId, $wfIdOrModel = null)
+	public function getTransition($startId, $endId, $wfId, $model)
 	{
-		$tr = $this->getTransitions($startId, $wfIdOrModel);
+		$tr = $this->getTransitions($startId, $wfId, $model);
 		if (count($tr) > 0 ) {
 			foreach ($tr as $aTransition) {
 				if ($aTransition->getEndStatus()->getId() == $endId) {
@@ -239,12 +243,12 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      * @inheritdoc
      *
      */
-	public function getWorkflow($id)
+	public function getWorkflow($id, $model)
 	{
 		if (!array_key_exists($id, $this->_w) ) {
 
 			$workflow = null;
-			$def =  $this->getWorkflowDefinition($id);
+			$def =  $this->getWorkflowDefinition($id, $model);
 
 			if ($def != null ) {
 				unset($def[self::KEY_NODES]);
@@ -269,7 +273,8 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      * The workflow Id passed as argument is used to create the class name of the object
      * that holds the workflow definition.
      *
-     * @param string $id
+     * @param string $wfId the ID of workflow to search
+     * @param Component|ActiveWorkflowBehavior $model
      *
      * @return mixed the definition could not be loaded
      *
@@ -277,14 +282,14 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
      * @throws WorkflowException
      *
      */
-	public function getWorkflowDefinition($id)
+	public function getWorkflowDefinition($wfId, $model)
 	{
-		if (!$this->isValidWorkflowId($id)) {
-			throw new WorkflowException('Invalid workflow Id : '.VarDumper::dumpAsString($id));
+		if (!$this->isValidWorkflowId($wfId)) {
+			throw new WorkflowException('Invalid workflow Id : '.VarDumper::dumpAsString($wfId));
 		}
 
-		if (!isset($this->_workflowDef[$id]) ) {
-			$wfClassName = $this->getClassName($id);
+		if (!isset($this->_workflowDef[$wfId]) ) {
+			$wfClassName = $this->getClassName($wfId);
 			try {
                 /** @var Object|IWorkflowSource $wfSrc */
 				$wfSrc = Yii::createObject(['class' => $wfClassName]);
@@ -292,20 +297,20 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
 			if ($this->isWorkflowSource($wfSrc)) {
-				$this->_workflowDef[$id] = $this->parse($id, $wfSrc->getDefinition());
+				$this->_workflowDef[$wfId] = $this->parse($wfId, $wfSrc->getDefinition($model));
 			} else {
-				throw new WorkflowException('Invalid workflow provider class : '.$wfClassName);
+				throw new WorkflowException('Invalid workflow source class : '.$wfClassName);
 			}
 		}
-		return $this->_workflowDef[$id];
+		return $this->_workflowDef[$wfId];
 	}
 
     /**
-     * Returns the complete name for the Workflow Provider class used to retrieve the definition of workflow $workflowId.
+     * Returns the complete name for the IWorkflowSource class used to retrieve the definition of workflow $workflowId.
      * The class name is built by appending the workflow id to the namespace parameter set for this source component.
      *
      * @param string $workflowId a workflow id
-     * @return string the full qualified class name used to provide definition for the workflow
+     * @return string the full qualified class name implements IWorkflowSource used to provide definition for the workflow
      * @throws WorkflowException
      */
 	public function getClassName($workflowId)
@@ -344,8 +349,8 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 		return array_key_exists($type, $this->_classMap) ? $this->_classMap[$type] : null;
 	}
 	/**
-	 * Returns TRUE if the $object is a workflow provider.
-	 * An object is a workflow provider if it implements the IWorkflowSource interface.
+	 * Returns TRUE if the $object is a workflow source.
+	 * An object is a workflow source if it implements the IWorkflowSource interface.
 	 *
 	 * @param Object $object
 	 * @return boolean
@@ -581,15 +586,15 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
     /**
      * @inheritdoc
      */
-	public function getAllStatuses($workflowId)
+	public function getAllStatuses($workflowId, $model)
 	{
-		$wDef = $this->getWorkflowDefinition($workflowId);
+		$wDef = $this->getWorkflowDefinition($workflowId, $model);
 		if ($wDef == null) {
 			throw new WorkflowException('No workflow found with id ' . $workflowId);
 		}	
 		$allStatuses = [];		
 		foreach($wDef[self::KEY_NODES] as $statusId => $statusDef){
-			$allStatuses[$statusId] = $this->getStatus($statusId);
+			$allStatuses[$statusId] = $this->getStatus($statusId, null, $model);
 		}
 		return $allStatuses;
 	}
