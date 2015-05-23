@@ -1,6 +1,6 @@
 <?php 
 
-namespace fproject\workflow\factory\assoc;
+namespace fproject\workflow\factories\assoc;
 
 use Yii;
 use yii\base\Object;

@@ -2,7 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
-use fproject\workflow\factory\IWorkflowFactory;
+use fproject\workflow\factories\IWorkflowFactory;
 use Yii;
 use yii\base\Event;
 use yii\base\ModelEvent;
@@ -28,7 +28,7 @@ class GetNextStatusTest extends DbTestCase
 	{
 		parent::setUp();
 		Yii::$app->set('workflowFactory',[
-			'class'=> 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
+			'class'=> 'fproject\workflow\factories\assoc\WorkflowArrayFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 	}

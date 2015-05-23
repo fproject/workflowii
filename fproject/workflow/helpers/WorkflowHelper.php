@@ -2,7 +2,7 @@
 namespace fproject\workflow\helpers;
 
 use fproject\workflow\core\Status;
-use fproject\workflow\factory\IWorkflowFactory;
+use fproject\workflow\factories\IWorkflowFactory;
 use yii\base\Component;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\WorkflowException;

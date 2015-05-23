@@ -1,5 +1,5 @@
 <?php 
-namespace fproject\workflow\factory\assoc;
+namespace fproject\workflow\factories\assoc;
 use fproject\workflow\core\WorkflowValidationException;
 
 /**

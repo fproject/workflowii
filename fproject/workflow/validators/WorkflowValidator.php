@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\validator;
+namespace fproject\workflow\validators;
 
 use Yii;
 use yii\base\Model;

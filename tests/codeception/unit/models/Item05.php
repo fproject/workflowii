@@ -4,7 +4,7 @@ namespace tests\codeception\unit\models;
 
 use Yii;
 use fproject\workflow\core\ActiveWorkflowBehavior;
-use fproject\workflow\validator\WorkflowScenario;
+use fproject\workflow\validators\WorkflowScenario;
 
 /**
  * @property integer $id
@@ -26,7 +26,7 @@ class Item05 extends \yii\db\ActiveRecord
 
 	public function rules() {
 		return [
-			[['status'], '\fproject\workflow\validator\WorkflowValidator'],
+			[['status'], '\fproject\workflow\validators\WorkflowValidator'],
 			['name','required',
 				'on' => WorkflowScenario::changeStatus('Item05Workflow/new', 'Item05Workflow/correction') ],
 

@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\factory\assoc;
+namespace fproject\workflow\factories\assoc;
 
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use Yii;
@@ -12,7 +12,7 @@ use fproject\workflow\core\Transition;
 use fproject\workflow\core\Workflow;
 use fproject\workflow\core\WorkflowException;
 use fproject\workflow\core\IWorkflowSource;
-use fproject\workflow\factory\IWorkflowFactory;
+use fproject\workflow\factories\IWorkflowFactory;
 
 
 /**
@@ -45,13 +45,13 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factory\assoc\ArrayParser';
+	const DEFAULT_PARSER_CLASS = '\fproject\workflow\factories\assoc\ArrayParser';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
 	 * by the 'parser' configuration setting.
 	 * Example : 
 	 * 'workflowFactory' => [
-	 * 		'class' => 'fproject\workflow\factory\assoc\WorkflowArrayFactory',
+	 * 		'class' => 'fproject\workflow\factories\assoc\WorkflowArrayFactory',
 	 * 		'parser' => 'myparser'
 	 * ]
 	 */	

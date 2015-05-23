@@ -3,8 +3,8 @@
 namespace tests\codeception\unit\models;
 
 use Yii;
-use fproject\workflow\validator\WorkflowScenario;
-use fproject\workflow\validator\WorkflowValidator;
+use fproject\workflow\validators\WorkflowScenario;
+use fproject\workflow\validators\WorkflowValidator;
 /**
  * This is the model class for table "item".
  *

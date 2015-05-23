@@ -4,8 +4,8 @@ namespace tests\unit\workflow\factory\assoc;
 
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factory\assoc\WorkflowArrayFactory;
-use fproject\workflow\factory\assoc\MinimalArrayParser;
+use fproject\workflow\factories\assoc\WorkflowArrayFactory;
+use fproject\workflow\factories\assoc\MinimalArrayParser;
 use yii\helpers\VarDumper;
 
 

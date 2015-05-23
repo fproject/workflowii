@@ -3,7 +3,7 @@
 namespace fproject\workflow\core;
 
 use fproject\workflow\events\WorkflowEvent;
-use fproject\workflow\factory\IWorkflowFactory;
+use fproject\workflow\factories\IWorkflowFactory;
 use Yii;
 use yii\base\Behavior;
 use yii\base\Model;
@@ -11,7 +11,7 @@ use yii\base\ModelEvent;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
 use fproject\workflow\events\IEventSequence;
-use fproject\workflow\validator\WorkflowScenario;
+use fproject\workflow\validators\WorkflowScenario;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -67,7 +67,7 @@ use yii\db\BaseActiveRecord;
  */
 class ActiveWorkflowBehavior extends Behavior
 {
-	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\factory\assoc\WorkflowArrayFactory';
+	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\factories\assoc\WorkflowArrayFactory';
 	const DEFAULT_EVENT_SEQUENCE_CLASS = 'fproject\workflow\events\BasicEventSequence';
 
 	/**

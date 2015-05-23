@@ -4,8 +4,8 @@ namespace tests\unit\workflow\factory\assoc;
 
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factory\assoc\ArrayParser;
-use fproject\workflow\factory\assoc\WorkflowArrayFactory;
+use fproject\workflow\factories\assoc\ArrayParser;
+use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 
 
 class ArrayParserTest extends TestCase
