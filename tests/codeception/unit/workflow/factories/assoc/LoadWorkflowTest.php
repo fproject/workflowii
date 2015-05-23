@@ -2,9 +2,9 @@
 
 namespace tests\unit\workflow\factories\assoc;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 
 class LoadWorkflowTest extends TestCase
 {
@@ -15,13 +15,13 @@ class LoadWorkflowTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new WorkflowArrayFactory();
+		$this->src = new ArrayWorkflowItemFactory();
 	}
 
 
     public function testLoadWorkflowSuccess1()
     {
-    	$src = new WorkflowArrayFactory();
+    	$src = new ArrayWorkflowItemFactory();
     	$src->addWorkflowDefinition('wid', [
 			'initialStatusId' => 'A',
 			'status' => [
@@ -50,7 +50,7 @@ class LoadWorkflowTest extends TestCase
     
     public function testLoadWorkflowSuccess2()
     {
-    	$src = new WorkflowArrayFactory();
+    	$src = new ArrayWorkflowItemFactory();
     	$src->addWorkflowDefinition('wid', [
     		'initialStatusId' => 'A',
     		'status' => [

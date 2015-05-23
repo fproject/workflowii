@@ -52,7 +52,7 @@ use yii\db\BaseActiveRecord;
  *             'class' => ActiveWorkflowBehavior::className(),
  *             'statusAttribute' => 'col_status',
  *             'defaultWorkflowId' => 'MyWorkflow',
- *             'factory' => 'workflowArrayFactory',
+ *             'factory' => 'arrayWorkflowItemFactory',
  *             'statusConverter' => 'myStatusConverter',
  *             'eventSequence' => 'myCustomEventSequence',
  *         ],
@@ -66,7 +66,7 @@ use yii\db\BaseActiveRecord;
  */
 class ActiveWorkflowBehavior extends Behavior
 {
-	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\factories\assoc\WorkflowArrayFactory';
+	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\core\ArrayWorkflowItemFactory';
 	const DEFAULT_EVENT_SEQUENCE_CLASS = 'fproject\workflow\events\BasicEventSequence';
 
 	/**

@@ -26,7 +26,7 @@ class EnterWorkflowReducedEventTest extends TestCase
 		$this->eventsAfter = [];
 
 		Yii::$app->set('workflowFactory',[
-			'class'=> 'fproject\workflow\factories\assoc\WorkflowArrayFactory',
+			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 		Yii::$app->set('eventSequence',[

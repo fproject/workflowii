@@ -17,7 +17,7 @@ class AutoInsertTest extends DbTestCase
 	{
 		parent::setUp();
 		Yii::$app->set('workflowFactory',[
-			'class'=> 'fproject\workflow\factories\assoc\WorkflowArrayFactory',
+			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 	}

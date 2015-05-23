@@ -2,9 +2,9 @@
 
 namespace tests\unit\workflow\factories\assoc;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 
 class WorkflowFactoryTest extends TestCase
 {
@@ -20,7 +20,7 @@ class WorkflowFactoryTest extends TestCase
 				'Invalid property type : \'classMap\' must be a non-empty array'
 			);
 
-			new WorkflowArrayFactory([
+			new ArrayWorkflowItemFactory([
 				'namespace' =>'a\b\c',
 				'classMap' => null
 			]);
@@ -35,7 +35,7 @@ class WorkflowFactoryTest extends TestCase
 				'Invalid property type : \'classMap\' must be a non-empty array'
 			);
 
-			new WorkflowArrayFactory([
+			new ArrayWorkflowItemFactory([
 				'namespace' =>'a\b\c',
 				'classMap' => null
 			]);
@@ -50,7 +50,7 @@ class WorkflowFactoryTest extends TestCase
 				'Invalid class map value : missing class for type workflow'
 			);
 
-			 new WorkflowArrayFactory([
+			 new ArrayWorkflowItemFactory([
 				'namespace' =>'a\b\c',
 				'classMap' =>  [
 					'workflow'   => null,
@@ -68,17 +68,17 @@ class WorkflowFactoryTest extends TestCase
 	{
 		$this->specify('Workflow factory construct fails if classMap is not an array',function (){
 
-			$src = new WorkflowArrayFactory([
+			$src = new ArrayWorkflowItemFactory([
 				'namespace' =>'a\b\c',
 				'classMap' =>  [
-					WorkflowArrayFactory::TYPE_WORKFLOW   => 'my\namespace\Workflow',
-					WorkflowArrayFactory::TYPE_STATUS     => 'my\namespace\Status',
-					WorkflowArrayFactory::TYPE_TRANSITION => 'my\namespace\Transition'
+					ArrayWorkflowItemFactory::TYPE_WORKFLOW   => 'my\namespace\Workflow',
+					ArrayWorkflowItemFactory::TYPE_STATUS     => 'my\namespace\Status',
+					ArrayWorkflowItemFactory::TYPE_TRANSITION => 'my\namespace\Transition'
 				]
 			]);
-			expect($src->getClassMapByType(WorkflowArrayFactory::TYPE_WORKFLOW))->equals(	'my\namespace\Workflow'		);
-			expect($src->getClassMapByType(WorkflowArrayFactory::TYPE_STATUS))->equals(	'my\namespace\Status'		);
-			expect($src->getClassMapByType(WorkflowArrayFactory::TYPE_TRANSITION))->equals('my\namespace\Transition'	);
+			expect($src->getClassMapByType(ArrayWorkflowItemFactory::TYPE_WORKFLOW))->equals(	'my\namespace\Workflow'		);
+			expect($src->getClassMapByType(ArrayWorkflowItemFactory::TYPE_STATUS))->equals(	'my\namespace\Status'		);
+			expect($src->getClassMapByType(ArrayWorkflowItemFactory::TYPE_TRANSITION))->equals('my\namespace\Transition'	);
 		});
 	}
 }

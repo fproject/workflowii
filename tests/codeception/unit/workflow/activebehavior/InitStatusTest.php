@@ -16,7 +16,7 @@ class InitStatusTest extends TestCase
 		parent::setUp();
 		Item01::deleteAll();
 		Yii::$app->set('workflowFactory',[
-			'class'=> 'fproject\workflow\factories\assoc\WorkflowArrayFactory',
+			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
 			'namespace' => 'tests\codeception\unit\models'
 		]);
 

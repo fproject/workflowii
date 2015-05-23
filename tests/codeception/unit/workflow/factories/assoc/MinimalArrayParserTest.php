@@ -2,10 +2,10 @@
 
 namespace tests\unit\workflow\factories\assoc;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
+use fproject\workflow\serialize\parsers\MinimalArrayParser;
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factories\assoc\WorkflowArrayFactory;
-use fproject\workflow\factories\assoc\MinimalArrayParser;
 
 class MinimalArrayParserTest extends TestCase
 {
@@ -20,7 +20,7 @@ class MinimalArrayParserTest extends TestCase
 			'class' => MinimalArrayParser::className(),
 		]);
 		
-		$this->src = new WorkflowArrayFactory([
+		$this->src = new ArrayWorkflowItemFactory([
 			'parser' => 'parser'
 		]);
 	}

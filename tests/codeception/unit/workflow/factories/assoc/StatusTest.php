@@ -2,21 +2,21 @@
 
 namespace tests\unit\workflow\factories\assoc;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 
 class StatusTest extends TestCase
 {
 	use \Codeception\Specify;
 
-    /** @var  WorkflowArrayFactory */
+    /** @var  ArrayWorkflowItemFactory */
 	public $src;
 
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new WorkflowArrayFactory();
+		$this->src = new ArrayWorkflowItemFactory();
 	}
 
     /**
@@ -25,7 +25,7 @@ class StatusTest extends TestCase
      */
 	public function testStatusNotFoundSuccess()
 	{
-		$src = new WorkflowArrayFactory();
+		$src = new ArrayWorkflowItemFactory();
 		$src->addWorkflowDefinition('wid', [
 			'initialStatusId' => 'A',
 			'status' => null

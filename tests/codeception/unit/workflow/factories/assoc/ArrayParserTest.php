@@ -2,10 +2,10 @@
 
 namespace tests\unit\workflow\factories\assoc;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
+use fproject\workflow\serialize\parsers\ArrayParser;
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factories\assoc\ArrayParser;
-use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 
 
 class ArrayParserTest extends TestCase
@@ -17,7 +17,7 @@ class ArrayParserTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new WorkflowArrayFactory();
+		$this->src = new ArrayWorkflowItemFactory();
 		Yii::$app->set('parser',[
 			'class' => ArrayParser::className(),
 		]);		

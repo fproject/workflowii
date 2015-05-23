@@ -2,21 +2,21 @@
 
 namespace tests\unit\workflow\factories\assoc;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
-use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 
 class TransitionTest extends TestCase
 {
 	use \Codeception\Specify;
 
-    /** @var  WorkflowArrayFactory $src */
+    /** @var  ArrayWorkflowItemFactory $src */
 	public $src;
 
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new WorkflowArrayFactory();
+		$this->src = new ArrayWorkflowItemFactory();
 	}
 
 	/**

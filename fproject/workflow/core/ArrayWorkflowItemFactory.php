@@ -45,7 +45,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 * by the 'parser' configuration setting.
 	 * Example : 
 	 * 'workflowFactory' => [
-	 * 		'class' => 'fproject\workflow\factories\assoc\WorkflowArrayFactory',
+	 * 		'class' => 'fproject\workflow\core\ArrayWorkflowItemFactory',
 	 * 		'parser' => 'myparser'
 	 * ]
 	 */	
