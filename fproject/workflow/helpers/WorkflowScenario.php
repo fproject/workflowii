@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\validators;
+namespace fproject\workflow\helpers;
 
 use fproject\workflow\core\WorkflowException;
 

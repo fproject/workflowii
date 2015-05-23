@@ -1,6 +1,7 @@
 <?php
 namespace fproject\workflow\validators;
 
+use fproject\workflow\helpers\WorkflowScenario;
 use Yii;
 use yii\base\Model;
 use yii\validators\Validator;

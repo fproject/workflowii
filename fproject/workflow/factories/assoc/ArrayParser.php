@@ -8,6 +8,9 @@ use yii\helpers\ArrayHelper;
 use fproject\workflow\core\WorkflowValidationException;
 use yii\helpers\VarDumper;
 
+/**
+ * @inheritdoc
+ */
 class ArrayParser extends Object implements IArrayParser
 {
 	
@@ -30,7 +33,6 @@ class ArrayParser extends Object implements IArrayParser
 	 */
 	public function parse($wId, $definition, $source)
     {
-	
 		$result = [];
 		if (!isset($definition['initialStatusId']))
         {

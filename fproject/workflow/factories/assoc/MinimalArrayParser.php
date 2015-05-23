@@ -7,6 +7,7 @@ use yii\base\Object;
 use yii\helpers\ArrayHelper;
 use fproject\workflow\core\WorkflowValidationException;
 use yii\helpers\VarDumper;
+
 /**
  * Parse a workflow definition provided as a PHP associate array with minimal information.
  * 
@@ -54,7 +55,6 @@ class MinimalArrayParser extends Object implements IArrayParser {
 	 * @throws WorkflowValidationException
 	 */
 	public function parse($wId, $definition, $source) {
-
 		if (empty($wId)) {
 			throw new WorkflowValidationException("Missing argument : workflow Id");
 		}
@@ -112,7 +112,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 		
 			// detect not defined statuses
 		
-			$missingStatusIdSuspects = \array_diff($endStatusIdIndex, $startStatusIdIndex);
+			$missingStatusIdSuspects = array_diff($endStatusIdIndex, $startStatusIdIndex);
 			if ( count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
@@ -141,7 +141,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 		$normalizedIds = [];
 		foreach ($ids as $id) {
 			$pieces = $source->parseStatusId($id, $workflowId);
-			$normalizedIds[] = \implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
+			$normalizedIds[] = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
 		}
 		return $normalizedIds;		
 	}
