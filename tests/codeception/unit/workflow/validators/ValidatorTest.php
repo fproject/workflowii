@@ -1,5 +1,5 @@
 <?php
-namespace tests\unit\workflow\validation;
+namespace tests\unit\workflow\validators;
 
 use Yii;
 use yii\codeception\TestCase;

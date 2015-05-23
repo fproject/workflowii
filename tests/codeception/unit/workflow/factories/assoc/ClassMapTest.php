@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\workflow\factory\assoc;
+namespace tests\unit\workflow\factories\assoc;
 
 use Yii;
 use yii\codeception\TestCase;

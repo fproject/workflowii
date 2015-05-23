@@ -20,6 +20,7 @@ class WorkflowScenario
 
 		return 'from {'.$start.'} to {'.$end.'}';
 	}
+
 	public static function leaveStatus($status = self::ANY_STATUS)
 	{
 		return 'leave status {'.$status.'}';
@@ -29,10 +30,12 @@ class WorkflowScenario
 	{
 		return 'enter status {'.$status.'}';
 	}
+
 	public static function enterWorkflow($workflowId = self::ANY_WORKFLOW)
 	{
 		return 'enter workflow {'.$workflowId.'}';
 	}
+
 	public static function leaveWorkflow($workflowId = self::ANY_WORKFLOW)
 	{
 		return 'leave workflow {'.$workflowId.'}';

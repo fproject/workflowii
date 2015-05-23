@@ -1,13 +1,11 @@
 <?php
 
-namespace tests\unit\workflow\factory\assoc;
+namespace tests\unit\workflow\factories\assoc;
 
 use Yii;
 use yii\codeception\TestCase;
 use fproject\workflow\factories\assoc\WorkflowArrayFactory;
 use fproject\workflow\factories\assoc\MinimalArrayParser;
-use yii\helpers\VarDumper;
-
 
 class MinimalArrayParserTest extends TestCase
 {
