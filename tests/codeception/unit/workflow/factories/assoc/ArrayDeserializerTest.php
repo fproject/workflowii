@@ -3,12 +3,12 @@
 namespace tests\unit\workflow\factories\assoc;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
-use fproject\workflow\serialize\parsers\ArrayParser;
+use fproject\workflow\serialize\ArrayDeserializer;
 use Yii;
 use yii\codeception\TestCase;
 
 
-class ArrayParserTest extends TestCase
+class ArrayDeserializerTest extends TestCase
 {
 	use \Codeception\Specify;
 	
@@ -19,7 +19,7 @@ class ArrayParserTest extends TestCase
 		parent::setUp();
 		$this->src = new ArrayWorkflowItemFactory();
 		Yii::$app->set('parser',[
-			'class' => ArrayParser::className(),
+			'class' => ArrayDeserializer::className(),
 		]);		
 	}
 	
@@ -29,13 +29,13 @@ class ArrayParserTest extends TestCase
 	public function testCreateInstance()
 	{
 		Yii::$app->set('parserA',[
-			'class' => ArrayParser::className(),
+			'class' => ArrayDeserializer::className(),
 			'validate' => false
 		]);
 		verify('validate is assigned',Yii::$app->parserA->validate)->false(); 
 
 		Yii::$app->set('parserB',[
-			'class' => ArrayParser::className(),
+			'class' => ArrayDeserializer::className(),
 		]);
 		verify('validate default value is true',Yii::$app->parserB->validate)->true();		
 	}

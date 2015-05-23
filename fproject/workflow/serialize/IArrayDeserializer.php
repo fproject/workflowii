@@ -1,5 +1,5 @@
 <?php
-namespace fproject\workflow\serialize\parsers;
+namespace fproject\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\core\WorkflowValidationException;
@@ -32,7 +32,7 @@ use fproject\workflow\core\WorkflowValidationException;
  * ]
  * 
  */
-interface IArrayParser {
+interface IArrayDeserializer {
 	/**
 	 * Parse a workflow defined as a PHP Array.
 	 *

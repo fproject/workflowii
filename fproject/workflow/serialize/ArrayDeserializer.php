@@ -1,6 +1,6 @@
 <?php 
 
-namespace fproject\workflow\serialize\parsers;
+namespace fproject\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
@@ -12,7 +12,7 @@ use yii\helpers\VarDumper;
 /**
  * @inheritdoc
  */
-class ArrayParser extends Object implements IArrayParser
+class ArrayDeserializer extends Object implements IArrayDeserializer
 {
 
 	/**

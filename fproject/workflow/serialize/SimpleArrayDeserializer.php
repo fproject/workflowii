@@ -1,6 +1,6 @@
 <?php
 
-namespace fproject\workflow\serialize\parsers;
+namespace fproject\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
@@ -36,7 +36,7 @@ use yii\helpers\VarDumper;
  *	'archived'  => []
  * ]
  */
-class MinimalArrayParser extends Object implements IArrayParser {
+class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 	
 	/**
 	 * @var boolean when TRUE, the parse method will also perform some validations
