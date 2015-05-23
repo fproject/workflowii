@@ -31,7 +31,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testParseInvalidType()
 	{
-		Yii::$app->parser->parse('WID',null,$this->src);
+		Yii::$app->deserializer->parse('WID',null,$this->src);
 	}
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowValidationException
@@ -39,7 +39,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testMissingWorkflowId()
 	{
-		Yii::$app->parser->parse('',null,$this->src);
+		Yii::$app->deserializer->parse('',null,$this->src);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowValidationException
@@ -47,7 +47,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testNonAssociativeArray1()
 	{
-		Yii::$app->parser->parse('WID',['a'],$this->src);
+		Yii::$app->deserializer->parse('WID',['a'],$this->src);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowValidationException
@@ -55,7 +55,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testNonAssociativeArray2()
 	{
-		Yii::$app->parser->parse('WID',['a'=> [], 'b'],$this->src);
+		Yii::$app->deserializer->parse('WID',['a'=> [], 'b'],$this->src);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowValidationException
@@ -63,7 +63,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testExternalStatusError()
 	{
-		Yii::$app->parser->parse('WID',[
+		Yii::$app->deserializer->parse('WID',[
 			'EXT/a' => [],
 			'b' => []
 		],$this->src);
@@ -75,7 +75,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testEndStatusAssociativeError()
 	{
-		Yii::$app->parser->parse('WID',[
+		Yii::$app->deserializer->parse('WID',[
 			'a' => ['b' => 'value'],
 			'b' => []
 		],$this->src);
@@ -86,7 +86,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testEndStatusTypeNotSupported()
 	{
-		Yii::$app->parser->parse('WID',[
+		Yii::$app->deserializer->parse('WID',[
 			'a' => 4,
 			'b' => []
 		],$this->src);
@@ -94,7 +94,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	
 	public function testParseArraySuccess()
 	{
-		$workflow = Yii::$app->parser->parse('WID',[
+		$workflow = Yii::$app->deserializer->parse('WID',[
 			'a' => ['b','c'],
 			'b' => ['a'],
 			'c' => []
@@ -111,7 +111,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	
 	public function testParseStringSuccess()
 	{
-		$workflow = Yii::$app->parser->parse('WID',[
+		$workflow = Yii::$app->deserializer->parse('WID',[
 			'a' => 'b,c',
 			'b' => 'a',
 			'c' => []
