@@ -32,7 +32,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */
-	public function parse($wId, $definition, $source)
+	public function deserialize($wId, $definition, $source)
     {
 		$result = [];
 		if (!isset($definition['initialStatusId']))

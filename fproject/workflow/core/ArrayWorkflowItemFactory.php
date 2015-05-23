@@ -287,7 +287,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
 			if ($this->isWorkflowSource($wfSrc)) {
-				$this->_workflowDef[$wfId] = $this->parse($wfId, $wfSrc->getDefinition($model));
+				$this->_workflowDef[$wfId] = $this->deserialize($wfId, $wfSrc->getDefinition($model));
 			} else {
 				throw new WorkflowException('Invalid workflow source class : '.$wfClassName);
 			}
@@ -472,7 +472,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}
         else
         {
-			$this->_workflowDef[$workflowId] = $this->parse($workflowId, $definition);
+			$this->_workflowDef[$workflowId] = $this->deserialize($workflowId, $definition);
 			unset($this->_w[$workflowId]);
 			return true;
 		}
@@ -494,10 +494,10 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 * @param array $definition
 	 * @return array the workflow in its normalized format
 	 */
-	public function parse($workflowId, $definition) 
+	public function deserialize($workflowId, $definition)
 	{
 		if($this->getDeserializer() != null) {
-			return $this->getDeserializer()->parse($workflowId, $definition, $this);
+			return $this->getDeserializer()->deserialize($workflowId, $definition, $this);
 		}
         else
         {

@@ -55,7 +55,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */
-	public function parse($wId, $definition, $source) {
+	public function deserialize($wId, $definition, $source) {
 		if (empty($wId)) {
 			throw new WorkflowValidationException("Missing argument : workflow Id");
 		}

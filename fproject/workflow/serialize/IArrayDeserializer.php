@@ -45,5 +45,5 @@ interface IArrayDeserializer {
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */
-	public function parse($wId, $definition, $source);	
+	public function deserialize($wId, $definition, $source);
 }

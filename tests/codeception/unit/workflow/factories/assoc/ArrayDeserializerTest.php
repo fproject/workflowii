@@ -8,6 +8,11 @@ use Yii;
 use yii\codeception\TestCase;
 
 
+/**
+ * @property ArrayDeserializer deserializer
+ * @property ArrayDeserializer deserializerA
+ * @property ArrayDeserializer deserializerB
+ */
 class ArrayDeserializerTest extends TestCase
 {
 	use \Codeception\Specify;
@@ -22,7 +27,22 @@ class ArrayDeserializerTest extends TestCase
 			'class' => ArrayDeserializer::className(),
 		]);		
 	}
-	
+
+    public function getDeserializer()
+    {
+        return Yii::$app->deserializer;
+    }
+
+    public function getDeserializerB()
+    {
+        return Yii::$app->deserializerB;
+    }
+
+    public function getDeserializerA()
+    {
+        return Yii::$app->deserializerA;
+    }
+
 	/**
 	 * 
 	 */
@@ -32,12 +52,12 @@ class ArrayDeserializerTest extends TestCase
 			'class' => ArrayDeserializer::className(),
 			'validate' => false
 		]);
-		verify('validate is assigned',Yii::$app->deserializerA->validate)->false();
+		verify('validate is assigned',$this->deserializerA->validate)->false();
 
 		Yii::$app->set('deserializerB',[
 			'class' => ArrayDeserializer::className(),
 		]);
-		verify('validate default value is true',Yii::$app->deserializerB->validate)->true();
+		verify('validate default value is true',$this->deserializerB->validate)->true();
 	}
 	
 	/**
@@ -46,7 +66,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseNoInitStatus()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'status'=> []
 		],$this->src);
 	}
@@ -56,7 +76,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseInvalidInitStatusID()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'hello A'
 		],$this->src);
 	}	
@@ -66,7 +86,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseNoStatus()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A'
 		],$this->src);
 	}	
@@ -76,7 +96,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongStatusDefinition1()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [ 'A' => 1]
 				
@@ -88,7 +108,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongStatusDefinition2()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [ 1 => ['A']]
 		],$this->src);
@@ -99,7 +119,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongStatusDefinition3()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => 'A'
 		],$this->src);
@@ -111,7 +131,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongMetadataDefinition1()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [ 
 			'A' => [
@@ -126,7 +146,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongMetadataDefinition2()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'A' => [
@@ -141,7 +161,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongTransitionDefinition1()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'A' => [
@@ -157,7 +177,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongTransitionDefinition2()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'A' => [
@@ -172,7 +192,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseWrongTransitionDefinition3()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'A' => [
@@ -187,7 +207,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseValidationFailedMissingInitStatus()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'C',
 				'status' => [
 				'A' => [
@@ -204,7 +224,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseValidationFailedExternalInitStatus()
 	{	
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'EXT/C',
 				'status' => [
 				'A' => [
@@ -221,7 +241,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseValidationFailedExternalStatus1()
 	{	
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'A' => [
@@ -238,7 +258,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseValidationFailedExternalStatus2()
 	{	
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'EXT/A' => [
@@ -255,7 +275,7 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testParseValidationFailedMissingStatus()
 	{
-		Yii::$app->deserializer->parse('WID',[
+		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 				'status' => [
 				'A' => [
@@ -267,7 +287,7 @@ class ArrayDeserializerTest extends TestCase
 
 	public function testParseMinimalWorkflow1()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A']
 		],$this->src);
@@ -278,7 +298,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseMinimalWorkflow2()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A'=> null]
 		],$this->src);
@@ -289,7 +309,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseMinimalWorkflow3()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A'=> []]
 		],$this->src);
@@ -300,7 +320,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseMinimalWorkflowWithConfig()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A'],
 			'property' => 'value'
@@ -311,7 +331,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseStatusWithConfig()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A' => ['property' => 'value']
@@ -324,7 +344,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseMetadata()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -337,7 +357,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseTransitionSingle1()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -352,7 +372,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseTransitionSingle2()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -367,7 +387,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseTransitionSingle3()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -382,7 +402,7 @@ class ArrayDeserializerTest extends TestCase
 
 	public function testParseTransitionMulti1()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -400,7 +420,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseTransitionMulti2()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -418,7 +438,7 @@ class ArrayDeserializerTest extends TestCase
 	
 	public function testParseTransitionMultiWidhtConfig()
 	{
-		$workflow = Yii::$app->deserializer->parse('WID',[
+		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [
 				'A'=> [
@@ -437,7 +457,7 @@ class ArrayDeserializerTest extends TestCase
     /** Test case for https://github.com/fproject/workflowii/issues/2 */
     public function testParseBugNo2()
     {
-        $workflow = Yii::$app->deserializer->parse('WID',[
+        $workflow = $this->deserializer->deserialize('WID',[
             'initialStatusId' => 'draft',
             'status' => [
                 'draft' => [
