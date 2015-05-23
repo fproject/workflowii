@@ -1,7 +1,8 @@
 <?php 
 
-namespace fproject\workflow\factories\assoc;
+namespace fproject\workflow\serialize\parsers;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
@@ -13,7 +14,7 @@ use yii\helpers\VarDumper;
  */
 class ArrayParser extends Object implements IArrayParser
 {
-	
+
 	/**
 	 * @var boolean when TRUE, the parse method will also perform some validations
 	 */
@@ -27,7 +28,7 @@ class ArrayParser extends Object implements IArrayParser
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param WorkflowArrayFactory $source
+	 * @param ArrayWorkflowItemFactory $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */
@@ -40,20 +41,20 @@ class ArrayParser extends Object implements IArrayParser
 		}
 	
 		list($workflowId, $statusId) = $source->parseStatusId($definition['initialStatusId'], $wId, null);
-		$initialStatusId = $workflowId . WorkflowArrayFactory::SEPARATOR_STATUS_NAME .$statusId;
+		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 		if($workflowId != $wId)
         {
 			throw new WorkflowValidationException('Initial status must belong to workflow : '.$initialStatusId);
 		}
 	
-		if (!isset($definition[WorkflowArrayFactory::KEY_NODES]))
+		if (!isset($definition[ArrayWorkflowItemFactory::KEY_NODES]))
         {
 			throw new WorkflowValidationException("No status definition found");
 		}
         
 		$result['initialStatusId'] = $initialStatusId;
 	
-		if (!is_array($definition[WorkflowArrayFactory::KEY_NODES]))
+		if (!is_array($definition[ArrayWorkflowItemFactory::KEY_NODES]))
         {
 			throw new WorkflowValidationException('Invalid Status definition : array expected');
 		}
@@ -61,12 +62,12 @@ class ArrayParser extends Object implements IArrayParser
 		$startStatusIdIndex = [];
 		$endStatusIdIndex = [];
 	
-		foreach($definition[WorkflowArrayFactory::KEY_NODES] as $key => $value)
+		foreach($definition[ArrayWorkflowItemFactory::KEY_NODES] as $key => $value)
         {
             list($parsedId, $startStatusDef) = $this->parseStatusIdAndDef($key, $value);
 	
 			list($workflowId, $statusId) = $source->parseStatusId($parsedId, $wId, null);
-			$startStatusId = $startStatusIdIndex[] = $workflowId . WorkflowArrayFactory::SEPARATOR_STATUS_NAME . $statusId;
+			$startStatusId = $startStatusIdIndex[] = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME . $statusId;
 			if($workflowId != $wId) {
 				throw new WorkflowValidationException('Status must belong to workflow : '.$startStatusId);
 			}
@@ -80,13 +81,13 @@ class ArrayParser extends Object implements IArrayParser
 					 *
 					 * 'A' => []
 					 */
-					$result[WorkflowArrayFactory::KEY_NODES][$startStatusId] = null;
+					$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId] = null;
 				}
                 else
                 {
 					foreach ($startStatusDef as $startStatusKey => $startStatusValue)
                     {
-						if ($startStatusKey === WorkflowArrayFactory::KEY_METADATA )
+						if ($startStatusKey === ArrayWorkflowItemFactory::KEY_METADATA )
 						{
 							/**
 							 * validate metadata
@@ -96,9 +97,9 @@ class ArrayParser extends Object implements IArrayParser
 							 * ]
 							 */
 								
-							if (is_array($startStatusDef[WorkflowArrayFactory::KEY_METADATA]))
+							if (is_array($startStatusDef[ArrayWorkflowItemFactory::KEY_METADATA]))
                             {
-								if (!ArrayHelper::isAssociative($startStatusDef[WorkflowArrayFactory::KEY_METADATA]))
+								if (!ArrayHelper::isAssociative($startStatusDef[ArrayWorkflowItemFactory::KEY_METADATA]))
                                 {
 									throw new WorkflowValidationException("Invalid metadata definition for status $startStatusId : associative array expected");
 								}
@@ -107,7 +108,7 @@ class ArrayParser extends Object implements IArrayParser
                             {
 								throw new WorkflowValidationException("Invalid metadata definition for status $startStatusId : array expected");
 							}
-							$result[WorkflowArrayFactory::KEY_NODES][$startStatusId][WorkflowArrayFactory::KEY_METADATA] = $startStatusDef[WorkflowArrayFactory::KEY_METADATA];
+							$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][ArrayWorkflowItemFactory::KEY_METADATA] = $startStatusDef[ArrayWorkflowItemFactory::KEY_METADATA];
 						}
 						elseif ($startStatusKey === 'transition')
 						{
@@ -122,9 +123,9 @@ class ArrayParser extends Object implements IArrayParser
 								$ids = array_map('trim', explode(',', $transitionDefinition));
 								foreach ($ids as $id) {
 									$pieces = $source->parseStatusId($id, $wId, null);
-									$canEndStId = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
+									$canEndStId = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
-									$result[WorkflowArrayFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
+									$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
 								}
 							}
                             elseif (is_array($transitionDefinition))
@@ -155,13 +156,13 @@ class ArrayParser extends Object implements IArrayParser
 									}
 										
 									$pieces = $source->parseStatusId($endStatusId, $wId, null);
-									$canEndStId = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
+									$canEndStId = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
 										
 									if ($transDef != null) {
-										$result[WorkflowArrayFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = $transDef;
+										$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = $transDef;
 									}else {
-										$result[WorkflowArrayFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
+										$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
 									}
 								}
 							} else {
@@ -170,7 +171,7 @@ class ArrayParser extends Object implements IArrayParser
 						}
 						elseif (is_string($startStatusKey))
                         {
-							$result[WorkflowArrayFactory::KEY_NODES][$startStatusId][$startStatusKey] = $startStatusValue;
+							$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][$startStatusKey] = $startStatusValue;
 						}
 					}
 				}
@@ -189,14 +190,14 @@ class ArrayParser extends Object implements IArrayParser
 				 * ]
 	
 				 */
-				$result[WorkflowArrayFactory::KEY_NODES][$startStatusId] = null;
+				$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId] = null;
 			}
 		}
 	
 		// copy remaining workflow properties
 		foreach($definition as $propName => $propValue) {
 			if(is_string($propName)) {
-				if($propName != 'initialStatusId' && $propName != WorkflowArrayFactory::KEY_NODES) {
+				if($propName != 'initialStatusId' && $propName != ArrayWorkflowItemFactory::KEY_NODES) {
 					$result[$propName] = $propValue;
 				}
 			}

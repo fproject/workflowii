@@ -1,5 +1,7 @@
-<?php 
-namespace fproject\workflow\factories\assoc;
+<?php
+namespace fproject\workflow\serialize\parsers;
+
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\core\WorkflowValidationException;
 
 /**
@@ -39,7 +41,7 @@ interface IArrayParser {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param WorkflowArrayFactory $source
+	 * @param ArrayWorkflowItemFactory $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */

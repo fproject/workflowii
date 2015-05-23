@@ -1,11 +1,5 @@
 <?php
-namespace fproject\workflow\factories;
-
-use fproject\workflow\core\IStatus;
-use fproject\workflow\core\Transition;
-use fproject\workflow\core\Workflow;
-use fproject\workflow\core\ActiveWorkflowBehavior;
-use fproject\workflow\core\WorkflowException;
+namespace fproject\workflow\core;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 
@@ -13,7 +7,7 @@ use yii\base\InvalidConfigException;
  * Provides workflow items (Workflow, Status, Transitions) from
  * a workflow definition source.
  */
-interface IWorkflowFactory
+interface IWorkflowItemFactory
 {
     /**
      * Returns the status whose id is passed as argument.

@@ -3,7 +3,6 @@
 namespace fproject\workflow\core;
 
 use fproject\workflow\events\WorkflowEvent;
-use fproject\workflow\factories\IWorkflowFactory;
 use Yii;
 use yii\base\Behavior;
 use yii\base\Model;
@@ -127,7 +126,7 @@ class ActiveWorkflowBehavior extends Behavior
 	private $_statusConverter = null;
 
 	/**
-	 * @var IWorkflowFactory reference to the workflow factory component used by this behavior
+	 * @var IWorkflowItemFactory reference to the workflow factory component used by this behavior
 	 */
 	private $_factory;
 
@@ -729,7 +728,7 @@ class ActiveWorkflowBehavior extends Behavior
 	}
 
 	/**
-	 * @return IWorkflowFactory the workflow factory component instance used by this behavior
+	 * @return IWorkflowItemFactory the workflow factory component instance used by this behavior
 	 */
 	public function getWorkflowFactory()
 	{

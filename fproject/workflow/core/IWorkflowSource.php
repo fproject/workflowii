@@ -9,7 +9,7 @@ use yii\base\Component;
 interface IWorkflowSource
 {
 	/**
-	 * Returns the workflow definition in the form of an array.
+	 * Returns the workflow definition in the form of PHP associate array.
      * @param Component|ActiveWorkflowBehavior $model
 	 * @return array
 	 */

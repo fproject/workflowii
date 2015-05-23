@@ -1,7 +1,8 @@
-<?php 
+<?php
 
-namespace fproject\workflow\factories\assoc;
+namespace fproject\workflow\serialize\parsers;
 
+use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
@@ -50,7 +51,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param WorkflowArrayFactory $source
+	 * @param ArrayWorkflowItemFactory $source
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowValidationException
 	 */
@@ -72,14 +73,14 @@ class MinimalArrayParser extends Object implements IArrayParser {
 		
 		foreach($definition as $id => $targetStatusList) {
 			list($workflowId, $statusId) = $source->parseStatusId($id, $wId, null);
-			$absoluteStatusId = $workflowId . WorkflowArrayFactory::SEPARATOR_STATUS_NAME .$statusId;
+			$absoluteStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 			if ( $workflowId != $wId) {
 				throw new WorkflowValidationException('Status must belong to workflow : ' . $absoluteStatusId);
 			}
 			if (count($normalized) == 0) {
 				$initialStatusId = $absoluteStatusId;
 				$normalized['initialStatusId'] = $initialStatusId;
-				$normalized[WorkflowArrayFactory::KEY_NODES] = [];
+				$normalized[ArrayWorkflowItemFactory::KEY_NODES] = [];
 			}
 			$startStatusIdIndex[] = $absoluteStatusId;
 
@@ -98,10 +99,10 @@ class MinimalArrayParser extends Object implements IArrayParser {
 			}
 			
 			if ( count($endStatusIds)) {
-				$normalized[WorkflowArrayFactory::KEY_NODES][$absoluteStatusId] = ['transition' => array_fill_keys($endStatusIds,[])];
+				$normalized[ArrayWorkflowItemFactory::KEY_NODES][$absoluteStatusId] = ['transition' => array_fill_keys($endStatusIds,[])];
 				$endStatusIdIndex = array_merge($endStatusIdIndex, $endStatusIds);
 			} else {
-				$normalized[WorkflowArrayFactory::KEY_NODES][$absoluteStatusId] = null;
+				$normalized[ArrayWorkflowItemFactory::KEY_NODES][$absoluteStatusId] = null;
 			}
 		}
 
@@ -133,7 +134,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
      *
      * @param array $ids
      * @param string $workflowId
-     * @param WorkflowArrayFactory $source
+     * @param ArrayWorkflowItemFactory $source
      * @return array
      */
 	private function normalizeStatusIds($ids, $workflowId, $source)
@@ -141,7 +142,7 @@ class MinimalArrayParser extends Object implements IArrayParser {
 		$normalizedIds = [];
 		foreach ($ids as $id) {
 			$pieces = $source->parseStatusId($id, $workflowId, null);
-			$normalizedIds[] = implode(WorkflowArrayFactory::SEPARATOR_STATUS_NAME, $pieces);
+			$normalizedIds[] = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
 		}
 		return $normalizedIds;		
 	}

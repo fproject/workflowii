@@ -1,26 +1,19 @@
 <?php
-namespace fproject\workflow\factories\assoc;
+namespace fproject\workflow\core;
 
-use fproject\workflow\core\ActiveWorkflowBehavior;
+use fproject\workflow\serialize\parsers\IArrayParser;
 use Yii;
 use yii\base\Component;
 use yii\base\Object;
 use yii\base\InvalidConfigException;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
-use fproject\workflow\core\Status;
-use fproject\workflow\core\Transition;
-use fproject\workflow\core\Workflow;
-use fproject\workflow\core\WorkflowException;
-use fproject\workflow\core\IWorkflowSource;
-use fproject\workflow\factories\IWorkflowFactory;
-
 
 /**
  * This class provides workflow items (Workflow, Status, Transitions) from
  * a PHP associate array workflow definition.
  */
-class WorkflowArrayFactory extends Object implements IWorkflowFactory
+class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 {
 	/**
 	 *	The regular expression used to validate status and workflow Ids.
@@ -547,11 +540,11 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 		$stat['endStatusCount'] = count($endStatusIds);
 		$stat['finalStatus'] = $finalStatusIds;
 		
-		$missingStatusIdSuspects = \array_diff($endStatusIds, $startStatusIds);
+		$missingStatusIdSuspects = array_diff($endStatusIds, $startStatusIds);
 		if (count($missingStatusIdSuspects) != 0) {
 			$missingStatusId = [];
 			foreach ($missingStatusIdSuspects as $id) {
-				list($thisWid, ) = $this->parseStatusId($id,$wId);
+				list($thisWid, ) = $this->parseStatusId($id, $wId, null);
 				if ($thisWid == $wId) {
 					$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 				}
@@ -564,10 +557,10 @@ class WorkflowArrayFactory extends Object implements IWorkflowFactory
 			}
 		}	
 
-		$orphanStatusIds = \array_diff($startStatusIds, $endStatusIds);
+		$orphanStatusIds = array_diff($startStatusIds, $endStatusIds);
 		if(\in_array($definition['initialStatusId'], $orphanStatusIds)) {
 			// initial status Id is not unreachable
-			$orphanStatusIds = \array_diff($orphanStatusIds, [ $definition['initialStatusId'] ]);
+			$orphanStatusIds = array_diff($orphanStatusIds, [ $definition['initialStatusId'] ]);
 		}
 		if(count($orphanStatusIds) != 0) {
 			$errors['unreachableStatus'] = [

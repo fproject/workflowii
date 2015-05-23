@@ -1,8 +1,8 @@
 <?php
 namespace fproject\workflow\helpers;
 
+use fproject\workflow\core\IWorkflowItemFactory;
 use fproject\workflow\core\Status;
-use fproject\workflow\factories\IWorkflowFactory;
 use yii\base\Component;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\WorkflowException;
@@ -57,7 +57,7 @@ class WorkflowHelper
 	 * )
 	 * 
 	 * @param string $workflowId
-	 * @param IWorkflowFactory $workflowFactory
+	 * @param IWorkflowItemFactory $workflowFactory
      * @param Component|ActiveWorkflowBehavior $model
      *
 	 * @return Array
