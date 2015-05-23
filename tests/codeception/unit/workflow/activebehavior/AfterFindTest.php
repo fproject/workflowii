@@ -1,7 +1,8 @@
 <?php
 
-namespace tests\unit\workflow\behavior;
+namespace tests\unit\workflow\activebehavior;
 
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\DbTestCase;
@@ -10,9 +11,9 @@ use tests\codeception\unit\fixtures\ItemFixture04;
 /**
  * Class AfterFindTest
  *
- * @property Item04[] $items
+ * @method Item04[] items()
  *
- * @package tests\unit\workflow\behavior
+ * @package tests\unit\workflow\activebehavior
  */
 class AfterFindTest extends DbTestCase
 {

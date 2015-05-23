@@ -1,5 +1,5 @@
 <?php
-namespace tests\unit\workflow\behavior;
+namespace tests\unit\workflow\activebehavior;
 
 use Yii;
 use yii\codeception\TestCase;

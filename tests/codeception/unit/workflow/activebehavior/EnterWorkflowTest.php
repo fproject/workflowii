@@ -1,11 +1,9 @@
 <?php
 
-namespace tests\unit\workflow\behavior;
+namespace tests\unit\workflow\activebehavior;
 
 use Yii;
 use yii\codeception\DbTestCase;
-use tests\codeception\unit\models\Item01;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
 use tests\codeception\unit\models\Item04;
@@ -51,7 +49,7 @@ class EnterWorkflowTest extends DbTestCase
 
 			verify('item can be saved',$item->save())->true();
 
-            /** @var ActiveWorkflowBehavior $newitem */
+            /** @var ActiveWorkflowBehavior|Item04 $newitem */
 			$newitem = Item04::findOne(['id' => $item->id]);
 			verify('current status is set',$newitem->hasWorkflowStatus())->true();
 			verify('current status is ok',$newitem->workflowStatus->getId())->equals('Item04Workflow/A');

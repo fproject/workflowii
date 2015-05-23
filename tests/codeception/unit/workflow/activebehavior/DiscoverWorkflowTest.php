@@ -1,13 +1,11 @@
 <?php
 
-namespace tests\unit\workflow\behavior;
+namespace tests\unit\workflow\activebehavior;
 
 use Yii;
 use yii\codeception\TestCase;
-use yii\base\InvalidConfigException;
 
 use tests\codeception\unit\models\Item01;
-use tests\codeception\unit\models\Item03;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class DiscoverWorkflowTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\workflow\behavior;
+namespace tests\unit\workflow\activebehavior;
 
 use fproject\workflow\factory\IWorkflowFactory;
 use Yii;

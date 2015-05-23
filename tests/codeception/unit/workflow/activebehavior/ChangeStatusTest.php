@@ -1,16 +1,20 @@
 <?php
 
-namespace tests\unit\workflow\behavior;
+namespace tests\unit\workflow\activebehavior;
 
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\DbTestCase;
-use tests\codeception\unit\models\Item01;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\ItemFixture04;
-use yii\db\ActiveRecord;
 
+/**
+ * Class ChangeStatusTest
+ *
+ * @method Item04[] items()
+ *
+ * @package tests\unit\workflow\activebehavior
+ */
 class ChangeStatusTest extends DbTestCase
 {
 	use \Codeception\Specify;
@@ -37,7 +41,7 @@ class ChangeStatusTest extends DbTestCase
 
     public function testChangeStatusOnSaveFailed()
     {
-        /** @var ActiveRecord $item */
+        /** @var Item04|ActiveWorkflowBehavior $item */
     	$item = $this->items('item1');
     	$this->assertTrue($item->workflowStatus->getId() == 'Item04Workflow/B');
 

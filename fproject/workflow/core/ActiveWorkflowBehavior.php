@@ -63,71 +63,85 @@ use yii\db\BaseActiveRecord;
  * Please note that the model must be an instance of yii\base\Model.
  *
  * @property Model $owner
+ * @property IStatus $workflowStatus
  */
 class ActiveWorkflowBehavior extends Behavior
 {
 	const DEFAULT_FACTORY_CLASS = 'fproject\workflow\factory\assoc\WorkflowArrayFactory';
 	const DEFAULT_EVENT_SEQUENCE_CLASS = 'fproject\workflow\events\BasicEventSequence';
+
 	/**
 	 * @var string name of the owner model attribute used to store the current status value. It is also possible
 	 * to use a model property but in this case you must provide a suitable status accessor component that will handle
 	 * status persistence.
 	 */
 	public $statusAttribute = 'status';
+
 	/**
 	 * @var string name of the workflow source component to use with the behavior
 	 */
 	public $factoryName = 'workflowFactory';
+
 	/**
 	 * @var string name of an existing status Id converter component, to use with this behavior. When NULL, no status converter
 	 * component will be used.
 	 */
 	public $statusConverter = null;
+
 	/**
 	 * @var string Name of the status accessor component used by this behavior to set/get status values. By default, no external
 	 * accessor is used and the behavior directly access the the status attribute in the owner model.
 	 */
 	public $statusAccessor = null;
+
 	/**
 	 * @var string name of the event sequence provider component. If the component does not exist it is created
 	 * by this behavior using the default event sequence class.
 	 * Set this attribute to NULL if you are not going to use any Workflow Event.
 	 */
 	public $eventSequence = 'eventSequence';
+
 	/**
 	 * @var bool|string if TRUE, the model is automatically inserted into the default workflow. If 
 	 * $autoInsert contains a string, it is assumed to be an initial status Id that will be used to set the 
 	 * status. If FALSE (default) the status is not modified. 
 	 */
 	public $autoInsert = false;
+
 	/**
 	 * @var string Read only property that contains the id of the default workflow to use with
 	 * this behavior.
 	 */
 	private $_defaultWorkflowId;
+
 	/**
 	 * @property IStatus|null Internal value of the owner model status. This is the real value of the owner model status. It is
 	 * maintained internally, depending on the path the owner model is going through within a workflow.
-	 * Use getworkflowStatus() to get the actual Status instance.
+	 * Use getWorkflowStatus() to get the actual Status instance.
 	 */
 	private $_status = null;
+
 	/**
 	 * @var IStatusIdConverter Instance of the status ID converter used by this behavior or NULL if no status conversion is done
 	 */
 	private $_statusConverter = null;
+
 	/**
 	 * @var IWorkflowFactory reference to the workflow source component used by this behavior
 	 */
 	private $_wfSource;
+
 	/**
 	 * @var array workflow events that are fired after save
 	 */
 	private $_pendingEvents = [];
+
 	/**
 	 * @var IEventSequence|null the Event sequence component that provides events to this behavior. If NULL, no event will be
 	 * fired by this behavior.
 	 */
 	private $_eventSequence = null;
+
 	/**
 	 * @var IStatusAccessor|null the status accessor component used by this behavior or NULL if no such component is used.
 	 */
@@ -272,6 +286,7 @@ class ActiveWorkflowBehavior extends Behavior
 			}
 		}		
 	}
+
 	/**
 	 * Initialize the internal status value based on the owner model status attribute.
 	 *
@@ -415,6 +430,7 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 		return true;
 	}
+
 	/**
 	 * Creates and returns the list of events that will be fire when the owner model is sent from its current status to the one passed as argument.
 	 *
@@ -428,6 +444,7 @@ class ActiveWorkflowBehavior extends Behavior
 		list(,,$events) = $this->createTransitionItems($status, false, true);
 		return $events;
 	}
+
 	/**
 	 * Creates and returns the list of scenario names that will be used to validate the owner model when it is sent from its current
 	 * status to the one passed as argument.
@@ -688,6 +705,7 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 		return $nextStatus;
 	}
+
 	/**
 	 * Returns the id of the default workflow associated with the owner model.
 	 *
@@ -707,6 +725,7 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 		return $this->_defaultWorkflowId;
 	}
+
 	/**
 	 * @return IWorkflowFactory the workflow source component instance used by this behavior
 	 */
@@ -714,6 +733,7 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		return $this->_wfSource;
 	}
+
 	/**
 	 * @return IStatusAccessor|null returns the Status accessor component used by this behavior
 	 * or NULL if no status accessor is used.
@@ -722,6 +742,7 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		return $this->_statusAccessor;
 	}
+
 	/**
 	 * @return IStatus the value of the status.
 	 */
@@ -729,6 +750,7 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		return $this->_status;
 	}
+
 	/**
 	 * @return Workflow | null the workflow the owner model is currently in, or null if the owner
 	 * model is not in a workflow
@@ -737,6 +759,7 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		return $this->hasWorkflowStatus() ? $this->getWorkflowFactory()->getWorkflow($this->getWorkflowStatus()->getWorkflowId()) : null;
 	}
+
 	/**
 	 * The owner model is considered as being in a workflow if its current Status is not null.
 	 *
@@ -784,6 +807,7 @@ class ActiveWorkflowBehavior extends Behavior
 			return false;
 		}
 	}
+
 	/**
 	 * Returns a IStatus instance for the value passed as argument.
 	 *
@@ -813,6 +837,7 @@ class ActiveWorkflowBehavior extends Behavior
 			return $status;
 		}
 	}
+
 	/**
 	 * @return string the value of the status attribute in the owner model
 	 */
@@ -847,6 +872,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 		$this->owner->{$this->statusAttribute} = $statusId;
 	}
+
 	/**
 	 * Send pending events.
 	 *
@@ -866,6 +892,7 @@ class ActiveWorkflowBehavior extends Behavior
 			}
 		}
 	}
+
 	/**
 	 * Returns the default workflow ID to use with this model.
 	 * The workflow ID returned is the current workflow ID (if the model is in a workflow)
