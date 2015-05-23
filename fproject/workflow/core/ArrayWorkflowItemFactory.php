@@ -37,11 +37,11 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */	
 	const KEY_METADATA = 'metadata';
 	/**
-	 * Name of the parser class to use by default
+	 * Name of the deserializer class to use by default
 	 */
 	const DEFAULT_DESERIALIZER_CLASS = '\fproject\workflow\serialize\ArrayDeserializer';
 	/**
-	 * Name of the default parser component to use with the behavior. This value can be overwritten
+	 * Name of the default deserializer component to use with the behavior. This value can be overwritten
 	 * by the 'deserializer' configuration setting.
 	 * Example : 
 	 * 'workflowFactory' => [
@@ -55,9 +55,9 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */
 	public $namespace = 'app\models';
 	/**
-	 * @var Object reference to the parser to use with this ArrayWorkflowItemFactory
+	 * @var Object reference to the deserializer to use with this ArrayWorkflowItemFactory
 	 */
-	private $_parser;
+	private $_deserializer;
 	/**
 	 * @var array list of all workflow definition indexed by workflow id
 	 */
@@ -121,16 +121,16 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			}
 		}
 		
-		// create the parser component or get it by name from Yii::$app
+		// create the deserializer component or get it by name from Yii::$app
 		
-		$parserName = isset($config['deserializer']) ? $config['deserializer'] : self::DEFAULT_DESERIALIZER_NAME;
-		if ($parserName == null ) {
-			$this->_parser = null;
-		} elseif (is_string($parserName)) {
-			if (!Yii::$app->has($parserName)) {
-				Yii::$app->set($parserName, ['class'=> self::DEFAULT_DESERIALIZER_CLASS]);
+		$deserializerName = isset($config['deserializer']) ? $config['deserializer'] : self::DEFAULT_DESERIALIZER_NAME;
+		if ($deserializerName == null ) {
+			$this->_deserializer = null;
+		} elseif (is_string($deserializerName)) {
+			if (!Yii::$app->has($deserializerName)) {
+				Yii::$app->set($deserializerName, ['class'=> self::DEFAULT_DESERIALIZER_CLASS]);
 			}
-			$this->_parser = Yii::$app->get($parserName);
+			$this->_deserializer = Yii::$app->get($deserializerName);
 			unset($config['deserializer']);
 		} else {
 			throw new InvalidConfigException("Invalid property type : 'deserializer' must be a a string or NULL");
@@ -478,14 +478,14 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}
 	}
 	/**
-	 * Returns the parser used by this source or NULL if no parser is used. In this case, it is assumed
+	 * Returns the deserializer used by this source or NULL if no deserializer is used. In this case, it is assumed
 	 * that all workflow definitions provided to this source as PHP array, are in the normalized form.
 	 * 
 	 * @return IArrayDeserializer
 	 */
-	public function getWorkflowParser()
+	public function getDeserializer()
 	{
-		return $this->_parser;
+		return $this->_deserializer;
 	}
 	/**
 	 * Convert the $definition array in its normalized form used internally by this source.
@@ -496,8 +496,8 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */
 	public function parse($workflowId, $definition) 
 	{
-		if($this->getWorkflowParser() != null) {
-			return $this->getWorkflowParser()->parse($workflowId, $definition, $this);
+		if($this->getDeserializer() != null) {
+			return $this->getDeserializer()->parse($workflowId, $definition, $this);
 		}
         else
         {
@@ -508,7 +508,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	/**
 	 * Validate the workflow definition passed as argument.
 	 * The workflow definition array format is the one rused internally by this class, and that should
-	 * have been provided by a parser. 
+	 * have been provided by a deserializer.
 	 * 
 	 * @param string $wId Id of the workflow to validate
 	 * @param array $definition workflow definition
