@@ -18,7 +18,7 @@ class ArrayDeserializerTest extends TestCase
 	{
 		parent::setUp();
 		$this->src = new ArrayWorkflowItemFactory();
-		Yii::$app->set('parser',[
+		Yii::$app->set('deserializer',[
 			'class' => ArrayDeserializer::className(),
 		]);		
 	}
@@ -28,13 +28,13 @@ class ArrayDeserializerTest extends TestCase
 	 */
 	public function testCreateInstance()
 	{
-		Yii::$app->set('parserA',[
+		Yii::$app->set('deserializerA',[
 			'class' => ArrayDeserializer::className(),
 			'validate' => false
 		]);
 		verify('validate is assigned',Yii::$app->parserA->validate)->false(); 
 
-		Yii::$app->set('parserB',[
+		Yii::$app->set('deserializerB',[
 			'class' => ArrayDeserializer::className(),
 		]);
 		verify('validate default value is true',Yii::$app->parserB->validate)->true();		

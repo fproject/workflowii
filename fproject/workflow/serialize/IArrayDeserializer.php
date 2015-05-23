@@ -6,7 +6,7 @@ use fproject\workflow\core\WorkflowValidationException;
 
 /**
  * This class converts a workflow definition PHP array into its normalized form
- * as required by the WorkflowArrayFactory class.
+ * as required by the ArrayWorkflowItemFactory class.
  * 
  * The normalized form apply following rules :
  * - key 'initialStatusId' : (mandatory) must contain a status Id defined in the status Id list
@@ -37,7 +37,7 @@ interface IArrayDeserializer {
 	 * Parse a workflow defined as a PHP Array.
 	 *
 	 * The workflow definition passed as argument is turned into an array that can be
-	 * used by the WorkflowArrayFactory components.
+	 * used by the ArrayWorkflowItemFactory components.
 	 * 
 	 * @param string $wId
 	 * @param array $definition

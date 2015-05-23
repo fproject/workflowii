@@ -39,23 +39,23 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	/**
 	 * Name of the parser class to use by default
 	 */
-	const DEFAULT_PARSER_CLASS = '\fproject\workflow\serialize\ArrayDeserializer';
+	const DEFAULT_DESERIALIZER_CLASS = '\fproject\workflow\serialize\ArrayDeserializer';
 	/**
 	 * Name of the default parser component to use with the behavior. This value can be overwritten
-	 * by the 'parser' configuration setting.
+	 * by the 'deserializer' configuration setting.
 	 * Example : 
 	 * 'workflowFactory' => [
 	 * 		'class' => 'fproject\workflow\core\ArrayWorkflowItemFactory',
-	 * 		'parser' => 'myparser'
+	 * 		'deserializer' => 'myDeserializer'
 	 * ]
 	 */	
-	const DEFAULT_PARSER_NAME = 'workflowArrayParser';
+	const DEFAULT_DESERIALIZER_NAME = 'arrayDeserializer';
 	/**
 	 * @var string namespace where workflow definition class are located
 	 */
 	public $namespace = 'app\models';
 	/**
-	 * @var Object reference to the parser to use with this WorkflowArrayFactory
+	 * @var Object reference to the parser to use with this ArrayWorkflowItemFactory
 	 */
 	private $_parser;
 	/**
@@ -123,17 +123,17 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		
 		// create the parser component or get it by name from Yii::$app
 		
-		$parserName = isset($config['parser']) ? $config['parser'] : 'workflowArrayParser';
+		$parserName = isset($config['deserializer']) ? $config['deserializer'] : self::DEFAULT_DESERIALIZER_NAME;
 		if ($parserName == null ) {
 			$this->_parser = null;
 		} elseif (is_string($parserName)) {
 			if (!Yii::$app->has($parserName)) {
-				Yii::$app->set($parserName, ['class'=> self::DEFAULT_PARSER_CLASS]);
+				Yii::$app->set($parserName, ['class'=> self::DEFAULT_DESERIALIZER_CLASS]);
 			}
 			$this->_parser = Yii::$app->get($parserName);
-			unset($config['parser']);
+			unset($config['deserializer']);
 		} else {
-			throw new InvalidConfigException("Invalid property type : 'parser' must be a a string or NULL");
+			throw new InvalidConfigException("Invalid property type : 'deserializer' must be a a string or NULL");
 		}		
 
 		parent::__construct($config);
@@ -367,7 +367,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      *
      * @throws WorkflowException
      *
-     * @see WorkflowArrayFactory::evaluateWorkflowId()
+     * @see ArrayWorkflowItemFactory::evaluateWorkflowId()
      */
 	public function parseStatusId($val, $wfId, $model)
 	{
@@ -409,7 +409,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 *
 	 * @param string $id the status ID to test
 	 * @return boolean TRUE if $id is a valid status ID, FALSE otherwise.
-	 * @see WorkflowArrayFactory::parseStatusId()
+	 * @see ArrayWorkflowItemFactory::parseStatusId()
 	 */
 	public function isValidStatusId($id)
 	{

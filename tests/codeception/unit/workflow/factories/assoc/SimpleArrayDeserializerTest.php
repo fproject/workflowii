@@ -16,12 +16,12 @@ class SimpleArrayDeserializerTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		Yii::$app->set('parser',[
+		Yii::$app->set('deserializer',[
 			'class' => SimpleArrayDeserializer::className(),
 		]);
 		
 		$this->src = new ArrayWorkflowItemFactory([
-			'parser' => 'parser'
+			'deserializer' => 'deserializer'
 		]);
 	}
 	

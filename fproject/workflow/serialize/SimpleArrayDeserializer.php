@@ -47,7 +47,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 	 * Parse a workflow defined as a PHP Array.
 	 *
 	 * The workflow definition passed as argument is turned into an array that can be
-	 * used by the WorkflowArrayFactory components.
+	 * used by the ArrayWorkflowItemFactory components.
 	 * 
 	 * @param string $wId
 	 * @param array $definition
