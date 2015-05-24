@@ -4,6 +4,7 @@ namespace tests\unit\workflow\serialize;
 
 use Codeception\Specify;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
+use tests\codeception\unit\models\Item00;
 use Yii;
 use yii\codeception\TestCase;
 
@@ -65,18 +66,29 @@ class WorkflowTest extends TestCase
 		$this->src->addWorkflowDefinition('wid', ['initialStatusId' => 'A']);
 	}
 
-	public function testGetWorkflowSourceClassName()
+	public function testGetWorkflowSourceClassNameFail()
 	{
-		$this->src->workflowSourceNamespace = 'a\b\c';
-		$this->assertEquals('a\b\c\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
-		$this->src->workflowSourceNamespace = '';
-		$this->assertEquals('\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
-
 		$this->specify('exception thrown on invalid workflow id', function() {
 			$this->src->getWorkflowSourceClassName('', null);
 		},['throws'=> 'fproject\workflow\core\WorkflowException']);
-
 	}
+
+    public function testGetWorkflowSourceClassNameSuccess1()
+    {
+        $this->src->workflowSourceNamespace = null;
+        $this->assertEquals('app\models\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->src->workflowSourceNamespace = 'a\b\c';
+        $this->assertEquals('a\b\c\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->src->workflowSourceNamespace = '';
+        $this->assertEquals('\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
+    }
+
+    public function testGetWorkflowSourceClassNameSuccess2()
+    {
+        $item = new Item00();
+        $this->src->workflowSourceNamespace = null;
+        $this->assertEquals('tests\codeception\unit\models\Item00WorkflowSource', $this->src->getWorkflowSourceClassName('Item00Workflow', $item));
+    }
 
     public function testFailToLoadWorkflowSourceClass()
     {

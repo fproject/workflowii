@@ -11,7 +11,6 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 {
 	use Specify;
 
-
 	public function testConstructFails1()
 	{
 		$this->specify('Workflow factory construct fails if classMap is not an array',function (){
@@ -59,11 +58,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 					'transition' => 'fproject\workflow\core\Transition'
 				]
 			]);
-
-
 		});
-
-
 	}
 	public function testConstructSuccess()
 	{
