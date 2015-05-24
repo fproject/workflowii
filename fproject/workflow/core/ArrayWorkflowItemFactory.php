@@ -109,11 +109,11 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	
 
 	/**
-	 * Built-in types names used for class map configuration.
+	 * Built-in keys used for class map configuration.
 	 */
-	const TYPE_STATUS = 'status';
-	const TYPE_TRANSITION = 'transition';
-	const TYPE_WORKFLOW = 'workflow';
+	const CLASS_MAP_STATUS = 'status';
+	const CLASS_MAP_TRANSITION = 'transition';
+	const CLASS_MAP_WORKFLOW = 'workflow';
 
 	/**
 	 * The class map is used to allow the use of alternate classes to implement built-in types. This way
@@ -123,9 +123,9 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 * @var array
 	 */
 	private $_classMap = [
-		self::TYPE_WORKFLOW   => 'fproject\workflow\core\Workflow',
-		self::TYPE_STATUS     => 'fproject\workflow\core\Status',
-		self::TYPE_TRANSITION => 'fproject\workflow\core\Transition'
+		self::CLASS_MAP_WORKFLOW   => 'fproject\workflow\core\Workflow',
+		self::CLASS_MAP_STATUS     => 'fproject\workflow\core\Status',
+		self::CLASS_MAP_TRANSITION => 'fproject\workflow\core\Transition'
 	];
 
     /**
@@ -143,7 +143,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 
 				// class-map validation
 
-				foreach ([self::TYPE_STATUS, self::TYPE_TRANSITION, self::TYPE_WORKFLOW] as $type) {
+				foreach ([self::CLASS_MAP_STATUS, self::CLASS_MAP_TRANSITION, self::CLASS_MAP_WORKFLOW] as $type) {
 					$className = $this->getClassMapByType($type);
 					if (empty($className)) {
 						throw new InvalidConfigException("Invalid class map value : missing class for type ".$type);
@@ -192,7 +192,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			$stDef = $wDef[self::KEY_NODES][$canonicalStId] != null ? $wDef[self::KEY_NODES][$canonicalStId] : [];
 			unset($stDef[self::KEY_EDGES]);
 			
-			$stDef['class'] = $this->getClassMapByType(self::TYPE_STATUS);
+			$stDef['class'] = $this->getClassMapByType(self::CLASS_MAP_STATUS);
 			$stDef['workflowId'] = $wId;
 			$stDef['id'] = $canonicalStId;
 			$stDef['label'] = (isset($stDef['label']) ? $stDef['label'] : Inflector::camel2words($stId, true));
@@ -234,7 +234,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 					if ($end == null) {
 						throw new WorkflowException('end status not found : start(id='.$statusId.') end(id='.$endStId.')');
 					} else {
-						$trCfg['class'] = $this->getClassMapByType(self::TYPE_TRANSITION);
+						$trCfg['class'] = $this->getClassMapByType(self::CLASS_MAP_TRANSITION);
 						$trCfg['start'] = $start;
 						$trCfg['end'  ] = $end;
 						$transitions[] = Yii::createObject($trCfg);
@@ -282,7 +282,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 				} else {
 					throw new WorkflowException('failed to load Workflow '.$id.' : missing initial status id');
 				}
-				$def['class'] = $this->getClassMapByType(self::TYPE_WORKFLOW);
+				$def['class'] = $this->getClassMapByType(self::CLASS_MAP_WORKFLOW);
 				$workflow = Yii::createObject($def);
 			}
 			$this->_w[$id] = $workflow;

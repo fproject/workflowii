@@ -67,14 +67,14 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 			$src = new ArrayWorkflowItemFactory([
 				'workflowSourceNamespace' =>'a\b\c',
 				'classMap' =>  [
-					ArrayWorkflowItemFactory::TYPE_WORKFLOW   => 'my\namespace\Workflow',
-					ArrayWorkflowItemFactory::TYPE_STATUS     => 'my\namespace\Status',
-					ArrayWorkflowItemFactory::TYPE_TRANSITION => 'my\namespace\Transition'
+					ArrayWorkflowItemFactory::CLASS_MAP_WORKFLOW   => 'my\namespace\Workflow',
+					ArrayWorkflowItemFactory::CLASS_MAP_STATUS     => 'my\namespace\Status',
+					ArrayWorkflowItemFactory::CLASS_MAP_TRANSITION => 'my\namespace\Transition'
 				]
 			]);
-			expect($src->getClassMapByType(ArrayWorkflowItemFactory::TYPE_WORKFLOW))->equals(	'my\namespace\Workflow'		);
-			expect($src->getClassMapByType(ArrayWorkflowItemFactory::TYPE_STATUS))->equals(	'my\namespace\Status'		);
-			expect($src->getClassMapByType(ArrayWorkflowItemFactory::TYPE_TRANSITION))->equals('my\namespace\Transition'	);
+			expect($src->getClassMapByType(ArrayWorkflowItemFactory::CLASS_MAP_WORKFLOW))->equals(	'my\namespace\Workflow'		);
+			expect($src->getClassMapByType(ArrayWorkflowItemFactory::CLASS_MAP_STATUS))->equals(	'my\namespace\Status'		);
+			expect($src->getClassMapByType(ArrayWorkflowItemFactory::CLASS_MAP_TRANSITION))->equals('my\namespace\Transition'	);
 		});
 	}
 }

@@ -18,13 +18,13 @@ class ClassMapTest extends TestCase
 			$factory = new ArrayWorkflowItemFactory([
 				'workflowSourceNamespace' =>'tests\codeception\unit\models',
 				'classMap' =>  [
-					ArrayWorkflowItemFactory::TYPE_STATUS     => 'tests\codeception\unit\models\MyStatus',
+					ArrayWorkflowItemFactory::CLASS_MAP_STATUS     => 'tests\codeception\unit\models\MyStatus',
 				]
 			]);
 
-			verify($factory->getClassMapByType(ArrayWorkflowItemFactory::TYPE_WORKFLOW))->equals(	'fproject\workflow\core\Workflow'  );
-			verify($factory->getClassMapByType(ArrayWorkflowItemFactory::TYPE_STATUS))->equals(	'tests\codeception\unit\models\MyStatus'  );
-			verify($factory->getClassMapByType(ArrayWorkflowItemFactory::TYPE_TRANSITION))->equals('fproject\workflow\core\Transition');
+			verify($factory->getClassMapByType(ArrayWorkflowItemFactory::CLASS_MAP_WORKFLOW))->equals(	'fproject\workflow\core\Workflow'  );
+			verify($factory->getClassMapByType(ArrayWorkflowItemFactory::CLASS_MAP_STATUS))->equals(	'tests\codeception\unit\models\MyStatus'  );
+			verify($factory->getClassMapByType(ArrayWorkflowItemFactory::CLASS_MAP_TRANSITION))->equals('fproject\workflow\core\Transition');
 
 			$status = $factory->getStatus('Item04Workflow/A', null, null);
 
