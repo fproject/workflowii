@@ -149,7 +149,7 @@ class AutoInsertTest extends DbTestCase
     }    
     /**
 	 * @expectedException fproject\workflow\core\WorkflowException
-	 * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUND does not exist
+	 * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUNDSource does not exist
 	 */	
     public function testAutoInsertFails1()
     {
@@ -162,7 +162,7 @@ class AutoInsertTest extends DbTestCase
     }   
     /**
      * @expectedException fproject\workflow\core\WorkflowException
-     * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUND does not exist
+     * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUNDSource does not exist
      */
     public function testAutoInsertFails2()
     {

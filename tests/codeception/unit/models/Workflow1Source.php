@@ -4,7 +4,7 @@ namespace tests\codeception\unit\models;
 
 use fproject\workflow\core\IWorkflowSource;
 
-class Workflow1 implements IWorkflowSource
+class Workflow1Source implements IWorkflowSource
 {
 
 	public function getDefinition($model)
