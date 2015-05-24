@@ -57,12 +57,23 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */	
 	const DEFAULT_DESERIALIZER_NAME = 'arrayDeserializer';
 
+    /**
+     * Default value for `$workflowSourceNamespace` parameter of this component
+     */
+    const DEFAULT_WORKFLOW_SOURCE_NAMESPACE = 'app\models';
+
 	/**
-	 * @var string namespace where workflow definition class are located.
+	 * @var string namespace where workflow source classes are located.
      *
-     * You can config value of this field in Yii's application 'workflowFactory' component
+     * You can config value of this field in Yii's application 'workflowFactory' component.
+     *
+     * If value of this parameter is not set, and the `$model` argument is passed to `getWorkflowSourceClassName()`
+     * method, then the namespace of `$model` will be used to find workflow source classes.
+     *
+     * If both value of this parameter and the `$model` is null, the namespace defined in `DEFAULT_WORKFLOW_SOURCE_NAMESPACE`
+     * will be used.
 	 */
-	public $namespace = 'app\models';
+	public $workflowSourceNamespace = null;
 
     /**
      * @var string the suffix to determine workflow source class from a model class.
@@ -301,7 +312,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}
 
 		if (!isset($this->_workflowDef[$wfId])) {
-			$wfSrcClassName = $this->getWorkflowSourceClassName($wfId);
+			$wfSrcClassName = $this->getWorkflowSourceClassName($wfId, $model);
 			try {
                 /** @var Object|IWorkflowSource $wfSrc */
 				$wfSrc = Yii::createObject(['class' => $wfSrcClassName]);
@@ -319,18 +330,31 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 
     /**
      * Returns the complete name for the IWorkflowSource class used to retrieve the definition of workflow $workflowId.
-     * The class name is built by appending the workflow id to the namespace parameter set for this source component.
+     * The class name is built by appending the workflow id to the `workflowSourceNamespace` parameter set for this factory component.
      *
      * @param string $workflowId a workflow id
+     * @param Component|ActiveWorkflowBehavior $model the model that owns the workflow.
+     *
      * @return string the full qualified class name implements IWorkflowSource used to provide definition for the workflow
      * @throws WorkflowException
      */
-	public function getWorkflowSourceClassName($workflowId)
+	public function getWorkflowSourceClassName($workflowId, $model)
 	{
 		if (!$this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
-		return $this->namespace . '\\' . $workflowId.$this->workflowSourceSuffix;
+        $ns = $this->workflowSourceNamespace;
+        if(!isset($ns))
+        {
+            if(isset($model))
+            {
+                $ro = new \ReflectionObject($model);
+                $ns = $ro->getNamespaceName();
+            }
+            if(!isset($ns))
+                $ns = self::DEFAULT_WORKFLOW_SOURCE_NAMESPACE;
+        }
+		return $ns . '\\' . $workflowId . $this->workflowSourceSuffix;
 	}
 
     /**
