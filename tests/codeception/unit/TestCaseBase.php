@@ -1,6 +1,9 @@
 <?php
+namespace tests\unit;
 
-class TestCaseBase extends \yii\codeception\TestCase
+use yii\codeception\TestCase;
+
+class TestCaseBase extends TestCase
 {
     use \Codeception\Specify;
     public function __get($name)

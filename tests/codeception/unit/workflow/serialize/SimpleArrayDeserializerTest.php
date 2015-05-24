@@ -4,12 +4,13 @@ namespace tests\unit\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\serialize\SimpleArrayDeserializer;
+use tests\unit\TestCaseBase;
 use Yii;
 
 /**
  * @property SimpleArrayDeserializer deserializer
  */
-class SimpleArrayDeserializerTest extends \TestCaseBase
+class SimpleArrayDeserializerTest extends TestCaseBase
 {
     /** @var  ArrayWorkflowItemFactory $src */
 	public $src;

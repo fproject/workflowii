@@ -4,6 +4,7 @@ namespace tests\unit\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\serialize\ArrayDeserializer;
+use tests\unit\TestCaseBase;
 use Yii;
 
 /**
@@ -11,7 +12,7 @@ use Yii;
  * @property ArrayDeserializer deserializerA
  * @property ArrayDeserializer deserializerB
  */
-class ArrayDeserializerTest extends \TestCaseBase
+class ArrayDeserializerTest extends TestCaseBase
 {
 	/** @var  ArrayWorkflowItemFactory $src */
 	public $src;
