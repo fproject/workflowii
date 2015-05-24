@@ -528,8 +528,8 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	}
     
 	/**
-	 * Returns the deserializer used by this source or NULL if no deserializer is used. In this case, it is assumed
-	 * that all workflow definitions provided to this source as PHP array, are in the normalized form.
+	 * Returns the deserializer used by this factory or NULL if no deserializer is used. In this case, it is assumed
+	 * that all workflow definitions provided to this factory as PHP array which are in the normalized form.
 	 * 
 	 * @return IArrayDeserializer
 	 */
