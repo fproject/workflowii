@@ -130,7 +130,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException fproject\workflow\core\WorkflowException
+     * @expectedException yii\base\InvalidConfigException
      * @expectedExceptionMessage Failed to load workflow definition : Class app\models\SomethingSource does not exist
      */
     public function testGetStatusFromDynamicDefinitionFail1()

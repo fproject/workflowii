@@ -13,9 +13,12 @@ class DynamicItemWorkflowSource implements IWorkflowSource
     public function getDefinition($model)
     {
         $wfSourceClass = 'tests\codeception\unit\models\\'. $model->dynamicWorkflowId . 'Source';
-
-        /** @var IWorkflowSource $wfSrc */
-        $wfSrc = new $wfSourceClass();
-        return $wfSrc->getDefinition($model);
+        if(class_exists($wfSourceClass))
+        {
+            /** @var IWorkflowSource $wfSrc */
+            $wfSrc = new $wfSourceClass();
+            return $wfSrc->getDefinition($model);
+        }
+        return null;
     }
 }
