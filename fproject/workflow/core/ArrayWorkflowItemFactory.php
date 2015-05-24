@@ -279,17 +279,17 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}
 
 		if (!isset($this->_workflowDef[$wfId])) {
-			$wfClassName = $this->getClassName($wfId);
+			$wfSrcClassName = $this->getWorkflowSourceClassName($wfId);
 			try {
                 /** @var Object|IWorkflowSource $wfSrc */
-				$wfSrc = Yii::createObject(['class' => $wfClassName]);
+				$wfSrc = Yii::createObject(['class' => $wfSrcClassName]);
 			} catch (\ReflectionException $e) {
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
 			if ($this->isWorkflowSource($wfSrc)) {
 				$this->_workflowDef[$wfId] = $this->deserialize($wfId, $wfSrc->getDefinition($model));
 			} else {
-				throw new WorkflowException('Invalid workflow source class : '.$wfClassName);
+				throw new WorkflowException('Invalid workflow source class : '.$wfSrcClassName);
 			}
 		}
 		return $this->_workflowDef[$wfId];
@@ -303,12 +303,12 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      * @return string the full qualified class name implements IWorkflowSource used to provide definition for the workflow
      * @throws WorkflowException
      */
-	public function getClassName($workflowId)
+	public function getWorkflowSourceClassName($workflowId)
 	{
 		if (!$this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
-		return $this->namespace . '\\' . $workflowId;
+		return $this->namespace . '\\' . $workflowId.'Source';
 	}
 
     /**

@@ -63,15 +63,15 @@ class WorkflowTest extends TestCase
 		$this->src->addWorkflowDefinition('wid', ['initialStatusId' => 'A']);
 	}
 
-	public function testGetClassname()
+	public function testGetWorkflowSourceClassName()
 	{
 		$this->src->namespace = 'a\b\c';
-		$this->assertEquals('a\b\c\PostWorkflow', $this->src->getClassName('PostWorkflow'));
+		$this->assertEquals('a\b\c\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflowSource'));
 		$this->src->namespace = '';
-		$this->assertEquals('\PostWorkflow', $this->src->getClassName('PostWorkflow'));
+		$this->assertEquals('\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflowSource'));
 
 		$this->specify('exception thrown on invalid workflow id', function() {
-			$this->src->getClassName('');
+			$this->src->getWorkflowSourceClassName('');
 		},['throws'=> 'fproject\workflow\core\WorkflowException']);
 
 	}

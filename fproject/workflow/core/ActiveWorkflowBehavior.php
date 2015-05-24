@@ -118,7 +118,7 @@ class ActiveWorkflowBehavior extends Behavior
 	 * maintained internally, depending on the path the owner model is going through within a workflow.
 	 * Use getWorkflowStatus() to get the actual Status instance.
 	 */
-	private $_status = null;
+	private $_workflowStatus = null;
 
 	/**
 	 * @var IStatusIdConverter Instance of the status ID converter used by this behavior or NULL if no status conversion is done
@@ -311,7 +311,7 @@ class ActiveWorkflowBehavior extends Behavior
 			}
 			$this->setStatusInternal($status);
 		} else {
-			$this->_status = null;
+			$this->_workflowStatus = null;
 		}
 	}
 
@@ -749,7 +749,7 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public function getWorkflowStatus()
 	{
-		return $this->_status;
+		return $this->_workflowStatus;
 	}
 
 	/**
@@ -864,7 +864,7 @@ class ActiveWorkflowBehavior extends Behavior
 			throw new WorkflowException('Status instance expected');
 		}
 
-		$this->_status = $status;
+		$this->_workflowStatus = $status;
 
 		$statusId = ($status === null ? null : $status->getId());
 		if ($this->_statusConverter != null) {
