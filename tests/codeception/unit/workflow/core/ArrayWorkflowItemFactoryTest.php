@@ -139,11 +139,6 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
         $item = $this->items('item5');
 
-        $this->setExpectedException(
-            'yii\base\InvalidConfigException',
-            'Invalid class map value : missing class for type workflow'
-        );
-
         $factory->getStatus('Something/Abc', null, $item);
     }
 }
