@@ -2,13 +2,14 @@
 
 namespace tests\unit\workflow\helpers;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use fproject\workflow\helpers\WorkflowHelper;
 
 class WorkflowHelperTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 	
 	protected function setup()
 	{

@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\events;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\DbTestCase;
 use fproject\workflow\core\ActiveWorkflowBehavior;
@@ -15,7 +16,7 @@ use yii\db\BaseActiveRecord;
  */
 class ChangeStatusExtendedEventTest extends DbTestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 	public $eventsBefore = [];
 	public $eventsAfter = [];
 

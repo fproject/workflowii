@@ -1,6 +1,7 @@
 <?php
 namespace tests\unit\workflow\validators;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item05;
@@ -8,7 +9,7 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class ValidatorTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	protected function setup()
 	{

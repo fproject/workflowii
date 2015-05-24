@@ -1,13 +1,14 @@
 <?php
 namespace tests\unit\workflow\core;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use fproject\workflow\core\StatusIdConverter;
 
 class StatusIdConverterTest extends TestCase
 {
-	use\Codeception\Specify;
+	use Specify;
 
 	public function testCreateFails()
 	{

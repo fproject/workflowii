@@ -2,13 +2,14 @@
 
 namespace tests\unit\workflow\serialize;
 
+use Codeception\Specify;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
 
 class StatusTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
     /** @var  ArrayWorkflowItemFactory */
 	public $src;

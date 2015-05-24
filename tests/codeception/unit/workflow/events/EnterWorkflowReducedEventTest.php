@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\events;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 
@@ -17,7 +18,7 @@ use fproject\workflow\events\WorkflowEvent;
  */
 class EnterWorkflowReducedEventTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	protected function setup()
 	{

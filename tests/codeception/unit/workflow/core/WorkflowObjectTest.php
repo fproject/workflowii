@@ -2,13 +2,14 @@
 
 namespace tests\unit\workflow\core;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use fproject\workflow\core\Workflow;
 
 class WorkflowObjectTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
     public function testWorkflowCreationSuccess()
     {

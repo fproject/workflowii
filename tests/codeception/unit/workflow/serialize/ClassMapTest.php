@@ -2,13 +2,14 @@
 
 namespace tests\unit\workflow\serialize;
 
+use Codeception\Specify;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
 
 class ClassMapTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	public function testClassMapStatus()
 	{

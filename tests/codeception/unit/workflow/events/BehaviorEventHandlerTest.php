@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\events;
 
+use Codeception\Specify;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use Yii;
 use yii\codeception\DbTestCase;
@@ -10,7 +11,7 @@ use tests\codeception\unit\models\Item06Behavior;
 
 class BehaviorEventHandlerTest extends DbTestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	protected function setup()
 	{

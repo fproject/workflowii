@@ -1,6 +1,7 @@
 <?php
 namespace tests\unit\workflow\core;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use fproject\workflow\core\Status;
@@ -8,7 +9,7 @@ use fproject\workflow\core\Transition;
 
 class StatusObjectTest extends TestCase
 {
-	use\Codeception\Specify;
+	use Specify;
 
 	public function testStatusCreationSuccess()
 	{

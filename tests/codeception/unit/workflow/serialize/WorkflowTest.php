@@ -2,13 +2,14 @@
 
 namespace tests\unit\workflow\serialize;
 
+use Codeception\Specify;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\codeception\TestCase;
 
 class WorkflowTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
     /** @var  ArrayWorkflowItemFactory $src*/
 	public $src;
@@ -66,13 +67,13 @@ class WorkflowTest extends TestCase
 
 	public function testGetWorkflowSourceClassName()
 	{
-		$this->src->namespace = 'a\b\c';
-		$this->assertEquals('a\b\c\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow'));
-		$this->src->namespace = '';
-		$this->assertEquals('\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow'));
+		$this->src->workflowSourceNamespace = 'a\b\c';
+		$this->assertEquals('a\b\c\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
+		$this->src->workflowSourceNamespace = '';
+		$this->assertEquals('\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
 
 		$this->specify('exception thrown on invalid workflow id', function() {
-			$this->src->getWorkflowSourceClassName('');
+			$this->src->getWorkflowSourceClassName('', null);
 		},['throws'=> 'fproject\workflow\core\WorkflowException']);
 
 	}
