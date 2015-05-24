@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\workflow\serialize;
+namespace tests\unit\workflow\core;
 
 use Codeception\Specify;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
