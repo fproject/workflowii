@@ -42,7 +42,7 @@ flexible so to adapt to a lot of execution contexts..
 A workflow source is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowSource` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
 
-Let's define a very simple workflow that will be used to manage article posts.
+Let's define a very simple workflow source that will be used to manage article posts.
 
 Here is the PHP class that implements the definition for our workflow :
 
@@ -71,7 +71,8 @@ class ArticleWorkflowSource implements \fproject\workflow\core\IWorkflowSource
 
 ### Attach To The Model
 
-Now let's have a look to our Artical model. We decide to store the status of a article in a column named `status` of type STRING(40). 
+Now let's have a look to our `Article` model that extends from \yii\db\ActiveRecord and has a column named
+`status` of type STRING. 
 
 The last step is to associate the workflow definition with articles models. To do so we must declare the *ActiveWorkflowBehavior* behavior 
 in the Article model class and let the default configuration settings do the rest.
@@ -94,6 +95,8 @@ class Article extends \yii\db\ActiveRecord
     }
     // ...
 ```
+
+By default, the *ActiveWorkflowBehavior* will search to find a
 
 That's it ! We are ready to play with *ActiveWorkflowBehavior*.
 

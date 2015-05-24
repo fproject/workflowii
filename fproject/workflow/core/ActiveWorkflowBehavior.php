@@ -183,7 +183,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 		// init source
 		if (empty($this->factoryName)) {
-			throw new InvalidConfigException('The "source" configuration for the Behavior can\'t be empty.');
+			throw new InvalidConfigException('The "factoryName" configuration for the Behavior can\'t be empty.');
 		} elseif (!Yii::$app->has($this->factoryName)) {
 			Yii::$app->set($this->factoryName, ['class'=> self::DEFAULT_FACTORY_CLASS]);
 		}

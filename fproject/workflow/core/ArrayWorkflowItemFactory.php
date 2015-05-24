@@ -19,27 +19,33 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 *	The regular expression used to validate status and workflow Ids.
 	 */
 	const PATTERN_ID = '/^[a-zA-Z]+[[:alnum:]-]*$/';
+
 	/**
 	 * The separator used to create a status id by concatenating the workflow id and
 	 * the status local id (e.g. post/draft).
 	 */
 	const SEPARATOR_STATUS_NAME = '/';
+
 	/**
 	 * Name of the array key for status list definition
 	 */
 	const KEY_NODES = 'status';
+
 	/**
 	 * Name of the key for transition list definition
 	 */
 	const KEY_EDGES = 'transition';
+
 	/**
 	 * Name of the key for metadata definition
 	 */	
 	const KEY_METADATA = 'metadata';
+
 	/**
 	 * Name of the deserializer class to use by default
 	 */
 	const DEFAULT_DESERIALIZER_CLASS = '\fproject\workflow\serialize\ArrayDeserializer';
+
 	/**
 	 * Name of the default deserializer component to use with the behavior. This value can be overwritten
 	 * by the 'deserializer' configuration setting.
@@ -50,26 +56,41 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 * ]
 	 */	
 	const DEFAULT_DESERIALIZER_NAME = 'arrayDeserializer';
+
 	/**
-	 * @var string namespace where workflow definition class are located
+	 * @var string namespace where workflow definition class are located.
+     *
+     * You can config value of this field in Yii's application 'workflowFactory' component
 	 */
 	public $namespace = 'app\models';
+
+    /**
+     * @var string the suffix to determine workflow source class from a model class.
+     *
+     * You can config value of this field in Yii's application 'workflowFactory' component
+     */
+    public $workflowSourceSuffix = 'Source';
+
 	/**
 	 * @var Object reference to the deserializer to use with this ArrayWorkflowItemFactory
 	 */
 	private $_deserializer;
+
 	/**
 	 * @var array list of all workflow definition indexed by workflow id
 	 */
 	private $_workflowDef = [];
+
 	/**
 	 * @var Workflow[] list of workflow instances indexed by workflow id
 	 */
 	private $_w = [];
+
 	/**
 	 * @var Status[] list status instances indexed by their id
 	 */
 	private $_s = [];
+
 	/**
 	 * @var Transition[] list of out-going Transition instances indexed by the start status id
 	 */
@@ -97,6 +118,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	];
 
     /**
+     * Constructor.
      *
      * @param array $config
      * @throws InvalidConfigException
@@ -108,7 +130,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 				$this->_classMap = array_merge($this->_classMap, $config['classMap']);
 				unset($config['classMap']);
 
-				// classmap validation
+				// class-map validation
 
 				foreach ([self::TYPE_STATUS, self::TYPE_TRANSITION, self::TYPE_WORKFLOW] as $type) {
 					$className = $this->getClassMapByType($type);
@@ -308,7 +330,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		if (!$this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
-		return $this->namespace . '\\' . $workflowId.'Source';
+		return $this->namespace . '\\' . $workflowId.$this->workflowSourceSuffix;
 	}
 
     /**
@@ -338,6 +360,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	{
 		return array_key_exists($type, $this->_classMap) ? $this->_classMap[$type] : null;
 	}
+
 	/**
 	 * Returns TRUE if the $object is a workflow source.
 	 * An object is a workflow source if it implements the IWorkflowSource interface.
@@ -371,7 +394,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function parseStatusId($val, $wfId, $model)
 	{
-		if (empty($val) || ! is_string($val)) {
+		if (empty($val) || !is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
 		}
 	
@@ -409,6 +432,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 *
 	 * @param string $id the status ID to test
 	 * @return boolean TRUE if $id is a valid status ID, FALSE otherwise.
+     * 
 	 * @see ArrayWorkflowItemFactory::parseStatusId()
 	 */
 	public function isValidStatusId($id)
@@ -451,13 +475,14 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      * If a workflow with same id already exist in this source, it is overwritten if the last parameter
      * is set to TRUE. Note that in this case the overwritten workflow is not available anymore.
      *
-     * @see ActiveWorkflowBehavior::attach()
      * @param string $workflowId
      * @param array $definition
      * @param boolean $overwrite When set to TRUE, the operation will fail if a workflow definition
      * already exists for this ID. Otherwise the existing definition is overwritten.
      * @return bool TRUE if the workflow definition could be added, FALSE otherwise
      * @throws WorkflowException
+     *
+     * @see ActiveWorkflowBehavior::attach()
      */
 	public function addWorkflowDefinition($workflowId, $definition, $overwrite = false)
 	{
@@ -477,6 +502,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			return true;
 		}
 	}
+    
 	/**
 	 * Returns the deserializer used by this source or NULL if no deserializer is used. In this case, it is assumed
 	 * that all workflow definitions provided to this source as PHP array, are in the normalized form.
@@ -487,6 +513,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	{
 		return $this->_deserializer;
 	}
+    
 	/**
 	 * Convert the $definition array in its normalized form used internally by this source.
 	 * 
@@ -520,7 +547,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		$stat = [];
 		$startStatusIds = array_keys($definition[self::KEY_NODES]);
 		$stat['statusCount'] = count($startStatusIds);
-		if(! in_array($definition['initialStatusId'], $startStatusIds)) {
+		if(!in_array($definition['initialStatusId'], $startStatusIds)) {
 			$errors['missingInitialStatus'] = [
 				'message' => 'Initial status not defined',
 				'status' => $definition['initialStatusId']
@@ -558,7 +585,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}	
 
 		$orphanStatusIds = array_diff($startStatusIds, $endStatusIds);
-		if(\in_array($definition['initialStatusId'], $orphanStatusIds)) {
+		if(in_array($definition['initialStatusId'], $orphanStatusIds)) {
 			// initial status Id is not unreachable
 			$orphanStatusIds = array_diff($orphanStatusIds, [ $definition['initialStatusId'] ]);
 		}
