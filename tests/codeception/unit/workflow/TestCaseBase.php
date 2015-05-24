@@ -1,5 +1,5 @@
 <?php
-namespace tests\unit;
+namespace tests\unit\workflow;
 
 use yii\codeception\TestCase;
 

@@ -4,7 +4,7 @@ namespace tests\unit\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\serialize\SimpleArrayDeserializer;
-use tests\unit\TestCaseBase;
+use tests\unit\workflow\TestCaseBase;
 use Yii;
 
 /**
