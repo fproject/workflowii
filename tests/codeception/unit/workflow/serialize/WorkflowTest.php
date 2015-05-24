@@ -12,49 +12,49 @@ class WorkflowTest extends TestCase
 {
 	use Specify;
 
-    /** @var  ArrayWorkflowItemFactory $src*/
-	public $src;
+    /** @var  ArrayWorkflowItemFactory $factory*/
+	public $factory;
 
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new ArrayWorkflowItemFactory();
+		$this->factory = new ArrayWorkflowItemFactory();
 	}
 
 	public function testIsValidWorkflowId()
 	{
-		$this->assertFalse($this->src->isValidWorkflowId('workflow id'));
-		$this->assertFalse($this->src->isValidWorkflowId('-workflowId'));
-		$this->assertFalse($this->src->isValidWorkflowId(' workflowId'));
-		$this->assertFalse($this->src->isValidWorkflowId('workflowId/'));
-		$this->assertFalse($this->src->isValidWorkflowId('1'));
-		$this->assertFalse($this->src->isValidWorkflowId('WORKFLOW_id'));
+		$this->assertFalse($this->factory->isValidWorkflowId('workflow id'));
+		$this->assertFalse($this->factory->isValidWorkflowId('-workflowId'));
+		$this->assertFalse($this->factory->isValidWorkflowId(' workflowId'));
+		$this->assertFalse($this->factory->isValidWorkflowId('workflowId/'));
+		$this->assertFalse($this->factory->isValidWorkflowId('1'));
+		$this->assertFalse($this->factory->isValidWorkflowId('WORKFLOW_id'));
 
-		$this->assertTrue($this->src->isValidWorkflowId('workflowId'));
-		$this->assertTrue($this->src->isValidWorkflowId('workflow-Id'));
-		$this->assertTrue($this->src->isValidWorkflowId('workflow01-Id02'));
-		$this->assertTrue($this->src->isValidWorkflowId('w01-2'));
+		$this->assertTrue($this->factory->isValidWorkflowId('workflowId'));
+		$this->assertTrue($this->factory->isValidWorkflowId('workflow-Id'));
+		$this->assertTrue($this->factory->isValidWorkflowId('workflow01-Id02'));
+		$this->assertTrue($this->factory->isValidWorkflowId('w01-2'));
 	}
 
 	public function testIsValidStatusId()
 	{
-		$this->assertFalse($this->src->isValidStatusId('id'));
-		$this->assertFalse($this->src->isValidStatusId('/id'));
-		$this->assertFalse($this->src->isValidStatusId('id/'));
-		$this->assertFalse($this->src->isValidStatusId('/'));
-		$this->assertFalse($this->src->isValidStatusId('workflow_id/status_id'));
-		$this->assertFalse($this->src->isValidStatusId('workflow id/status id'));
+		$this->assertFalse($this->factory->isValidStatusId('id'));
+		$this->assertFalse($this->factory->isValidStatusId('/id'));
+		$this->assertFalse($this->factory->isValidStatusId('id/'));
+		$this->assertFalse($this->factory->isValidStatusId('/'));
+		$this->assertFalse($this->factory->isValidStatusId('workflow_id/status_id'));
+		$this->assertFalse($this->factory->isValidStatusId('workflow id/status id'));
 
-		$this->assertTrue($this->src->isValidStatusId('ID/ID'));
-		$this->assertTrue($this->src->isValidStatusId('workflow-id/status-id'));
+		$this->assertTrue($this->factory->isValidStatusId('ID/ID'));
+		$this->assertTrue($this->factory->isValidStatusId('workflow-id/status-id'));
 	}
 
 	public function testParseStatusId()
 	{
-		list($wId, $lid) = $this->src->parseStatusId('Wid/Id', null, null);
+		list($wId, $lid) = $this->factory->parseStatusId('Wid/Id', null, null);
 		$this->assertEquals('Wid', $wId);
 		$this->assertEquals('Id', $lid);
-		$this->assertTrue(count($this->src->parseStatusId('Wid/Id', null, null)) == 2);
+		$this->assertTrue(count($this->factory->parseStatusId('Wid/Id', null, null)) == 2);
 	}
 
 	/**
@@ -63,49 +63,49 @@ class WorkflowTest extends TestCase
 	 */	
 	public function testAddInvalidWorkflowDefinition()
 	{
-		$this->src->addWorkflowDefinition('wid', ['initialStatusId' => 'A']);
+		$this->factory->addWorkflowDefinition('wid', ['initialStatusId' => 'A']);
 	}
 
 	public function testGetWorkflowSourceClassNameFail()
 	{
 		$this->specify('exception thrown on invalid workflow id', function() {
-			$this->src->getWorkflowSourceClassName('', null);
+			$this->factory->getWorkflowSourceClassName('', null);
 		},['throws'=> 'fproject\workflow\core\WorkflowException']);
 	}
 
     public function testGetWorkflowSourceClassNameSuccess1()
     {
-        $this->src->workflowSourceNamespace = null;
-        $this->assertEquals('app\models\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
-        $this->src->workflowSourceNamespace = 'a\b\c';
-        $this->assertEquals('a\b\c\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
-        $this->src->workflowSourceNamespace = '';
-        $this->assertEquals('\PostWorkflowSource', $this->src->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->factory->workflowSourceNamespace = null;
+        $this->assertEquals('app\models\PostWorkflowSource', $this->factory->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->factory->workflowSourceNamespace = 'a\b\c';
+        $this->assertEquals('a\b\c\PostWorkflowSource', $this->factory->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->factory->workflowSourceNamespace = '';
+        $this->assertEquals('\PostWorkflowSource', $this->factory->getWorkflowSourceClassName('PostWorkflow', null));
     }
 
     public function testGetWorkflowSourceClassNameSuccess2()
     {
         $item = new Item00();
-        $this->src->workflowSourceNamespace = null;
-        $this->assertEquals('tests\codeception\unit\models\Item00WorkflowSource', $this->src->getWorkflowSourceClassName('Item00Workflow', $item));
+        $this->factory->workflowSourceNamespace = null;
+        $this->assertEquals('tests\codeception\unit\models\Item00WorkflowSource', $this->factory->getWorkflowSourceClassName('Item00Workflow', $item));
     }
 
     public function testFailToLoadWorkflowSourceClass()
     {
     	$this->specify('incorrect status id format', function () {
-    		$this->src->getStatus('id', null, null);
+    		$this->factory->getStatus('id', null, null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load workflow from non-existant workflow class', function () {
-    		$this->src->getWorkflow('id', null);
+    		$this->factory->getWorkflow('id', null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load status from non-existant workflow class', function () {
-    		$this->src->getStatus('w/s', null, null);
+    		$this->factory->getStatus('w/s', null, null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
 
     	$this->specify('empty provider fails to load transition from non-existant workflow class', function ()  {
-    		$this->src->getTransitions('w/s', null, null);
+    		$this->factory->getTransitions('w/s', null, null);
     	},['throws' => 'fproject\workflow\core\WorkflowException']);
     }
 
@@ -126,13 +126,13 @@ class WorkflowTest extends TestCase
 
     public function testWorkflowCached()
     {
-    	$this->src->addWorkflowDefinition('wid', [
+    	$this->factory->addWorkflowDefinition('wid', [
     		'initialStatusId' => 'A',
     		'status' => ['A']
     	]);
 
     	$this->specify('workflow are loaded once',function() {
-    		verify('workflow instances are the same', spl_object_hash($this->src->getWorkflow('wid', null)) )->equals(spl_object_hash($this->src->getWorkflow('wid', null)));
+    		verify('workflow instances are the same', spl_object_hash($this->factory->getWorkflow('wid', null)) )->equals(spl_object_hash($this->factory->getWorkflow('wid', null)));
     	});
     }
 }

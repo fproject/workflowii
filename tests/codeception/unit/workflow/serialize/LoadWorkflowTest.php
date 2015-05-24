@@ -22,8 +22,8 @@ class LoadWorkflowTest extends TestCase
 
     public function testLoadWorkflowSuccess1()
     {
-    	$src = new ArrayWorkflowItemFactory();
-    	$src->addWorkflowDefinition('wid', [
+    	$factory = new ArrayWorkflowItemFactory();
+    	$factory->addWorkflowDefinition('wid', [
 			'initialStatusId' => 'A',
 			'status' => [
 				'A' => [
@@ -41,18 +41,18 @@ class LoadWorkflowTest extends TestCase
 			]
 		]);
     	
-    	verify($src->getStatus('wid/A', null, null))->notNull();
-    	verify($src->getStatus('wid/B', null, null))->notNull();
-    	verify($src->getStatus('wid/C', null, null))->notNull();
-    	verify($src->getStatus('wid/D', null, null))->notNull();
+    	verify($factory->getStatus('wid/A', null, null))->notNull();
+    	verify($factory->getStatus('wid/B', null, null))->notNull();
+    	verify($factory->getStatus('wid/C', null, null))->notNull();
+    	verify($factory->getStatus('wid/D', null, null))->notNull();
     	
-    	verify(count($src->getTransitions('wid/A', null, null)))->equals(2);
+    	verify(count($factory->getTransitions('wid/A', null, null)))->equals(2);
     }
     
     public function testLoadWorkflowSuccess2()
     {
-    	$src = new ArrayWorkflowItemFactory();
-    	$src->addWorkflowDefinition('wid', [
+    	$factory = new ArrayWorkflowItemFactory();
+    	$factory->addWorkflowDefinition('wid', [
     		'initialStatusId' => 'A',
     		'status' => [
     			'A' => [
@@ -66,9 +66,9 @@ class LoadWorkflowTest extends TestCase
     		]
     	]);
     	 
-    	verify($src->getStatus('wid/A', null, null))->notNull();
-    	verify($src->getStatus('wid/B', null, null))->notNull();
+    	verify($factory->getStatus('wid/A', null, null))->notNull();
+    	verify($factory->getStatus('wid/B', null, null))->notNull();
     	 
-    	verify(count($src->getTransitions('wid/A', null, null)))->equals(2);
+    	verify(count($factory->getTransitions('wid/A', null, null)))->equals(2);
     }    
 }

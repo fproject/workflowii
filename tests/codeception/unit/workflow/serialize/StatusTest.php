@@ -12,12 +12,12 @@ class StatusTest extends TestCase
 	use Specify;
 
     /** @var  ArrayWorkflowItemFactory */
-	public $src;
+	public $factory;
 
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new ArrayWorkflowItemFactory();
+		$this->factory = new ArrayWorkflowItemFactory();
 	}
 
     /**
@@ -40,7 +40,7 @@ class StatusTest extends TestCase
 	
     public function testLoadStatusSuccess()
     {
-    	$this->src->addWorkflowDefinition('wid', [
+    	$this->factory->addWorkflowDefinition('wid', [
 			'initialStatusId' => 'A',
     		'status' => [
 				'A' => [
@@ -50,41 +50,41 @@ class StatusTest extends TestCase
     		]
     	]);
     	$this->specify('status can be obtained',function() {
-			$w = $this->src->getWorkflow('wid', null);
+			$w = $this->factory->getWorkflow('wid', null);
 			verify('non null workflow instance is returned',  $w != null)->true();
 
-			verify('workflow contains status A', $this->src->getStatus('wid/A', null, null) != null)->true();
+			verify('workflow contains status A', $this->factory->getStatus('wid/A', null, null) != null)->true();
 
 			verify('initial status is A ', $w->getInitialStatusId())->equals('wid/A');
 
 
-			verify('status A has correct id', $this->src->getStatus('wid/A', null, null)->getId() )->equals('wid/A');
-			verify('status A has correct label', $this->src->getStatus('wid/A', null, null)->getLabel() )->equals('label A');
+			verify('status A has correct id', $this->factory->getStatus('wid/A', null, null)->getId() )->equals('wid/A');
+			verify('status A has correct label', $this->factory->getStatus('wid/A', null, null)->getLabel() )->equals('label A');
 
-			verify('workflow contains status B', $this->src->getStatus('wid/B', null, null) != null)->true();
-			verify('status B has correct id', $this->src->getStatus('wid/B', null, null)->getId() )->equals('wid/B');
-			verify('status B has default label', $this->src->getStatus('wid/B', null, null)->getLabel() )->equals('B');
+			verify('workflow contains status B', $this->factory->getStatus('wid/B', null, null) != null)->true();
+			verify('status B has correct id', $this->factory->getStatus('wid/B', null, null)->getId() )->equals('wid/B');
+			verify('status B has default label', $this->factory->getStatus('wid/B', null, null)->getLabel() )->equals('B');
 
 			//verify('workflow does not contains status C', $this->src->getStatus('wid/C') == null)->true();
     	});
     }
     public function testLoadStatusSuccess2()
     {
-    	$this->src->addWorkflowDefinition('wid', [
+    	$this->factory->addWorkflowDefinition('wid', [
     		'initialStatusId' => 'A',
     		'status' => [
     			'A' => null
     		]
     	]);
     	$this->specify('a null status definition is not allowed',function() {
-    		$w = $this->src->getWorkflow('wid', null);
+    		$w = $this->factory->getWorkflow('wid', null);
     		verify('non null workflow instance is returned',  $w != null)->true();
-    		verify('status A cannot be loaded', $this->src->getStatus('wid/A', null, null) !== null)->true();
+    		verify('status A cannot be loaded', $this->factory->getStatus('wid/A', null, null) !== null)->true();
     	});
     }
     public function testStatusCached()
     {
-    	$this->src->addWorkflowDefinition('wid', [
+    	$this->factory->addWorkflowDefinition('wid', [
     		'initialStatusId' => 'A',
     		'status' => [
     			'A' => []
@@ -92,8 +92,8 @@ class StatusTest extends TestCase
     	]);
 
     	$this->specify('status are loaded once',function() {
-    		$this->src->getWorkflow('wid', null);
-    		verify('status instances are the same', spl_object_hash($this->src->getStatus('wid/A', null, null)))->equals(spl_object_hash($this->src->getStatus('wid/A', null, null)));
+    		$this->factory->getWorkflow('wid', null);
+    		verify('status instances are the same', spl_object_hash($this->factory->getStatus('wid/A', null, null)))->equals(spl_object_hash($this->factory->getStatus('wid/A', null, null)));
     	});
     }
 }
