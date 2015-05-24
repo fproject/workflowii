@@ -12,6 +12,7 @@ use Yii;
  * @property string $name
  * @property string $status
  * @property string $status_ex
+ * @property string $dynamicWorkflowId
  */
 class Item08 extends \yii\db\ActiveRecord
 {

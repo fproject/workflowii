@@ -10,6 +10,7 @@ use fproject\workflow\helpers\WorkflowScenario;
  * @property integer $id
  * @property string $name
  * @property string $status
+ * @property string $dynamicWorkflowId
  */
 class Item05 extends \yii\db\ActiveRecord
 {

@@ -9,6 +9,7 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
  * @property integer $id
  * @property string $name
  * @property string $status
+ * @property string $dynamicWorkflowId
  */
 class Item07 extends \yii\db\ActiveRecord
 {

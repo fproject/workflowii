@@ -3,7 +3,9 @@
 namespace tests\unit\workflow\core;
 
 use Codeception\Specify;
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
+use tests\codeception\unit\models\DynamicItem;
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\TestCase;
@@ -82,7 +84,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 		});
 	}
 
-    public function testGeStatus()
+    public function testGeStatusFromFixedDefinition()
     {
         $factory = new ArrayWorkflowItemFactory(['workflowSourceNamespace' =>'tests\codeception\unit\models']);
         $status = $factory->getStatus('Item04Workflow/A', null, null);
@@ -92,5 +94,28 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $factory->workflowSourceNamespace = null;
         $status = $factory->getStatus('Item04Workflow/A', null, $item);
         $this->assertEquals('Item04Workflow/A',$status->getId());
+    }
+
+    public function testGeStatusFromDynamicDefinitionSuccess()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        /** @var DynamicItem|ActiveWorkflowBehavior $item */
+        $item = DynamicItem::findOne(1);
+
+        $status = $factory->getStatus('Item04Workflow/D', null, $item);
+        $this->assertEquals('Item04Workflow/D',$status->getId());
+
+        /** @var DynamicItem|ActiveWorkflowBehavior $item */
+        $item = DynamicItem::findOne(2);
+
+        $status = $factory->getStatus('Item05Workflow/published', null, $item);
+        $this->assertEquals('Item05Workflow/published',$status->getId());
+
+        /** @var DynamicItem|ActiveWorkflowBehavior $item */
+        $item = DynamicItem::findOne(3);
+
+        $status = $factory->getStatus('Item07Workflow/E', null, $item);
+        $this->assertEquals('Item07Workflow/E',$status->getId());
     }
 }

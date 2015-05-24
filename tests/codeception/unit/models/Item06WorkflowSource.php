@@ -34,7 +34,11 @@ class Item06WorkflowSource implements IWorkflowSource
 				'archive' => [
 					'label' => 'Archived',
 					'transition' => []
-				]
+				],
+                'deleted' => [
+                    'label' => 'Deleted',
+                    'transition' => []
+                ],
 			]
 		];
 	}

@@ -35,7 +35,11 @@ class Item07WorkflowSource implements IWorkflowSource
 				'D' => [
 					'label' => 'node D',
 					'transition' => []
-				]
+				],
+                'E' => [
+                    'label' => 'node E',
+                    'transition' => []
+                ]
 			]
 		];
 	}
