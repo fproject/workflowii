@@ -46,7 +46,7 @@ Let's define a very simple workflow that will be used to manage article posts.
 
 Here is the PHP class that implements the definition for our workflow :
 
-*ArticleWorkflow.php in @app/models*
+*ArticleWorkflowSource.php*
 ```php
 class ArticleWorkflowSource implements \fproject\workflow\core\IWorkflowSource 
 {
@@ -75,7 +75,8 @@ Now let's have a look to our Artical model. We decide to store the status of a a
 
 The last step is to associate the workflow definition with articles models. To do so we must declare the *ActiveWorkflowBehavior* behavior 
 in the Article model class and let the default configuration settings do the rest.
- 
+
+*Article.php*
 ```php
 /**
  * @property integer $id
