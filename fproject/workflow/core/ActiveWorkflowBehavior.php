@@ -153,10 +153,10 @@ class ActiveWorkflowBehavior extends Behavior
 	public function __construct($config = [])
 	{
 		if (array_key_exists('defaultWorkflowId', $config)) {
-			if ( is_string($config['defaultWorkflowId'])) {
+			if (is_string($config['defaultWorkflowId'])) {
 				$this->_defaultWorkflowId = $config['defaultWorkflowId'];
 			} else {
-				throw new InvalidConfigException("Invalid property Type : 'defaultWorkflowId' must be a string" );
+				throw new InvalidConfigException("Invalid property Type : 'defaultWorkflowId' must be a string");
 			}
 			unset($config['defaultWorkflowId']);
 		}
@@ -184,7 +184,7 @@ class ActiveWorkflowBehavior extends Behavior
 		// init source
 		if (empty($this->factoryName)) {
 			throw new InvalidConfigException('The "source" configuration for the Behavior can\'t be empty.');
-		} elseif ( !Yii::$app->has($this->factoryName)) {
+		} elseif (!Yii::$app->has($this->factoryName)) {
 			Yii::$app->set($this->factoryName, ['class'=> self::DEFAULT_FACTORY_CLASS]);
 		}
 		$this->_factory = Yii::$app->get($this->factoryName);
@@ -193,7 +193,7 @@ class ActiveWorkflowBehavior extends Behavior
 		if ($this->eventSequence == null) {
 			$this->_eventSequence = null;
 		} elseif (is_string($this->eventSequence)) {
-			if ( !Yii::$app->has($this->eventSequence)) {
+			if (!Yii::$app->has($this->eventSequence)) {
 				Yii::$app->set($this->eventSequence, ['class'=> self::DEFAULT_EVENT_SEQUENCE_CLASS]);
 			}
 			$this->_eventSequence = Yii::$app->get($this->eventSequence);
@@ -202,11 +202,11 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 
 		// init status converter
-		if (!empty($this->statusConverter) ) {
+		if (!empty($this->statusConverter)) {
 			$this->_statusConverter = Yii::$app->get($this->statusConverter);
 		}
 		// init status accessor
-		if (!empty($this->statusAccessor) ) {
+		if (!empty($this->statusAccessor)) {
 			$this->_statusAccessor = Yii::$app->get($this->statusAccessor);
 		}
 	}
@@ -236,7 +236,7 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 
         if (!$this->owner->hasProperty($this->statusAttribute)) {
-            if($this->owner instanceof BaseActiveRecord && $this->owner->hasAttribute($this->statusAttribute) )
+            if($this->owner instanceof BaseActiveRecord && $this->owner->hasAttribute($this->statusAttribute))
             {
             }
             else
@@ -303,7 +303,7 @@ class ActiveWorkflowBehavior extends Behavior
 			$oStatus = $this->getOwnerStatus();
 		}
 
-		if (!empty($oStatus) ) {
+		if (!empty($oStatus)) {
             $wfId = self::isAttachedTo($this->owner) ? $this->selectDefaultWorkflowId() : null;
 			$status = $this->_factory->getStatus($oStatus, $wfId, $this->owner);
 			if ($status === null) {
@@ -327,7 +327,7 @@ class ActiveWorkflowBehavior extends Behavior
      */
 	public function enterWorkflow($workflowId = null)
 	{
-		if ($this->hasWorkflowStatus() ) {
+		if ($this->hasWorkflowStatus()) {
 			throw new WorkflowException("Model already in a workflow");
 		}
 		$wId = ($workflowId === null ? $this->getDefaultWorkflowId() : $workflowId);
@@ -404,7 +404,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 		list($newStatus, , $events) = $this->createTransitionItems($status, false, true);
 
-		if (!empty($events['before']) ) {
+		if (!empty($events['before'])) {
 			foreach ($events['before'] as $eventBefore) {
 				$this->owner->trigger($eventBefore->name, $eventBefore);
 				if ($eventBefore->isValid === false) {
@@ -415,8 +415,8 @@ class ActiveWorkflowBehavior extends Behavior
 
 		$this->setStatusInternal($newStatus);
 
-		if (!empty($events['after']) ) {
-			if ($onSave ) {
+		if (!empty($events['after'])) {
+			if ($onSave) {
 				$this->_pendingEvents = $events['after'];
 			} else {
 				foreach ($events['after'] as $eventAfter) {
@@ -527,7 +527,7 @@ class ActiveWorkflowBehavior extends Behavior
 				$events = $this->_eventSequence->createLeaveWorkflowSequence($start, $this);
 			}
 			$newStatus = $end;
-		} elseif ($start !== null && $end !== null ) {
+		} elseif ($start !== null && $end !== null) {
 
 			// change status ---------------------------------------
 
@@ -535,7 +535,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 			$transition = $this->_factory->getTransition($start->getId(), $end->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 
-			if ($transition === null && $start->getId() != $end->getId() ) {
+			if ($transition === null && $start->getId() != $end->getId()) {
 				throw new WorkflowException('No transition found between status '.$start->getId().' and '.$end->getId());
 			}
 			if ($transition != null) {
@@ -613,7 +613,7 @@ class ActiveWorkflowBehavior extends Behavior
 	public function getNextStatuses($validate = false, $beforeEvents = false)
 	{
 		$nextStatus = [];
-		if (!$this->hasWorkflowStatus() ) {
+		if (!$this->hasWorkflowStatus()) {
 			$workflow = $this->_factory->getWorkflow($this->getDefaultWorkflowId(), $this->owner);
 			if ($workflow === null) {
 				throw new WorkflowException("Failed to load default workflow ID = ".$this->getDefaultWorkflowId());
@@ -629,7 +629,7 @@ class ActiveWorkflowBehavior extends Behavior
 		}
 		if (count($nextStatus)) {
 
-			if ($beforeEvents ) {
+			if ($beforeEvents) {
 				// fire before events
 				foreach (array_keys($nextStatus) as $endStatusId) {
 					$transitionIsValid = true;
@@ -644,7 +644,7 @@ class ActiveWorkflowBehavior extends Behavior
 							$this->owner->trigger($beforeEventName, $beforeEvent);
 							$eventResult['success'] = $beforeEvent->isValid;
 							$eventResult['messages'] = $beforeEvent->getErrors();
-							if ($beforeEvent->isValid === false ) {
+							if ($beforeEvent->isValid === false) {
 								$transitionIsValid = false;
 							}
 						} else {
@@ -656,7 +656,7 @@ class ActiveWorkflowBehavior extends Behavior
 				}
 			}
 
-			if ($validate ) {
+			if ($validate) {
 				// save scenario name and errors
 				$saveScenario = $this->owner->getScenario();
 				$saveErrors = $this->owner->getErrors();
@@ -676,7 +676,7 @@ class ActiveWorkflowBehavior extends Behavior
 							$this->owner->setScenario($scenario);
 
 							$validationResult['scenario'] = $scenario;
-							if ($this->owner->validate() == true ) {
+							if ($this->owner->validate() == true) {
 								$validationResult['success'] = true;
 							} else {
 								$validationResult['success'] = false;
@@ -823,12 +823,12 @@ class ActiveWorkflowBehavior extends Behavior
 	private function ensureStatusInstance($idOrInstance, $strict = false)
 	{
 		if (empty($idOrInstance)) {
-			if ($strict ) {
+			if ($strict) {
 				throw new WorkflowException('Invalid argument : null');
 			} else {
 				return null;
 			}
-		} elseif ($idOrInstance instanceof IStatus ) {
+		} elseif ($idOrInstance instanceof IStatus) {
 			return $idOrInstance;
 		} else {
 			$status = $this->_factory->getStatus($idOrInstance, $this->selectDefaultWorkflowId(), $this->owner);
@@ -867,7 +867,7 @@ class ActiveWorkflowBehavior extends Behavior
 		$this->_status = $status;
 
 		$statusId = ($status === null ? null : $status->getId());
-		if ($this->_statusConverter != null ) {
+		if ($this->_statusConverter != null) {
 			$statusId = $this->_statusConverter->toModelAttribute($statusId);
 		}
 

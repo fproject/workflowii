@@ -59,7 +59,7 @@ abstract class AbstractWorkflowItem extends Object implements IAbstractWorkflowI
 	{
 		if ($paramName === null) {
 			return $this->_metadata;
-		} elseif($this->hasMetadata($paramName) ) {
+		} elseif($this->hasMetadata($paramName)) {
 			return $this->_metadata[$paramName];
 		} else {
 			return $defaultValue;
