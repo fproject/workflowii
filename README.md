@@ -96,11 +96,12 @@ class Article extends \yii\db\ActiveRecord
     // ...
 ```
 
-By default, the *ActiveWorkflowBehavior* will search to find a
+By default, the `ActiveWorkflowBehavior` will search to find a workflow source class that has the same namespace with the
+model class and has the class name is the model class name with suffix `WorkflowSource`. In this case, it will be `ArticleWorkflowSource`.
 
-That's it ! We are ready to play with *ActiveWorkflowBehavior*.
+Thus, we are now ready to play with `ArticleWorkflowSource` workflow that dedicated for `Article` model.
 
-### Use It !
+### Let's Use It !
 
 Now that we are all setup, we can use the *ActiveWorkflowBehavior* methods to set/get the status of our articles : the *ActiveWorkflowBehavior* will 
 take care that the article doesn't reach a status where it is not supposed to go, depending on the workflow definition that we have created.
