@@ -75,7 +75,7 @@ Now let's have a look to our `Article` model that extends from \yii\db\ActiveRec
 `status` of type `string`. 
 
 The last step is to associate the workflow definition with articles models. All things we have to do is overriding
-the `function behaviors()` method in the Article model class and specify the *ActiveWorkflowBehavior* behavior as
+the `function behaviors()` method in the `Article` model class and specify the *ActiveWorkflowBehavior* behavior as
 return value. That's all, the *workflowii*'s default configuration settings will do the rest for you.
 
 *Article.php*
@@ -111,7 +111,7 @@ take care that the article doesn't reach a status where it is not supposed to go
 $article = new Article();
 $article->status = 'draft';
 $article->save();
-echo 'article status is : '. $article->workflowStatus->label;
+echo 'article status now is : '. $article->workflowStatus->label;
 ```
 This will print the following message :
 
@@ -123,19 +123,18 @@ If you do the same thing but instead of *draft* set the status to *published* an
 
 That's because in your workflow definition the **initial status** is  set to *draft* and not *published*.
 
-Ok, one more example for the fun ! This time we are not going to perform the transition when the Article is saved (like we did in the previous
+Now we will go further. This time we are not going to perform the transition when the Article is saved (like we did in the previous
 example), but immediately by invoking the `sendToStatus` method. Our Article is going to try to reach status *published* passing through *deleted* 
 which is strictly forbidden by the workflow. Will it be successful in this risky attempt of breaking workflow rules ?   
 
 ```php
 $article = new Article();
-$article->sendToStatus('draft');
-$article->sendToStatus('deleted');
-$article->sendToStatus('published');	// danger zone !
+$article->sendToStatus('draft'); // OK
+$article->sendToStatus('deleted'); // OK
+$article->sendToStatus('published'); // Error!
 ```
 
-There is no transition between *deleted* and *published*, and that's what *Workflow* tries to explain to our
-fearless Article object:
+There is no transition between *deleted* and *published*, and that's what *Workflow* tries to explain the problem:
 
 	Workflow Exception – fproject\workflow\core\WorkflowException
 	No transition found between status ArticleWorkflow/deleted and ArticleWorkflow/published
@@ -147,7 +146,7 @@ Yes, that's severe, but there was many ways to avoid this exception like for ins
 This is just one way of using the *ActiveWorkflowBehavior* but there's much more and hopefully enough to assist you
 in your workflow management inside your Yii2 web app.
 
-In the meantime you can have a look to the [Usage Guide](guide) (still under dev) and send any feedback. 
+In the meantime you can have a look to the [Workflowii User Guide](guide) (still under dev) and send any feedback. 
 
 ##ROADMAP
 
@@ -158,7 +157,7 @@ interacting with a RIA GUI, using HTML5 or Flex.
 ##LICENSE
 
 
-**workflowii** is released under the Apache 2.0 License. See the bundled `LICENSE.md` for details.
+**Workflowii** is released under the Apache 2.0 License. See the bundled `LICENSE.md` for details.
 
 ##LINKS
 
