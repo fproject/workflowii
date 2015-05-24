@@ -51,7 +51,7 @@ Here is the PHP class that implements the definition for our workflow :
 <?php
 namespace app\models;
 
-class ArticleWorkflow implements \fproject\workflow\core\IWorkflowSource 
+class ArticleWorkflowSource implements \fproject\workflow\core\IWorkflowSource 
 {
 	public function getDefinition($model) {
 		return [
