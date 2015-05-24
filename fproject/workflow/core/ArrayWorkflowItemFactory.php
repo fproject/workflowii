@@ -316,7 +316,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			try {
                 /** @var Object|IWorkflowSource $wfSrc */
 				$wfSrc = Yii::createObject(['class' => $wfSrcClassName]);
-			} catch (\ReflectionException $e) {
+			} catch (InvalidConfigException $e) {
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
 			if ($this->isWorkflowSource($wfSrc)) {

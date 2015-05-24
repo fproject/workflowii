@@ -36,7 +36,7 @@ class StatusIdConverterTest extends TestCase
 		});
 	}
 
-	public function testConvertionSuccess()
+	public function testConversionSuccess()
 	{
 		$c = Yii::createObject([
 			'class'=> 'fproject\workflow\core\StatusIdConverter',
@@ -62,7 +62,7 @@ class StatusIdConverterTest extends TestCase
 		$this->assertEquals('Post/new', $c->toWorkflow(null));
 	}
 
-	public function testConvertionFails()
+	public function testConversionFails()
 	{
 		$c = Yii::createObject([
 			'class'=> 'fproject\workflow\core\StatusIdConverter',
