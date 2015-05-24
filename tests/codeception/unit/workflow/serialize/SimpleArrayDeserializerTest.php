@@ -2,16 +2,19 @@
 
 namespace tests\unit\workflow\serialize;
 
+use Codeception\Specify;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\serialize\SimpleArrayDeserializer;
-use tests\unit\workflow\TestCaseBase;
 use Yii;
+use yii\codeception\TestCase;
 
 /**
  * @property SimpleArrayDeserializer deserializer
  */
-class SimpleArrayDeserializerTest extends TestCaseBase
+class SimpleArrayDeserializerTest extends TestCase
 {
+    use Specify;
+
     /** @var  ArrayWorkflowItemFactory $src */
 	public $src;
 	
@@ -26,6 +29,18 @@ class SimpleArrayDeserializerTest extends TestCaseBase
 			'deserializer' => 'deserializer'
 		]);
 	}
+
+    public function __get($name)
+    {
+        $getter = 'get' . $name;
+        if (method_exists($this, $getter)) {
+            return $this->$getter();
+        }
+        else
+        {
+            return parent::__get($name);
+        }
+    }
 
     public function getDeserializer()
     {
