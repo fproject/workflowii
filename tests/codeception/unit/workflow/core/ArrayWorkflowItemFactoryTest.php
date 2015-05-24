@@ -154,7 +154,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     /**
      * @expectedException fproject\workflow\core\WorkflowException
-     * @expectedExceptionMessage No status found with id Item07Workflow/X#
+     * @expectedExceptionMessage No status found with id Item07Workflow/X
      */
     public function testGetStatusFromDynamicDefinitionFail3()
     {
