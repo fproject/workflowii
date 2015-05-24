@@ -128,4 +128,22 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $status = $factory->getStatus('Item07Workflow/E', null, $item);
         $this->assertEquals('Item07Workflow/E',$status->getId());
     }
+
+    /**
+     * @expectedException fproject\workflow\core\WorkflowException
+     * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUNDSource does not exist
+     */
+    public function testGetStatusFromDynamicDefinitionFail1()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        $item = $this->items('item5');
+
+        $this->setExpectedException(
+            'yii\base\InvalidConfigException',
+            'Invalid class map value : missing class for type workflow'
+        );
+
+        $factory->getStatus('Something/Abc', null, $item);
+    }
 }
