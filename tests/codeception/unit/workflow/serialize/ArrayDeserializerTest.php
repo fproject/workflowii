@@ -1,23 +1,19 @@
 <?php
 
-namespace tests\unit\workflow\factories\assoc;
+namespace tests\unit\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\serialize\ArrayDeserializer;
 use Yii;
-use yii\base\UnknownPropertyException;
-use yii\codeception\TestCase;
-
 
 /**
  * @property ArrayDeserializer deserializer
  * @property ArrayDeserializer deserializerA
  * @property ArrayDeserializer deserializerB
  */
-class ArrayDeserializerTest extends TestCase
+class ArrayDeserializerTest extends \TestCaseBase
 {
-	use \Codeception\Specify;
-	
+	/** @var  ArrayWorkflowItemFactory $src */
 	public $src;
 	
 	protected function setUp()
@@ -28,18 +24,6 @@ class ArrayDeserializerTest extends TestCase
 			'class' => ArrayDeserializer::className(),
 		]);		
 	}
-
-    public function __get($name)
-    {
-        $getter = 'get' . $name;
-        if (method_exists($this, $getter)) {
-            return $this->$getter();
-        }
-        else
-        {
-            return parent::__get($name);
-        }
-    }
 
     public function getDeserializer()
     {

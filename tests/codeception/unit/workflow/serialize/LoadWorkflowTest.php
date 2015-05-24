@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\workflow\factories\assoc;
+namespace tests\unit\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
