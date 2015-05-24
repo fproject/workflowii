@@ -84,11 +84,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     public function testGeStatus()
     {
-        $factory = new ArrayWorkflowItemFactory();
+        $factory = new ArrayWorkflowItemFactory(['workflowSourceNamespace' =>'tests\codeception\unit\models']);
         $status = $factory->getStatus('Item04Workflow/A', null, null);
         $this->assertEquals('Item04Workflow/A',$status->getId());
 
         $item = new Item04();
+        $factory->workflowSourceNamespace = null;
         $status = $factory->getStatus('Item04Workflow/A', null, $item);
         $this->assertEquals('Item04Workflow/A',$status->getId());
     }
