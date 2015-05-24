@@ -11,9 +11,8 @@ use tests\codeception\unit\fixtures\ItemFixture04;
 /**
  * Class AfterFindTest
  *
- * @method Item04[] items()
+ * @method Item04|ActiveWorkflowBehavior items()
  *
- * @package tests\unit\workflow\activebehavior
  */
 class AfterFindTest extends DbTestCase
 {
@@ -25,6 +24,7 @@ class AfterFindTest extends DbTestCase
 			'items' => ItemFixture04::className(),
 		];
 	}
+
 	protected function setup()
 	{
 		parent::setUp();
@@ -42,7 +42,6 @@ class AfterFindTest extends DbTestCase
     public function testInitStatusOnAfterFind()
     {
 		$this->specify('item1 can be read from db', function() {
-            /** @var ActiveWorkflowBehavior $item */
 			$item = $this->items('item1');
 			verify('current status is set', $item->getWorkflowStatus()->getId())->equals('Item04Workflow/B');
 		});

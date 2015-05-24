@@ -3,8 +3,8 @@ namespace tests\codeception\unit\fixtures;
 
 use yii\test\ActiveFixture;
 
-class ItemFixture04 extends ActiveFixture
+class DynamicItemFixture extends ActiveFixture
 {
-    public $modelClass = 'tests\codeception\unit\models\Item04';
+    public $modelClass = 'tests\codeception\unit\models\DynamicItem';
     public $dataFile = '@tests/codeception/unit/fixtures/data/items.php';
 }
