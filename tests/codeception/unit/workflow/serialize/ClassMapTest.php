@@ -16,7 +16,7 @@ class ClassMapTest extends TestCase
 		$this->specify('Replace default status class with custom one',function (){
 
 			$src = new ArrayWorkflowItemFactory([
-				'namespace' =>'tests\codeception\unit\models',
+				'workflowSourceNamespace' =>'tests\codeception\unit\models',
 				'classMap' =>  [
 					ArrayWorkflowItemFactory::TYPE_STATUS     => 'tests\codeception\unit\models\MyStatus',
 				]

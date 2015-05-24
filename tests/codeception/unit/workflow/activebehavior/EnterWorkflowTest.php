@@ -23,7 +23,7 @@ class EnterWorkflowTest extends DbTestCase
 		parent::setUp();
 		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
-			'namespace' => 'tests\codeception\unit\models'
+			'workflowSourceNamespace' => 'tests\codeception\unit\models'
 		]);
 	}
 

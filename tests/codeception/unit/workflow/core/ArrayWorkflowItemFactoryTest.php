@@ -22,7 +22,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 			);
 
 			new ArrayWorkflowItemFactory([
-				'namespace' =>'a\b\c',
+				'workflowSourceNamespace' =>'a\b\c',
 				'classMap' => null
 			]);
 		});
@@ -37,7 +37,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 			);
 
 			new ArrayWorkflowItemFactory([
-				'namespace' =>'a\b\c',
+				'workflowSourceNamespace' =>'a\b\c',
 				'classMap' => null
 			]);
 		});
@@ -52,7 +52,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 			);
 
 			 new ArrayWorkflowItemFactory([
-				'namespace' =>'a\b\c',
+				'workflowSourceNamespace' =>'a\b\c',
 				'classMap' =>  [
 					'workflow'   => null,
 					'status'     => 'fproject\workflow\core\Status',
@@ -70,7 +70,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 		$this->specify('Workflow factory construct fails if classMap is not an array',function (){
 
 			$src = new ArrayWorkflowItemFactory([
-				'namespace' =>'a\b\c',
+				'workflowSourceNamespace' =>'a\b\c',
 				'classMap' =>  [
 					ArrayWorkflowItemFactory::TYPE_WORKFLOW   => 'my\namespace\Workflow',
 					ArrayWorkflowItemFactory::TYPE_STATUS     => 'my\namespace\Status',

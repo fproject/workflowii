@@ -28,7 +28,7 @@ class ChangeStatusExtendedEventTest extends DbTestCase
 
 		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
-			'namespace' => 'tests\codeception\unit\models'
+			'workflowSourceNamespace' => 'tests\codeception\unit\models'
 		]);
 		Yii::$app->set('eventSequence',[
 			'class'=> 'fproject\workflow\events\ExtendedEventSequence',
