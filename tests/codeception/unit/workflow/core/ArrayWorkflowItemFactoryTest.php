@@ -84,7 +84,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 		});
 	}
 
-    public function testGeStatusFromFixedDefinition()
+    public function testGetStatusFromFixedDefinition()
     {
         $factory = new ArrayWorkflowItemFactory(['workflowSourceNamespace' =>'tests\codeception\unit\models']);
         $status = $factory->getStatus('Item04Workflow/A', null, null);
@@ -96,7 +96,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertEquals('Item04Workflow/A',$status->getId());
     }
 
-    public function testGeStatusFromDynamicDefinitionSuccess()
+    public function testGetStatusFromDynamicDefinitionSuccess()
     {
         $factory = new ArrayWorkflowItemFactory();
 
