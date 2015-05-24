@@ -37,9 +37,9 @@ The minimum requirement by Workflowii:
 For this "*Quick start Guide*" we will be using default configuration settings, but note that *workflowii* is designed to be highly
 flexible so to adapt to a lot of execution contexts..
 
-### Create A Workflow
+### Create A Workflow source
  
-A workflow is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowSource` interface. This interface
+A workflow source is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowSource` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
 
 Let's define a very simple workflow that will be used to manage article posts.
@@ -53,7 +53,7 @@ namespace app\models;
 
 class ArticleWorkflow implements \fproject\workflow\core\IWorkflowSource 
 {
-	public function getDefinition() {
+	public function getDefinition($model) {
 		return [
 			'initialStatusId' => 'draft',
 			'status' => [
