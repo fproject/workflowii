@@ -48,9 +48,6 @@ Here is the PHP class that implements the definition for our workflow :
 
 *ArticleWorkflow.php in @app/models*
 ```php
-<?php
-namespace app\models;
-
 class ArticleWorkflowSource implements \fproject\workflow\core\IWorkflowSource 
 {
 	public function getDefinition($model) {
@@ -80,9 +77,6 @@ The last step is to associate the workflow definition with articles models. To d
 in the Article model class and let the default configuration settings do the rest.
  
 ```php
-<?php
-
-namespace app\models;
 /**
  * @property integer $id
  * @property string $title

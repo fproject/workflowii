@@ -226,7 +226,7 @@ class ActiveWorkflowBehavior extends Behavior
      * @throws InvalidConfigException
      * @throws WorkflowException
      * @see \yii\base\Behavior::attach()
-     * @see \fproject\workflow\core\ActiveWorkflowBehavior::InitStatus()
+     * @see \fproject\workflow\core\ActiveWorkflowBehavior::initStatus()
      */
 	public function attach($owner)
 	{
@@ -371,7 +371,7 @@ class ActiveWorkflowBehavior extends Behavior
      * the status attribute in the owner model is updated with the value of the new status, otherwise
      * it is not changed.
      * This method can be invoked directly but you should keep in mind that it does not handle status
-     * persistance.
+     * persistence.
      *
      * @param IStatus|string $status the destination status to reach. If NULL, then the owner model
      * is going to leave its current workflow.
@@ -392,7 +392,7 @@ class ActiveWorkflowBehavior extends Behavior
 	 * Finally it fires the "after" events, or if we are in a save operation, store them for as pending events that are fired
 	 * on the *afterSave" event.
 	 * Note that if an event handler attached to a "before" event sets the event instance as invalid, all remaining handlers
-	 * are ingored and the method returns immediately.
+	 * are ignored and the method returns immediately.
 	 *
 	 * @param mixed $status
 	 * @param boolean $onSave

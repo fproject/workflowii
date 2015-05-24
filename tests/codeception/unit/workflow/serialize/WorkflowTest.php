@@ -54,6 +54,7 @@ class WorkflowTest extends TestCase
 		$this->assertEquals('Id', $lid);
 		$this->assertTrue(count($this->src->parseStatusId('Wid/Id', null, null)) == 2);
 	}
+
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowValidationException
 	 * @expectedExceptionMessageRegExp #No status definition found#
@@ -75,7 +76,8 @@ class WorkflowTest extends TestCase
 		},['throws'=> 'fproject\workflow\core\WorkflowException']);
 
 	}
-    public function testFailToLoadWorkflowClass()
+
+    public function testFailToLoadWorkflowSourceClass()
     {
     	$this->specify('incorrect status id format', function () {
     		$this->src->getStatus('id', null, null);
