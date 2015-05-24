@@ -30,7 +30,7 @@ The minimum requirement by Workflowii:
 - Your Web server supports PHP 5.4 or above
 - Your Web server is running on Yii 2.0.0 or above
 
-## Quick Start 
+## QUICK START
 
 ### Configuration
 
