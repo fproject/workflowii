@@ -123,7 +123,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $status = $factory->getStatus('Item05Workflow/published', null, $item);
         $this->assertEquals('Item05Workflow/published',$status->getId());
 
-        $item = $this->items('item3');
+        $item = $this->items('item4');
 
         $status = $factory->getStatus('Item07Workflow/E', null, $item);
         $this->assertEquals('Item07Workflow/E',$status->getId());
@@ -131,7 +131,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     /**
      * @expectedException fproject\workflow\core\WorkflowException
-     * @expectedExceptionMessage Failed to load workflow definition : Class tests\codeception\unit\models\NOTFOUNDSource does not exist
+     * @expectedExceptionMessage Failed to load workflow definition : Class app\models\SomethingSource does not exist
      */
     public function testGetStatusFromDynamicDefinitionFail1()
     {
