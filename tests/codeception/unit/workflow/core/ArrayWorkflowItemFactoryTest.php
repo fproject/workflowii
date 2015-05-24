@@ -151,4 +151,18 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $factory = new ArrayWorkflowItemFactory();
         $factory->getStatus('Something/Abc', null, null);
     }
+
+    /**
+     * @expectedException fproject\workflow\core\WorkflowException
+     * @expectedExceptionMessage No status found with id Item07Workflow/X#
+     */
+    public function testGetStatusFromDynamicDefinitionFail3()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        $item = $this->items('item4');
+
+        $status = $factory->getStatus('Item07Workflow/X', null, $item);
+        $this->assertEquals('Item07Workflow/X',$status->getId());
+    }
 }
