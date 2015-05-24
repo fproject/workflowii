@@ -565,7 +565,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 * @param array $definition workflow definition
 	 * @return array list of validation report
 	 */
-	public function validateWorkflowDefinition($wId,$definition)
+	public function validateWorkflowDefinition($wId, $definition)
 	{
 		$errors = [];
 		$stat = [];
@@ -611,7 +611,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		$orphanStatusIds = array_diff($startStatusIds, $endStatusIds);
 		if(in_array($definition['initialStatusId'], $orphanStatusIds)) {
 			// initial status Id is not unreachable
-			$orphanStatusIds = array_diff($orphanStatusIds, [ $definition['initialStatusId'] ]);
+			$orphanStatusIds = array_diff($orphanStatusIds, [$definition['initialStatusId']]);
 		}
 		if(count($orphanStatusIds) != 0) {
 			$errors['unreachableStatus'] = [

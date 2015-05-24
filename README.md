@@ -34,17 +34,17 @@ The minimum requirement by Workflowii:
 
 ### Configuration
 
-For this "*Quick start Guide*" we will be using default configuration settings, but note that *workflowii* is designed to be highly
-flexible so to adapt to a lot of execution contexts..
+In this simple start guide we use default configuration settings, but note that *workflowii* is designed to be highly
+flexible so to adapt to a lot of execution contexts.
 
-### Create A Workflow source
+### Create A WorkflowSource
  
 A workflow source is defined as a PHP class that implements the `\fproject\workflow\core\IWorkflowSource` interface. This interface
 declares the *getDefinition()* method that must return an array representing the workflow. 
 
-Let's define a very simple workflow source that will be used to manage article posts.
+Let's define a very simple workflow source that will be used to manage article posts represented by `Article` model class.
 
-Here is the PHP class that implements the definition for our workflow :
+Here is the very simple PHP class that implements the definition for our workflow :
 
 *ArticleWorkflowSource.php*
 ```php
@@ -69,7 +69,7 @@ class ArticleWorkflowSource implements \fproject\workflow\core\IWorkflowSource
 }
 ```
 
-### Attach To The Model
+### Attach ActiveWorkflowBehavior To The Model
 
 Now let's have a look to our `Article` model that extends from \yii\db\ActiveRecord and has a column named
 `status` of type STRING. 
