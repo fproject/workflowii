@@ -101,16 +101,16 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $factory = new ArrayWorkflowItemFactory();
 
         /** @var DynamicItem|ActiveWorkflowBehavior $item */
-        $item = DynamicItem::findOne(1);
-
-        $status = $factory->getStatus('Item04Workflow/D', null, $item);
-        $this->assertEquals('Item04Workflow/D',$status->getId());
+//        $item = DynamicItem::findOne(1);
+//
+//        $status = $factory->getStatus('Item04Workflow/D', null, $item);
+//        $this->assertEquals('Item04Workflow/D',$status->getId());
 
         /** @var DynamicItem|ActiveWorkflowBehavior $item */
-//        $item = DynamicItem::findOne(2);
+        $item = DynamicItem::findOne(2);
 
-//        $status = $factory->getStatus('Item05Workflow/published', null, $item);
-//        $this->assertEquals('Item05Workflow/published',$status->getId());
+        $status = $factory->getStatus('Item05Workflow/published', null, $item);
+        $this->assertEquals('Item05Workflow/published',$status->getId());
 
         /** @var DynamicItem|ActiveWorkflowBehavior $item */
 //        $item = DynamicItem::findOne(3);
