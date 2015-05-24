@@ -141,4 +141,14 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
         $factory->getStatus('Something/Abc', null, $item);
     }
+
+    /**
+     * @expectedException fproject\workflow\core\WorkflowException
+     * @expectedExceptionMessage Failed to load workflow definition : Class app\models\SomethingSource does not exist
+     */
+    public function testGetStatusFromDynamicDefinitionFail2()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+        $factory->getStatus('Something/Abc', null, null);
+    }
 }
