@@ -123,6 +123,11 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $status = $factory->getStatus('Item05Workflow/published', null, $item);
         $this->assertEquals('Item05Workflow/published',$status->getId());
 
+        $item = $this->items('item3');
+
+        $status = $factory->getStatus('Item06Workflow/published', 'Item06Workflow', $item);
+        $this->assertEquals('Item06Workflow/published',$status->getId());
+
         $item = $this->items('item4');
 
         $status = $factory->getStatus('Item07Workflow/E', null, $item);
@@ -162,7 +167,19 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
         $item = $this->items('item4');
 
-        $status = $factory->getStatus('Item07Workflow/X', null, $item);
-        $this->assertEquals('Item07Workflow/X',$status->getId());
+        $factory->getStatus('Item07Workflow/X', null, $item);
+    }
+
+    /**
+     * @expectedException fproject\workflow\core\WorkflowException
+     * @expectedExceptionMessage No status found with id Item07Workflow/X
+     */
+    public function testGetStatusFromDynamicDefinitionFail4()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        $item = $this->items('item2');
+
+        $factory->getStatus('Item04Workflow/D', null, $item);
     }
 }
