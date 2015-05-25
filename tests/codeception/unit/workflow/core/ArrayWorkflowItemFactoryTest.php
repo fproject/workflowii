@@ -7,6 +7,7 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use tests\codeception\unit\fixtures\DynamicItemFixture;
 use tests\codeception\unit\models\DynamicItem;
+use tests\codeception\unit\models\Item00;
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\TestCase;
@@ -19,6 +20,15 @@ use yii\codeception\TestCase;
 class ArrayWorkflowItemFactoryTest extends TestCase
 {
 	use Specify;
+
+    /** @var  ArrayWorkflowItemFactory $factory*/
+    public $factory;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->factory = new ArrayWorkflowItemFactory();
+    }
 
     public function fixtures()
     {
@@ -109,7 +119,47 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertEquals('Item04Workflow/A',$status->getId());
     }
 
-    public function testGetStatusFromDynamicDefinitionSuccess()
+    public function testGetStatusFromDynamicDefinitionSuccess1()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        $item = $this->items('item1');
+
+        $status = $factory->getStatus('Item04Workflow/D', null, $item);
+        $this->assertEquals('Item04Workflow/D',$status->getId());
+    }
+
+    public function testGetStatusFromDynamicDefinitionSuccess2()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        $item = $this->items('item1');
+
+        $status = $factory->getStatus('Item04Workflow/D', null, $item);
+        $this->assertEquals('Item04Workflow/D',$status->getId());
+
+        $item = $this->items('item2');
+
+        $status = $factory->getStatus('Item05Workflow/published', null, $item);
+        $this->assertEquals('Item05Workflow/published',$status->getId());
+
+        $item = $this->items('item4');
+
+        $status = $factory->getStatus('Item07Workflow/E', null, $item);
+        $this->assertEquals('Item07Workflow/E',$status->getId());
+    }
+
+    public function testGetStatusFromDynamicDefinitionSuccess3()
+    {
+        $factory = new ArrayWorkflowItemFactory();
+
+        $item = $this->items('item3');
+
+        $status = $factory->getStatus('Item06Workflow/published', 'Item06Workflow', $item);
+        $this->assertEquals('Item06Workflow/published',$status->getId());
+    }
+
+    public function testGetStatusFromDynamicDefinitionSuccess4()
     {
         $factory = new ArrayWorkflowItemFactory();
 
@@ -181,5 +231,103 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $item = $this->items('item2');
 
         $factory->getStatus('Item04Workflow/D', null, $item);
+    }
+
+    public function testIsValidWorkflowId()
+    {
+        $this->assertFalse($this->factory->isValidWorkflowId('workflow id'));
+        $this->assertFalse($this->factory->isValidWorkflowId('-workflowId'));
+        $this->assertFalse($this->factory->isValidWorkflowId(' workflowId'));
+        $this->assertFalse($this->factory->isValidWorkflowId('workflowId/'));
+        $this->assertFalse($this->factory->isValidWorkflowId('1'));
+        $this->assertFalse($this->factory->isValidWorkflowId('WORKFLOW_id'));
+
+        $this->assertTrue($this->factory->isValidWorkflowId('workflowId'));
+        $this->assertTrue($this->factory->isValidWorkflowId('workflow-Id'));
+        $this->assertTrue($this->factory->isValidWorkflowId('workflow01-Id02'));
+        $this->assertTrue($this->factory->isValidWorkflowId('w01-2'));
+    }
+
+    public function testIsValidStatusId()
+    {
+        $this->assertFalse($this->factory->isValidStatusId('id'));
+        $this->assertFalse($this->factory->isValidStatusId('/id'));
+        $this->assertFalse($this->factory->isValidStatusId('id/'));
+        $this->assertFalse($this->factory->isValidStatusId('/'));
+        $this->assertFalse($this->factory->isValidStatusId('workflow_id/status_id'));
+        $this->assertFalse($this->factory->isValidStatusId('workflow id/status id'));
+
+        $this->assertTrue($this->factory->isValidStatusId('ID/ID'));
+        $this->assertTrue($this->factory->isValidStatusId('workflow-id/status-id'));
+    }
+
+    public function parseWorkflowAndStatusId()
+    {
+        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Wid/Id', null, null);
+        $this->assertEquals('Wid', $wId);
+        $this->assertEquals('Id', $lid);
+        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
+    }
+
+    public function parseWorkflowAndStatusIdWithModel()
+    {
+        $item = $this->items('item2');
+
+        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Item04Workflow/D', null, $item);
+        $this->assertEquals('Item04Workflow', $wId);
+        $this->assertEquals('D', $lid);
+        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
+    }
+
+    /**
+     * @expectedException fproject\workflow\core\WorkflowValidationException
+     * @expectedExceptionMessageRegExp #No status definition found#
+     */
+    public function testAddInvalidWorkflowDefinition()
+    {
+        $this->factory->addWorkflowDefinition('wid', ['initialStatusId' => 'A']);
+    }
+
+    public function testGetWorkflowSourceClassNameFail()
+    {
+        $this->specify('exception thrown on invalid workflow id', function() {
+            $this->factory->getWorkflowSourceClassName('', null);
+        },['throws'=> 'fproject\workflow\core\WorkflowException']);
+    }
+
+    public function testGetWorkflowSourceClassNameSuccess1()
+    {
+        $this->factory->workflowSourceNamespace = null;
+        $this->assertEquals('app\models\PostWorkflowSource', $this->factory->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->factory->workflowSourceNamespace = 'a\b\c';
+        $this->assertEquals('a\b\c\PostWorkflowSource', $this->factory->getWorkflowSourceClassName('PostWorkflow', null));
+        $this->factory->workflowSourceNamespace = '';
+        $this->assertEquals('\PostWorkflowSource', $this->factory->getWorkflowSourceClassName('PostWorkflow', null));
+    }
+
+    public function testGetWorkflowSourceClassNameSuccess2()
+    {
+        $item = new Item00();
+        $this->factory->workflowSourceNamespace = null;
+        $this->assertEquals('tests\codeception\unit\models\Item00WorkflowSource', $this->factory->getWorkflowSourceClassName('Item00Workflow', $item));
+    }
+
+    public function testFailToLoadWorkflowSourceClass()
+    {
+        $this->specify('incorrect status id format', function () {
+            $this->factory->getStatus('id', null, null);
+        },['throws' => 'fproject\workflow\core\WorkflowException']);
+
+        $this->specify('empty provider fails to load workflow from non-existant workflow class', function () {
+            $this->factory->getWorkflow('id', null);
+        },['throws' => 'fproject\workflow\core\WorkflowException']);
+
+        $this->specify('empty provider fails to load status from non-existant workflow class', function () {
+            $this->factory->getStatus('w/s', null, null);
+        },['throws' => 'fproject\workflow\core\WorkflowException']);
+
+        $this->specify('empty provider fails to load transition from non-existant workflow class', function ()  {
+            $this->factory->getTransitions('w/s', null, null);
+        },['throws' => 'fproject\workflow\core\WorkflowException']);
     }
 }
