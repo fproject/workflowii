@@ -257,7 +257,8 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     {
         $wfDef = $this->factory->getWorkflowDefinition('Item04Workflow', null);
         $item04WfSrc = new Item04WorkflowSource();
-        $this->assertEquals($item04WfSrc->getDefinition(null), $wfDef);
+        $expected = $item04WfSrc->getDefinition(null);
+        $this->assertEquals($expected, $wfDef);
     }
 
     public function testGetWorkflowDefinitionWithModel()
@@ -265,7 +266,8 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $item = $this->items('item2');
         $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
         $item05WfSrc = new Item05WorkflowSource();
-        $this->assertEquals($item05WfSrc->getDefinition(null), $wfDef);
+        $expected = $item05WfSrc->getDefinition(null);
+        $this->assertEquals($expected, $wfDef);
     }
 
     public function testIsValidWorkflowId()
