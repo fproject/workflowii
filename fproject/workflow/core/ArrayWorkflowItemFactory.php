@@ -177,7 +177,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
-		list($wId, $stId) = $this->parseStatusId($id, $wfId, $model);
+		list($wId, $stId) = $this->parseWorkflowAndStatusId($id, $wfId, $model);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
@@ -207,7 +207,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getTransitions($statusId, $wfId, $model)
 	{
-		list($wId, $lid) = $this->parseStatusId($statusId, $wfId, $model);
+		list($wId, $lid) = $this->parseWorkflowAndStatusId($statusId, $wfId, $model);
 		$statusId = $wId.self::SEPARATOR_STATUS_NAME.$lid;
 
 		if (!array_key_exists($statusId, $this->_t)) {
@@ -226,7 +226,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			if ($trDef != null) {
 				
 				foreach ($trDef as $endStId => $trCfg) {					
-					$ids = $this->parseStatusId($endStId, $wId, null);
+					$ids = $this->parseWorkflowAndStatusId($endStId, $wId, null);
 					$endId =  implode(self::SEPARATOR_STATUS_NAME, $ids);
 					$end = $this->getStatus($endId, null, null);
 					
@@ -276,7 +276,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 				unset($def[self::KEY_NODES]);
 				$def['id'] = $id;
 				if (isset($def[Workflow::PARAM_INITIAL_STATUS_ID])) {
-					$ids = $this->parseStatusId($def[Workflow::PARAM_INITIAL_STATUS_ID], $id, null);
+					$ids = $this->parseWorkflowAndStatusId($def[Workflow::PARAM_INITIAL_STATUS_ID], $id, null);
 					$def[Workflow::PARAM_INITIAL_STATUS_ID] = implode(self::SEPARATOR_STATUS_NAME, $ids);
 				} else {
 					throw new WorkflowException('failed to load Workflow '.$id.' : missing initial status id');
@@ -415,7 +415,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      *
      * @see ArrayWorkflowItemFactory::evaluateWorkflowId()
      */
-	public function parseStatusId($val, $wfId, $model)
+	public function parseWorkflowAndStatusId($val, $wfId, $model)
 	{
 		if (empty($val) || !is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
@@ -456,12 +456,12 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 * @param string $id the status ID to test
 	 * @return boolean TRUE if $id is a valid status ID, FALSE otherwise.
      * 
-	 * @see ArrayWorkflowItemFactory::parseStatusId()
+	 * @see ArrayWorkflowItemFactory::parseWorkflowAndStatusId()
 	 */
 	public function isValidStatusId($id)
 	{
 		try {
-			$this->parseStatusId($id, null, null);
+			$this->parseWorkflowAndStatusId($id, null, null);
 			return true;
 		} catch (WorkflowException $e) {
 			return false;
@@ -594,7 +594,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		if (count($missingStatusIdSuspects) != 0) {
 			$missingStatusId = [];
 			foreach ($missingStatusIdSuspects as $id) {
-				list($thisWid,) = $this->parseStatusId($id, $wId, null);
+				list($thisWid,) = $this->parseWorkflowAndStatusId($id, $wId, null);
 				if ($thisWid == $wId) {
 					$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 				}
