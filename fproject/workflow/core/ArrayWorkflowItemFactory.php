@@ -220,8 +220,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			$wDef = $this->getWorkflowDefinition($wId, $model);
 
 			$trDef = isset($wDef[self::KEY_NODES][$start->getId()][self::KEY_EDGES])
-				? $wDef[self::KEY_NODES][$start->getId()][self::KEY_EDGES]
-				: null;
+				? $wDef[self::KEY_NODES][$start->getId()][self::KEY_EDGES] : null;
 
 			$transitions = [];
 			if ($trDef != null) {
