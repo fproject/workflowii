@@ -32,6 +32,15 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->factory = new ArrayWorkflowItemFactory();
     }
 
+    /**
+     * @inheritdoc
+     */
+    protected function tearDown()
+    {
+        $this->factory->workflowSourceNamespace = null;
+        parent::tearDown();
+    }
+
     public function fixtures()
     {
         return [
@@ -255,47 +264,21 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     public function testGetWorkflowDefinition()
     {
+        $this->factory->workflowSourceNamespace = 'tests\codeception\unit\models';
         $wfDef = $this->factory->getWorkflowDefinition('Item04Workflow', null);
         $item04WfSrc = new Item04WorkflowSource();
         $expected = $item04WfSrc->getDefinition(null);
-        $this->assertTrue($expected == $wfDef);
+        $this->assertEquals($expected, $wfDef);
     }
 
     public function testGetWorkflowDefinitionWithModel()
     {
+        $this->factory->workflowSourceNamespace = 'tests\codeception\unit\models';
         $item = $this->items('item2');
         $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
         $item05WfSrc = new Item05WorkflowSource();
-        //$expected = $item05WfSrc->getDefinition(null);
-        $expected = [
-            'initialStatusId' => 'new',
-            'status' => [
-                'new' => [
-                    'label' => 'New Item',
-                    'transition' => [
-                        'correction' => [],
-                        'published' => []
-                    ]
-                ],
-                'correction' => [
-                    'label' => 'In Correction',
-                    'transition' => [
-                        'published' => []
-                    ]
-                ],
-                'published' => [
-                    'label' => 'Published',
-                    'transition' => [
-                        'correction' => [],
-                        'archive' => []
-                    ]
-                ],
-                'archive' => [
-                    'label' => 'Archived',
-                    'transition' => []
-                ]
-            ]
-        ];
+        $expected = $item05WfSrc->getDefinition(null);
+
         $this->assertEquals($expected, $wfDef);
     }
 
