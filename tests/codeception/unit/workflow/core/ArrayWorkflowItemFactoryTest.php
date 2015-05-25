@@ -296,7 +296,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                 ]
             ]
         ];
-        $this->assertTrue($expected == $wfDef);
+        $this->assertEquals($expected, $wfDef);
     }
 
     public function testIsValidWorkflowId()
