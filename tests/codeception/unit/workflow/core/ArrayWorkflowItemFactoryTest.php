@@ -261,7 +261,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertTrue($this->factory->isValidStatusId('workflow-id/status-id'));
     }
 
-    public function parseWorkflowAndStatusId()
+    public function testParseWorkflowAndStatusId()
     {
         list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Wid/Id', null, null);
         $this->assertEquals('Wid', $wId);
@@ -269,7 +269,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
     }
 
-    public function parseWorkflowAndStatusIdWithModel()
+    public function testParseWorkflowAndStatusIdWithModel()
     {
         $item = $this->items('item2');
 
