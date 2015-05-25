@@ -9,6 +9,8 @@ use tests\codeception\unit\fixtures\DynamicItemFixture;
 use tests\codeception\unit\models\DynamicItem;
 use tests\codeception\unit\models\Item00;
 use tests\codeception\unit\models\Item04;
+use tests\codeception\unit\models\Item04WorkflowSource;
+use tests\codeception\unit\models\Item05WorkflowSource;
 use Yii;
 use yii\codeception\TestCase;
 
@@ -233,6 +235,39 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $factory->getStatus('Item04Workflow/D', null, $item);
     }
 
+    public function testParseWorkflowAndStatusId()
+    {
+        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Wid/Id', null, null);
+        $this->assertEquals('Wid', $wId);
+        $this->assertEquals('Id', $lid);
+        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
+    }
+
+    public function testParseWorkflowAndStatusIdWithModel()
+    {
+        $item = $this->items('item2');
+
+        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Item04Workflow/D', null, $item);
+        $this->assertEquals('Item04Workflow', $wId);
+        $this->assertEquals('D', $lid);
+        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
+    }
+
+    public function testGetWorkflowDefinition()
+    {
+        $wfDef = $this->factory->getWorkflowDefinition('Item04Workflow', null);
+        $item04WfSrc = new Item04WorkflowSource();
+        $this->assertEquals($item04WfSrc->getDefinition(null), $wfDef);
+    }
+
+    public function testGetWorkflowDefinitionWithModel()
+    {
+        $item = $this->items('item2');
+        $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
+        $item05WfSrc = new Item05WorkflowSource();
+        $this->assertEquals($item05WfSrc->getDefinition(null), $wfDef);
+    }
+
     public function testIsValidWorkflowId()
     {
         $this->assertFalse($this->factory->isValidWorkflowId('workflow id'));
@@ -259,24 +294,6 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
         $this->assertTrue($this->factory->isValidStatusId('ID/ID'));
         $this->assertTrue($this->factory->isValidStatusId('workflow-id/status-id'));
-    }
-
-    public function testParseWorkflowAndStatusId()
-    {
-        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Wid/Id', null, null);
-        $this->assertEquals('Wid', $wId);
-        $this->assertEquals('Id', $lid);
-        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
-    }
-
-    public function testParseWorkflowAndStatusIdWithModel()
-    {
-        $item = $this->items('item2');
-
-        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Item04Workflow/D', null, $item);
-        $this->assertEquals('Item04Workflow', $wId);
-        $this->assertEquals('D', $lid);
-        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
     }
 
     /**
