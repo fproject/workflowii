@@ -266,7 +266,36 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $item = $this->items('item2');
         $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
         $item05WfSrc = new Item05WorkflowSource();
-        $expected = $item05WfSrc->getDefinition(null);
+        //$expected = $item05WfSrc->getDefinition(null);
+        $expected = [
+            'initialStatusId' => 'new',
+            'status' => [
+                'new' => [
+                    'label' => 'New Item',
+                    'transition' => [
+                        'correction' => [],
+                        'published' => []
+                    ]
+                ],
+                'correction' => [
+                    'label' => 'In Correction',
+                    'transition' => [
+                        'published' => []
+                    ]
+                ],
+                'published' => [
+                    'label' => 'Published',
+                    'transition' => [
+                        'correction' => [],
+                        'archive' => []
+                    ]
+                ],
+                'archive' => [
+                    'label' => 'Archived',
+                    'transition' => []
+                ]
+            ]
+        ];
         $this->assertTrue($expected == $wfDef);
     }
 
