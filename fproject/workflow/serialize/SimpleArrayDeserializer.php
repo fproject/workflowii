@@ -43,18 +43,9 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 	 */
 	public $validate = true;
 
-	/**
-	 * Parse a workflow defined as a PHP Array.
-	 *
-	 * The workflow definition passed as argument is turned into an array that can be
-	 * used by the ArrayWorkflowItemFactory components.
-	 * 
-	 * @param string $wId
-	 * @param array $definition
-	 * @param ArrayWorkflowItemFactory $source
-	 * @return array The parse workflow array definition
-	 * @throws WorkflowValidationException
-	 */
+    /**
+     * @inheritdoc
+     */
 	public function deserialize($wId, $definition, $source) {
 		if (empty($wId)) {
 			throw new WorkflowValidationException("Missing argument : workflow Id");
