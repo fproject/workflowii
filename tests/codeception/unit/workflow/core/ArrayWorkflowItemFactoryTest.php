@@ -333,7 +333,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                     break;
                 }
             }
-            elseif($resultStatus[$key] !== $value)
+            elseif(!array_key_exists($key, $resultStatus) || $resultStatus[$key] !== $value)
             {
                 Debug::debug("Value not equals for:\$key=$key");
                 $equals = false;
