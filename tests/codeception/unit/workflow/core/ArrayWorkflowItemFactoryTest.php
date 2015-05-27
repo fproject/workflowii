@@ -323,6 +323,11 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                 break;
             }
         }
+        if(!$equals)
+        {
+            Debug::debug($expectedStatus);
+            Debug::debug($resultStatus);
+        }
         return $equals;
     }
 
