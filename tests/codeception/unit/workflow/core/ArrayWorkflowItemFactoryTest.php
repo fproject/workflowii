@@ -307,9 +307,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
                 if(!array_key_exists($key, $resultStatus) && !array_key_exists($xKey, $resultStatus))
                 {
+                    if($key !== 'transition' || !is_array($value) || count($value) > 0){
+                        $equals = false;
+                        break;
+                    }
                     Debug::debug("Key not exist:\$key=$key, \$xKey=$xKey");
-                    $equals = false;
-                    break;
+
                 }
                 if(array_key_exists($xKey, $resultStatus))
                 {
@@ -332,7 +335,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
             }
             elseif($resultStatus[$key] !== $value)
             {
-                Debug::debug("Key not exist:\$key=$key, \$xKey=$key");
+                Debug::debug("Value not equals for:\$key=$key");
                 $equals = false;
                 break;
             }
