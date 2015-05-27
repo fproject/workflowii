@@ -329,7 +329,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
             }
             elseif($resultStatus[$key] !== $value)
             {
-                Debug::debug("Key not exist:\$key=$key, \$xKey=$xKey");
+                Debug::debug("Key not exist:\$key=$key, \$xKey=$key");
                 $equals = false;
                 break;
             }
