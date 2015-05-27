@@ -284,10 +284,13 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertTrue(true);
     }
 
-    private function checkStatusArray($wfId, $expectedStatus, $resultStatus, $reverse=false)
+    private function checkStatusArray($wfId, $expectedStatus, $resultStatus)
     {
-        Debug::debug($expectedStatus);
-        Debug::debug($resultStatus);
+        return $this->checkArray($wfId, $expectedStatus, $resultStatus) && $this->checkStatusArray($wfId, $resultStatus, $expectedStatus, true);
+    }
+
+    private function checkArray($wfId, $expectedStatus, $resultStatus, $reverse=false)
+    {
         $equals = true;
         foreach($expectedStatus as $key => $value)
         {
@@ -309,7 +312,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
             {
                 $key = $xKey;
             }
-            if($value !== $resultStatus[$key])
+            if(!$this->checkArray($wfId, $value, $resultStatus[$key]))
             {
                 $equals = false;
                 break;
