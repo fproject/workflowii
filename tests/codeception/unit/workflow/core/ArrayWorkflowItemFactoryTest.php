@@ -294,34 +294,46 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $equals = true;
         foreach($expectedStatus as $key => $value)
         {
-            if($reverse)
+            if(is_string($key))
             {
-                $xKey = strpos($key, $wfId.'/') === 0 ? substr($key, strlen($wfId)+1) : $key;
-            }
-            else
-            {
-                $xKey = $wfId . '/' .$key;
-            }
+                if($reverse)
+                {
+                    $xKey = strpos($key, $wfId.'/') === 0 ? substr($key, strlen($wfId)+1) : $key;
+                }
+                else
+                {
+                    $xKey = $wfId . '/' .$key;
+                }
 
-            if(!array_key_exists($key, $resultStatus) && !array_key_exists($xKey, $resultStatus))
-            {
-                $equals = false;
-                break;
-            }
-            if(array_key_exists($xKey, $resultStatus))
-            {
-                $key = $xKey;
-            }
-            if(is_array($resultStatus[$key]) && is_array($value) && !$this->checkArray($wfId, $value, $resultStatus[$key]))
-            {
-                $equals = false;
-                break;
+                if(!array_key_exists($key, $resultStatus) && !array_key_exists($xKey, $resultStatus))
+                {
+                    Debug::debug("Key not exist:\$key=$key, \$xKey=$xKey");
+                    $equals = false;
+                    break;
+                }
+                if(array_key_exists($xKey, $resultStatus))
+                {
+                    $key = $xKey;
+                }
+                if(is_array($resultStatus[$key]) && is_array($value) && !$this->checkArray($wfId, $value, $resultStatus[$key]))
+                {
+                    $equals = false;
+                    break;
+                }
+                elseif($resultStatus[$key] !== $value)
+                {
+                    Debug::debug("Value not equals for \$key=$key");
+                    $equals = false;
+                    break;
+                }
             }
             elseif($resultStatus[$key] !== $value)
             {
+                Debug::debug("Key not exist:\$key=$key, \$xKey=$xKey");
                 $equals = false;
                 break;
             }
+
         }
         if(!$equals)
         {
