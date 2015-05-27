@@ -296,12 +296,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertTrue(true);
     }
 
-    private function checkStatusArray($wfId, $expectedStatus, $resultStatus, &$message='')
+    private function checkStatusArray($wfId, $expectedStatus, $resultStatus, &$message)
     {
-        return $this->checkArray($wfId, $expectedStatus, $resultStatus, $message);
+        return $this->checkArray($wfId, $expectedStatus, $resultStatus, false, $message);
     }
 
-    private function checkArray($wfId, $expectedStatus, $resultStatus, $reverse=false, &$message='')
+    private function checkArray($wfId, $expectedStatus, $resultStatus, $reverse, &$message)
     {
         $equals = true;
         foreach($expectedStatus as $key => $value)
@@ -331,7 +331,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                 }
                 if(is_array($resultStatus[$key]) && is_array($value))
                 {
-                    if(!$this->checkArray($wfId, $value, $resultStatus[$key]))
+                    if(!$this->checkArray($wfId, $value, $resultStatus[$key], $reverse, $message))
                     {
                         $equals = false;
                         break;
