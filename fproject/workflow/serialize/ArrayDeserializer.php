@@ -49,11 +49,14 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
         {
 			throw new WorkflowValidationException('Invalid Status definition : array expected');
 		}
-        
+
 		$startStatusIdIndex = [];
 		$endStatusIdIndex = [];
+
+        /** @var array $stsDefinitions */
+        $stsDefinitions = $definition[ArrayWorkflowItemFactory::KEY_NODES];
 	
-		foreach($definition[ArrayWorkflowItemFactory::KEY_NODES] as $key => $value)
+		foreach($stsDefinitions as $key => $value)
         {
             list($parsedId, $startStatusDef) = $this->parseStatusIdAndDef($key, $value);
 	
@@ -187,11 +190,9 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 	
 		// copy remaining workflow properties
 		foreach($definition as $propName => $propValue) {
-			if(is_string($propName)) {
-				if($propName != 'initialStatusId' && $propName != ArrayWorkflowItemFactory::KEY_NODES) {
-					$result[$propName] = $propValue;
-				}
-			}
+            if($propName !== 'initialStatusId' && $propName !== ArrayWorkflowItemFactory::KEY_NODES) {
+                $result[$propName] = $propValue;
+            }
 		}
 		
 		if ($this->validate === true) {

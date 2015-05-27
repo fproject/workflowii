@@ -3,6 +3,7 @@
 namespace tests\unit\workflow\core;
 
 use Codeception\Specify;
+use Codeception\Util\Debug;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use tests\codeception\unit\fixtures\DynamicItemFixture;
@@ -278,6 +279,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
         $item05WfSrc = new Item05WorkflowSource();
         $expected = $item05WfSrc->getDefinition(null);
+        Debug::debug($item05WfSrc);
 
         $this->assertEquals($expected, $wfDef);
     }
