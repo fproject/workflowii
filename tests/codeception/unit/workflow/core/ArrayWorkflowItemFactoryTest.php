@@ -280,7 +280,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $item05WfSrc = new Item05WorkflowSource();
         $expected = $item05WfSrc->getDefinition(null);
         Debug::debug($expected);
-
+        Debug::debug($wfDef);
         $this->assertEquals($expected, $wfDef);
     }
 
