@@ -3,6 +3,7 @@
 namespace tests\unit\workflow\core;
 
 use Codeception\Specify;
+use Codeception\Util\Debug;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\core\WorkflowException;
@@ -285,6 +286,8 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     private function checkStatusArray($wfId, $expectedStatus, $resultStatus, $reverse=false)
     {
+        Debug::debug($expectedStatus);
+        Debug::debug($resultStatus);
         $equals = true;
         foreach($expectedStatus as $key => $value)
         {
