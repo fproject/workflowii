@@ -273,23 +273,34 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $this->assertStatusArray('Item04Workflow', $expected, $wfDef);
     }
 
+    public function testGetWorkflowDefinitionWithModel()
+    {
+        $this->factory->workflowSourceNamespace = 'tests\codeception\unit\models';
+        $item = $this->items('item2');
+        $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
+        $item05WfSrc = new Item05WorkflowSource();
+        $expected = $item05WfSrc->getDefinition(null);
+        $this->assertStatusArray('Item04Workflow', $expected, $wfDef);
+    }
+
     private function assertStatusArray($wfId, $expected, $result)
     {
         $expectedStatus = $expected['status'];
         $resultStatus = $result['status'];
-        if(!$this->checkStatusArray($wfId, $expectedStatus, $resultStatus))
+        $message='';
+        if(!$this->checkStatusArray($wfId, $expectedStatus, $resultStatus, $message))
         {
-            throw new WorkflowException('Status arrays are not equal.');
+            throw new WorkflowException("Status arrays are not equal.\r\n". $message);
         }
         $this->assertTrue(true);
     }
 
-    private function checkStatusArray($wfId, $expectedStatus, $resultStatus)
+    private function checkStatusArray($wfId, $expectedStatus, $resultStatus, &$message='')
     {
-        return $this->checkArray($wfId, $expectedStatus, $resultStatus);
+        return $this->checkArray($wfId, $expectedStatus, $resultStatus, $message);
     }
 
-    private function checkArray($wfId, $expectedStatus, $resultStatus, $reverse=false)
+    private function checkArray($wfId, $expectedStatus, $resultStatus, $reverse=false, &$message='')
     {
         $equals = true;
         foreach($expectedStatus as $key => $value)
@@ -308,7 +319,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                 if(!array_key_exists($key, $resultStatus) && !array_key_exists($xKey, $resultStatus))
                 {
                     if($key !== 'transition' || !is_array($value) || count($value) > 0){
-                        Debug::debug("Key not exist:\$key=$key, \$xKey=$xKey");
+                        $message = "Key not exist:\$key=$key, \$xKey=$xKey";
                         $equals = false;
                         break;
                     }
@@ -327,14 +338,14 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                 }
                 elseif($resultStatus[$key] !== $value)
                 {
-                    Debug::debug("Value not equals for \$key=$key");
+                    $message = "Value not equals for \$key=$key";
                     $equals = false;
                     break;
                 }
             }
             elseif(!array_key_exists($key, $resultStatus) || $resultStatus[$key] !== $value)
             {
-                Debug::debug("Value not equals for:\$key=$key");
+                $message = "Value not equals for:\$key=$key";
                 $equals = false;
                 break;
             }
@@ -346,16 +357,6 @@ class ArrayWorkflowItemFactoryTest extends TestCase
             Debug::debug($resultStatus);
         }
         return $equals;
-    }
-
-    public function testGetWorkflowDefinitionWithModel()
-    {
-        $this->factory->workflowSourceNamespace = 'tests\codeception\unit\models';
-        $item = $this->items('item2');
-        $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
-        $item05WfSrc = new Item05WorkflowSource();
-        $expected = $item05WfSrc->getDefinition(null);
-        $this->assertStatusArray('Item04Workflow', $expected, $wfDef);
     }
 
     public function testIsValidWorkflowId()
