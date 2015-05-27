@@ -312,7 +312,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
             {
                 $key = $xKey;
             }
-            if(!$this->checkArray($wfId, $value, $resultStatus[$key]))
+            if(is_array($resultStatus[$key]) && is_array($value) && !$this->checkArray($wfId, $value, $resultStatus[$key]))
+            {
+                $equals = false;
+                break;
+            }
+            elseif($resultStatus[$key] !== $value)
             {
                 $equals = false;
                 break;
