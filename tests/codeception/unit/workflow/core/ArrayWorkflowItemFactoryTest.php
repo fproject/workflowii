@@ -15,6 +15,7 @@ use tests\codeception\unit\models\Item04WorkflowSource;
 use tests\codeception\unit\models\Item05WorkflowSource;
 use Yii;
 use yii\codeception\TestCase;
+use yii\helpers\VarDumper;
 
 /**
  *
@@ -353,8 +354,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         }
         if(!$equals)
         {
-            Debug::debug($expectedStatus);
-            Debug::debug($resultStatus);
+            $message = $message . "\r\nExpected" . VarDumper::dump($expectedStatus). "\r\nActual" . VarDumper::dump($resultStatus);
         }
         return $equals;
     }
