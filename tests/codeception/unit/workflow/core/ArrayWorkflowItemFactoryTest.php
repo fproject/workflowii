@@ -3,7 +3,6 @@
 namespace tests\unit\workflow\core;
 
 use Codeception\Specify;
-use Codeception\Util\Debug;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\core\WorkflowException;
@@ -277,7 +276,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     {
         $expectedStatus = $expected['status'];
         $resultStatus = $result['status'];
-        if(!$this->checkStatusArray($wfId, $expectedStatus, $resultStatus) || !$this->checkStatusArray($wfId, $resultStatus, $expectedStatus, true))
+        if(!$this->checkStatusArray($wfId, $expectedStatus, $resultStatus))
         {
             throw new WorkflowException('Status arrays are not equal.');
         }
