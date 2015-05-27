@@ -286,7 +286,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     private function checkStatusArray($wfId, $expectedStatus, $resultStatus)
     {
-        return $this->checkArray($wfId, $expectedStatus, $resultStatus) && $this->checkStatusArray($wfId, $resultStatus, $expectedStatus, true);
+        return $this->checkArray($wfId, $expectedStatus, $resultStatus);
     }
 
     private function checkArray($wfId, $expectedStatus, $resultStatus, $reverse=false)
