@@ -354,7 +354,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         }
         if(!$equals)
         {
-            $message = $message . "\r\nExpected" . VarDumper::dump($expectedStatus). "\r\nActual" . VarDumper::dump($resultStatus);
+            $message = $message . "\r\nExpected: " . $message = print_r($expectedStatus, true). "\r\nActual: " . print_r($resultStatus, true);
         }
         return $equals;
     }
