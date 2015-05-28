@@ -3,6 +3,7 @@
 namespace tests\unit\workflow\core;
 
 use Codeception\Specify;
+use Codeception\Util\Debug;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\core\WorkflowException;
@@ -242,7 +243,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
         $item = $this->items('item2');
 
-        $factory->getStatus('Item04Workflow/D', null, $item);
+        Debug::debug($factory->getStatus('Item04Workflow/D', null, $item));
     }
 
     public function testParseWorkflowAndStatusId()
