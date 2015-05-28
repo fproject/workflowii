@@ -279,7 +279,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $wfDef = $this->factory->getWorkflowDefinition('Item05Workflow', $item);
         $item05WfSrc = new Item05WorkflowSource();
         $expected = $item05WfSrc->getDefinition(null);
-        $this->assertStatusArray('Item04Workflow', $expected, $wfDef);
+        $this->assertStatusArray('Item05Workflow', $expected, $wfDef);
     }
 
     private function assertStatusArray($wfId, $expected, $result)
