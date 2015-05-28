@@ -289,7 +289,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $message='';
         if(!$this->checkStatusArray($wfId, $expectedStatus, $resultStatus, $message))
         {
-            throw new WorkflowException("Status arrays are not equal.\r\n". $message);
+            $this->throwException(new WorkflowException("Status arrays are not equal.\r\n". $message));
         }
         $this->assertTrue(true);
     }
