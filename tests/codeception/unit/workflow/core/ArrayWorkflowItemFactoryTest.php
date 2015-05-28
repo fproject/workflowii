@@ -243,7 +243,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
         $item = $this->items('item2');
 
-        Debug::debug($factory->getStatus('Item04Workflow/D', null, $item));
+        Debug::debug($factory->getStatus('Item04Workflow/D', null, $item)->getId());
     }
 
     public function testParseWorkflowAndStatusId()
