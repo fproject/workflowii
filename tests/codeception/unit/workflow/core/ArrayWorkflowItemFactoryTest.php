@@ -327,6 +327,8 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                         $equals = false;
                         break;
                     }
+                    else
+                        continue;
                 }
 
                 if(is_array($resultStatus[$key]) && is_array($value))
