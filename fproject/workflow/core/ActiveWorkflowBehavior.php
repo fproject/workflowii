@@ -128,7 +128,7 @@ class ActiveWorkflowBehavior extends Behavior
 	/**
 	 * @var IWorkflowItemFactory reference to the workflow factory component used by this behavior
 	 */
-	private $_factory;
+	private $_workflowFactory;
 
 	/**
 	 * @var array workflow events that are fired after save
@@ -187,7 +187,7 @@ class ActiveWorkflowBehavior extends Behavior
 		} elseif (!Yii::$app->has($this->factoryName)) {
 			Yii::$app->set($this->factoryName, ['class'=> self::DEFAULT_FACTORY_CLASS]);
 		}
-		$this->_factory = Yii::$app->get($this->factoryName);
+		$this->_workflowFactory = Yii::$app->get($this->factoryName);
 
 		// init Event Sequence
 		if ($this->eventSequence == null) {
@@ -275,10 +275,10 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		if ($this->autoInsert !== false) {
 			$workflowId = $this->autoInsert === true ? $this->getDefaultWorkflowId() : $this->autoInsert;
-			$workflow = $this->_factory->getWorkflow($workflowId, $this->owner);
+			$workflow = $this->_workflowFactory->getWorkflow($workflowId, $this->owner);
 			if ($workflow !== null) {
 				$this->setStatusInternal(
-					$this->_factory->getStatus($workflow->getInitialStatusId(), null, $this->owner)
+					$this->_workflowFactory->getStatus($workflow->getInitialStatusId(), null, $this->owner)
 				);
 			} else {
 				throw new WorkflowException("autoInsert failed - No workflow found for id : ".$workflowId);
@@ -305,7 +305,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 		if (!empty($oStatus)) {
             $wfId = self::isAttachedTo($this->owner) ? $this->selectDefaultWorkflowId() : null;
-			$status = $this->_factory->getStatus($oStatus, $wfId, $this->owner);
+			$status = $this->_workflowFactory->getStatus($oStatus, $wfId, $this->owner);
 			if ($status === null) {
 				throw new WorkflowException('Status not found : '.$oStatus);
 			}
@@ -331,7 +331,7 @@ class ActiveWorkflowBehavior extends Behavior
 			throw new WorkflowException("Model already in a workflow");
 		}
 		$wId = ($workflowId === null ? $this->getDefaultWorkflowId() : $workflowId);
-		$workflow = $this->_factory->getWorkflow($wId, $this->owner);
+		$workflow = $this->_workflowFactory->getWorkflow($wId, $this->owner);
 		if ($workflow !== null) {
 			$initialStatusId = $workflow->getInitialStatusId();
 			$result = $this->sendToStatusInternal($initialStatusId, false);
@@ -495,7 +495,7 @@ class ActiveWorkflowBehavior extends Behavior
 			// (potential) entering workflow -----------------------------------
 
 			$end = $this->ensureStatusInstance($end, true);
-			$workflow = $this->_factory->getWorkflow($end->getWorkflowId(), $this->owner);
+			$workflow = $this->_workflowFactory->getWorkflow($end->getWorkflowId(), $this->owner);
 			$initialStatusId = $workflow->getInitialStatusId();
 			if ($end->getId() !== $initialStatusId) {
 				throw new WorkflowException('Not an initial status : '.$end->getId().' ("'.$initialStatusId.'" expected)');
@@ -533,7 +533,7 @@ class ActiveWorkflowBehavior extends Behavior
 
 			$end = $this->ensureStatusInstance($end, true);
 
-			$transition = $this->_factory->getTransition($start->getId(), $end->getId(), $this->selectDefaultWorkflowId(), $this->owner);
+			$transition = $this->_workflowFactory->getTransition($start->getId(), $end->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 
 			if ($transition === null && $start->getId() != $end->getId()) {
 				throw new WorkflowException('No transition found between status '.$start->getId().' and '.$end->getId());
@@ -614,15 +614,15 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		$nextStatus = [];
 		if (!$this->hasWorkflowStatus()) {
-			$workflow = $this->_factory->getWorkflow($this->getDefaultWorkflowId(), $this->owner);
+			$workflow = $this->_workflowFactory->getWorkflow($this->getDefaultWorkflowId(), $this->owner);
 			if ($workflow === null) {
 				throw new WorkflowException("Failed to load default workflow ID = ".$this->getDefaultWorkflowId());
 			}
 			$initialStatus =
-                $this->_factory->getStatus($workflow->getInitialStatusId(), $this->selectDefaultWorkflowId(), $this->owner);
+                $this->_workflowFactory->getStatus($workflow->getInitialStatusId(), $this->selectDefaultWorkflowId(), $this->owner);
 			$nextStatus[$initialStatus->getId()] = ['status' => $initialStatus];
 		} else {
-			$transitions = $this->_factory->getTransitions($this->getWorkflowStatus()->getId(), $this->selectDefaultWorkflowId(), $this->owner);
+			$transitions = $this->_workflowFactory->getTransitions($this->getWorkflowStatus()->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 			foreach ($transitions as $transition) {
 				$nextStatus[$transition->getEndStatus()->getId()] = [ 'status' => $transition->getEndStatus()];
 			}
@@ -732,7 +732,7 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public function getWorkflowFactory()
 	{
-		return $this->_factory;
+		return $this->_workflowFactory;
 	}
 
 	/**
@@ -831,7 +831,7 @@ class ActiveWorkflowBehavior extends Behavior
 		} elseif ($idOrInstance instanceof IStatus) {
 			return $idOrInstance;
 		} else {
-			$status = $this->_factory->getStatus($idOrInstance, $this->selectDefaultWorkflowId(), $this->owner);
+			$status = $this->_workflowFactory->getStatus($idOrInstance, $this->selectDefaultWorkflowId(), $this->owner);
 			if ($status === null && $strict) {
 				throw new WorkflowException('Status not found : '.$idOrInstance);
 			}
