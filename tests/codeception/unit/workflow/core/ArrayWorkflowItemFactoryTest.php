@@ -315,7 +315,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                     $xKey = $wfId . '/' .$key;
                 }
 
-                if(!array_key_exists($key, $resultStatus) && !array_key_exists($xKey, $resultStatus))
+                if(!array_key_exists($key, $resultStatus) && array_key_exists($xKey, $resultStatus))
+                {
+                    $key = $xKey;
+                }
+
+                if(!array_key_exists($key, $resultStatus))
                 {
                     if($key !== 'transition' || !is_array($value) || count($value) > 0){
                         $message = "Key not exist:\$key=$key, \$xKey=$xKey";
@@ -323,10 +328,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
                         break;
                     }
                 }
-                if(array_key_exists($xKey, $resultStatus))
-                {
-                    $key = $xKey;
-                }
+
                 if(is_array($resultStatus[$key]) && is_array($value))
                 {
                     if(!$this->checkArray($wfId, $value, $resultStatus[$key], $reverse, $message))
