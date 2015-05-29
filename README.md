@@ -43,7 +43,7 @@ A workflow source is defined as a PHP class that implements the `\fproject\workf
 declares the *getDefinition()* method that must return an array representing the workflow of a model object. 
 
 Let's define a very simple workflow source that will be used to manage article posts represented by `Article` model class.
-This workflow source will return the same workflow for all model object instances of `Article`, by specifying a PHP 
+This workflow source will simply return the same workflow for all model object instances of `Article`, by specifying a PHP 
 associative array as return value of `getDefinition()` method:
 
 *ArticleWorkflowSource.php*
