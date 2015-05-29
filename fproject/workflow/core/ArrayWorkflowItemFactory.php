@@ -340,6 +340,19 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	}
 
     /**
+     * @inheritdoc
+     */
+    public function getDefaultWorkflowId($model)
+    {
+        if(isset($model)) {
+            $tokens = explode('\\', get_class($model));
+            return end($tokens) . $this->workflowSuffix;
+        }
+        else
+            return null;
+    }
+
+    /**
      * Returns the complete name for the IWorkflowSource class used to retrieve the definition of workflow $workflowId.
      * The class name is built by appending the workflow id to the `workflowSourceNamespace` parameter set for this factory component.
      *
@@ -354,10 +367,13 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		if (isset($workflowId) && !$this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
-        if(!isset($workflowId) && isset($model)) {
-            $workflowId = get_class($model) . $this->workflowSuffix;
+
+        if(!isset($workflowId)) {
+            $workflowId = $this->getDefaultWorkflowId($model);
         }
+
         $ns = $this->workflowSourceNamespace;
+
         if(!isset($ns))
         {
             if(isset($model))

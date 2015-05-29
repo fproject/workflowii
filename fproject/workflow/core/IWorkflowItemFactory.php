@@ -23,7 +23,7 @@ interface IWorkflowItemFactory
      *
      * @param mixed $id the status id
      * @param mixed $wfId the workflow ID
-     * @param Component|ActiveWorkflowBehavior $model
+     * @param Component|ActiveWorkflowBehavior $model the model that owns this workflow
      * @return IStatus the status instance or NULL if no status could be found for this id.
      *
      * @see IStatus
@@ -36,7 +36,7 @@ interface IWorkflowItemFactory
 	 * whose id is passed as argument.
 	 * 
 	 * @param string $id workflow Id
-     * @param Component|ActiveWorkflowBehavior $model
+     * @param Component|ActiveWorkflowBehavior $model the model that owns this workflow
      *
 	 * @return IStatus[] An array of IStatus instances
 	 * @throws WorkflowException no workflow is found with this Id
@@ -55,7 +55,7 @@ interface IWorkflowItemFactory
 	 *
 	 * @param mixed $statusId
      * @param mixed $wfId the workflow ID
-     * @param Component|ActiveWorkflowBehavior $model
+     * @param Component|ActiveWorkflowBehavior $model the model that owns this workflow
      *
 	 * @return Transition[] an array containing all out going transition from $statusId. If no such
 	 * transition exist, this method returns an empty array.
@@ -83,11 +83,26 @@ interface IWorkflowItemFactory
 	 * In case of unexpected error the implementation must return a WorkflowException.
 	 *
 	 * @param mixed $id the workflow id
-     * @param Component|ActiveWorkflowBehavior $model
+     * @param Component|ActiveWorkflowBehavior $model the model that owns this workflow
      *
 	 * @return Workflow the workflow instance or NULL if no workflow could be found.
      *
      * @see Workflow
 	 */
 	public function getWorkflow($id, $model);
+
+    /**
+     * Returns the id of the default workflow associated with the model.
+     *
+     * If no default workflow id has been configured, it is created by using the
+     * short-name of the owner model class (i.e. the class name without the namespace part),
+     * suffixed with defined by `workflowFactory`, default to 'Workflow'.
+     *
+     * For instance, class 'app\model\Post' has a default workflow id equals to 'PostWorkflow'.
+     *
+     * @param Component|ActiveWorkflowBehavior $model the model that owns this workflow
+     *
+     * @return string id for the workflow the owner model is in.
+     */
+    public function getDefaultWorkflowId($model);
 }

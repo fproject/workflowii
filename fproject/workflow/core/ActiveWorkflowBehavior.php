@@ -721,8 +721,7 @@ class ActiveWorkflowBehavior extends Behavior
 	public function getDefaultWorkflowId()
 	{
 		if (empty($this->_defaultWorkflowId)) {
-			$tokens = explode('\\', get_class($this->owner));
-			$this->_defaultWorkflowId = end($tokens) . $this->_workflowFactory->workflowSuffix;
+			$this->_defaultWorkflowId = $this->_workflowFactory->getDefaultWorkflowId($this->owner);
 		}
 		return $this->_defaultWorkflowId;
 	}
