@@ -923,14 +923,14 @@ class ActiveWorkflowBehavior extends Behavior
      */
 	public static function isAttachedTo($model)
 	{
-		if ($model instanceof BaseActiveRecord) {
+		if ($model instanceof Model) {
 			foreach ($model->getBehaviors() as $behavior) {
 				if ($behavior instanceof ActiveWorkflowBehavior) {
 					return true;
 				}
 			}
 		} else {
-			throw new WorkflowException('Invalid argument type : $model must be a BaseActiveRecord');
+			throw new WorkflowException('Invalid argument type : $model must be an instance of yii\base\Model');
 		}
 		return false;
 	}
