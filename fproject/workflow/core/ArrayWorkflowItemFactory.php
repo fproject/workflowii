@@ -298,7 +298,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      * @param string $wfId the ID of workflow to search
      * @param Component|ActiveWorkflowBehavior $model
      *
-     * @return mixed the definition could not be loaded
+     * @return array the workflow definition array
      *
      * @throws InvalidConfigException
      * @throws WorkflowException
@@ -437,11 +437,14 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			}
 		} elseif ($tokenCount != 2) {
 			throw new WorkflowException('Not a valid status id format: '.VarDumper::dumpAsString($val));
-		}
+		} elseif(($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
+            $wfDef = $this->getWorkflowDefinition($wfId, $model);
+            $tokens[2] = $wfDef;
+        }
 	
 		if (!$this->isValidWorkflowId($tokens[0])) {
 			throw new WorkflowException('Not a valid status id : incorrect workflow id format in '.VarDumper::dumpAsString($val));
-		}elseif (!$this->isValidStatusLocalId($tokens[1])) {
+		} elseif (!$this->isValidStatusLocalId($tokens[1])) {
 			throw new WorkflowException('Not a valid status id : incorrect status local id format in '.VarDumper::dumpAsString($val));
 		}
 		return $tokens;
