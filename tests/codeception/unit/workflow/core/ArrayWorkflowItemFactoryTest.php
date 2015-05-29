@@ -267,11 +267,11 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     public function testParseWorkflowAndStatusIdWithModel2()
     {
         $item = $this->items('item2');
-
+        Debug::debug($item);
         list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('D', null, $item);
         $this->assertEquals('Item05Workflow', $wId);
         $this->assertEquals('D', $lid);
-        $this->assertEquals(2, count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)));
+        $this->assertEquals(3, count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)));
     }
 
     public function testGetWorkflowDefinition()
