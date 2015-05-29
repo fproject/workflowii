@@ -6,7 +6,6 @@ use Codeception\Specify;
 use Codeception\Util\Debug;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
-use fproject\workflow\core\WorkflowException;
 use tests\codeception\unit\fixtures\DynamicItemFixture;
 use tests\codeception\unit\models\DynamicItem;
 use tests\codeception\unit\models\Item00;
@@ -30,6 +29,9 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     protected function setUp()
     {
+        $this->_fixturesDef = [
+            'items' => DynamicItemFixture::className()
+        ];
         parent::setUp();
         $this->factory = new ArrayWorkflowItemFactory();
     }
@@ -43,11 +45,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         parent::tearDown();
     }
 
+    /** @var  array $_fixtures */
+    private $_fixturesDef;
+
     public function fixtures()
     {
-        return [
-            'items' => DynamicItemFixture::className(),
-        ];
+        return $this->_fixturesDef;
     }
 
 	public function testConstructFails1()
