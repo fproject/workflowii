@@ -2,16 +2,15 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
-use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item00;
-use yii\base\InvalidConfigException;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use yii\codeception\DbTestCase;
 
 class AutoInsertTest extends DbTestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	protected function setup()
 	{
@@ -27,7 +26,7 @@ class AutoInsertTest extends DbTestCase
         parent::tearDown();
     }
 
-    public function testAutoInsertTRUE()
+    public function testSetAutoInsertWithTrue()
     {
     	$this->specify('autoInsert True : insert the model in default workflow', function() {
             /** @var ActiveWorkflowBehavior|Item00 $o */
@@ -80,7 +79,7 @@ class AutoInsertTest extends DbTestCase
     	});    	
     }
     
-    public function testAutoInsertSTATUS()
+    public function testSetAutoInsertWithWorkflowStatus()
     {
     	$this->specify('autoInsert Status : insert the model in provided workflow', function() {
             /** @var ActiveWorkflowBehavior|Item00 $o */
@@ -132,7 +131,7 @@ class AutoInsertTest extends DbTestCase
     		)->true();
     	});    	
     }    
-    public function testAutoInsertDEFAULT()
+    public function testSetAutoInsertWithDefaultValue()
     {
     	$this->specify('autoInsert Status : insert the model in provided workflow', function() {
             /** @var ActiveWorkflowBehavior|Item00 $o */

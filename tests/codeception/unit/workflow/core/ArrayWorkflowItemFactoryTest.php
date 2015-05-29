@@ -267,7 +267,6 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     public function testParseIdsWithModel2()
     {
         $item = $this->items('item2');
-        Debug::debug($item);
         list($wId, $lid,) = $this->factory->parseIds('D', null, $item);
         $this->assertEquals('Item05Workflow', $wId);
         $this->assertEquals('D', $lid);

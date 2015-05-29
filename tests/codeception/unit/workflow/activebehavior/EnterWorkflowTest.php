@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\DbTestCase;
 use fproject\workflow\core\ActiveWorkflowBehavior;
@@ -10,7 +11,7 @@ use tests\codeception\unit\models\Item04;
 
 class EnterWorkflowTest extends DbTestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	public function fixtures()
 	{

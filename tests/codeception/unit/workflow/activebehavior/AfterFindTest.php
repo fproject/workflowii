@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\models\Item04;
 use Yii;
@@ -16,7 +17,7 @@ use tests\codeception\unit\fixtures\ItemFixture04;
  */
 class AfterFindTest extends DbTestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	public function fixtures()
 	{
@@ -34,7 +35,7 @@ class AfterFindTest extends DbTestCase
 		]);
 	}
 
-    public function testInitStatusOnAfterFind()
+    public function testWorkflowStatusOnAfterFind()
     {
 		$this->specify('item1 can be read from db', function() {
 			$item = $this->items('item1');

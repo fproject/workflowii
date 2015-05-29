@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
@@ -9,10 +10,10 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class AttachBehaviorTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 
-    public function testAttachCorrect()
+    public function testAttachBehaviorSuccess()
     {
     	$model = new Item01();
 
@@ -23,7 +24,7 @@ class AttachBehaviorTest extends TestCase
     	});
     }
 
-    public function testAttachFails1()
+    public function testAttachBehaviorFails1()
     {
     	$this->specify('behavior cannot be attached to a non-ActiveRecord object', function () {
     		$model = Yii::createObject("yii\base\Component",[]);
@@ -31,7 +32,7 @@ class AttachBehaviorTest extends TestCase
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 
-    public function testAttachFails2()
+    public function testAttachBehaviorFails2()
     {
     	$this->specify('the status attribute cannot be empty', function () {
     		$model = new Item01();
@@ -42,7 +43,7 @@ class AttachBehaviorTest extends TestCase
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 
-    public function testAttachFails3()
+    public function testAttachBehaviorFails3()
     {
     	$this->specify('the status attribute must exist in the owner model', function () {
     		$model = new Item01();

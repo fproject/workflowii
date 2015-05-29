@@ -1,14 +1,15 @@
 <?php
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
 use tests\codeception\unit\models\Item08;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use yii\codeception\DbTestCase;
 
 class MultiWorkflowTest extends DbTestCase {
-	
-	use \Codeception\Specify;
+
+    use Specify;
 	
 	protected function setup()
 	{

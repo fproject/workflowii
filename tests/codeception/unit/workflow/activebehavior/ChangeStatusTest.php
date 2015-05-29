@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\DbTestCase;
@@ -17,7 +18,7 @@ use tests\codeception\unit\fixtures\ItemFixture04;
  */
 class ChangeStatusTest extends DbTestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
 	public function fixtures()
 	{

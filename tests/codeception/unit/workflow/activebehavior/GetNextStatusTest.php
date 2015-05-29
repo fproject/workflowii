@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use fproject\workflow\core\IStatus;
 use Yii;
 use yii\codeception\DbTestCase;
@@ -18,7 +19,7 @@ use fproject\workflow\events\WorkflowEvent;
  */
 class GetNextStatusTest extends DbTestCase
 {
-	use \Codeception\Specify;
+    use Specify;
 
 	public function fixtures()
 	{

@@ -1,6 +1,7 @@
 <?php
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item04;
@@ -9,7 +10,7 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class StatusIdConvertionTest extends TestCase
 {
-	use \Codeception\Specify;
+    use Specify;
 
 	public $item;
 	protected function setup()

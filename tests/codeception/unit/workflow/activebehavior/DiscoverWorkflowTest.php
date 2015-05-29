@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 
@@ -10,7 +11,7 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class DiscoverWorkflowTest extends TestCase
 {
-	use \Codeception\Specify;
+	use Specify;
 
     public function testDefaultWorkflowIdCreation()
     {

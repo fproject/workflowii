@@ -2,6 +2,7 @@
 
 namespace tests\unit\workflow\activebehavior;
 
+use Codeception\Specify;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item04;
@@ -9,7 +10,7 @@ use fproject\workflow\core\ActiveWorkflowBehavior;
 
 class StatusEqualsTest extends TestCase
 {
-	use \Codeception\Specify;
+    use Specify;
 
 
 	protected function setup()
