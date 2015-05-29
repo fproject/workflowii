@@ -1,6 +1,7 @@
 <?php
 namespace fproject\workflow\core;
 
+use Codeception\Util\Debug;
 use fproject\workflow\serialize\IArrayDeserializer;
 use Yii;
 use yii\base\Component;
@@ -184,8 +185,9 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
-		list($wId, $stId) = $this->parseWorkflowAndStatusId($id, $wfId, $model);
-		
+        $wDef = null;
+		list($wId, $stId) = $this->parseWorkflowAndStatusId($id, $wfId, $model, $wDef);
+		Debug::debug($wDef);
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
 		if (!array_key_exists($canonicalStId, $this->_s)) {
@@ -446,7 +448,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      *
      * @see ArrayWorkflowItemFactory::evaluateWorkflowId()
      */
-	public function parseWorkflowAndStatusId($val, $wfId, $model)
+	public function parseWorkflowAndStatusId($val, $wfId, $model, &$wfDef=null)
 	{
 		if (empty($val) || !is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
@@ -455,7 +457,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
 		$tokenCount = count($tokens);
 		if ($tokenCount == 1) {
-            //$tokens[2] = null;
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
             if (isset($wfId) && is_string($wfId)){
@@ -471,7 +472,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			throw new WorkflowException('Not a valid status id format: '.VarDumper::dumpAsString($val));
 		} elseif(isset($model) && ($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
             $wfDef = $this->getWorkflowDefinition($wfId, $model);
-            //$tokens[2] = $wfDef;
         }
 	
 		if (!$this->isValidWorkflowId($tokens[0])) {
