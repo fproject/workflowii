@@ -5,6 +5,7 @@ namespace tests\unit\workflow\activebehavior;
 use Codeception\Specify;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 use tests\codeception\unit\fixtures\DynamicItemFixture;
+use tests\codeception\unit\fixtures\FailItemFixture;
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\DbTestCase;
@@ -64,7 +65,7 @@ class AfterFindTest extends DbTestCase
     public function testAfterFindFail()
     {
         $this->_fixturesDef = [
-            'items' => DynamicItemFixture::className()
+            'items' => FailItemFixture::className()
         ];
         $this->items('item2');
     }
