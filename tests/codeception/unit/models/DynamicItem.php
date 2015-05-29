@@ -2,6 +2,7 @@
 
 namespace tests\codeception\unit\models;
 
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use Yii;
 
 /**
@@ -20,5 +21,14 @@ class DynamicItem extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'item';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'workflow' => [
+                'class' => ActiveWorkflowBehavior::className()
+            ]
+        ];
     }
 }
