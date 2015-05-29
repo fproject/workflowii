@@ -6,6 +6,9 @@ use yii\base\InvalidConfigException;
 /**
  * Provides workflow items (Workflow, Status, Transitions) from
  * a workflow definition source.
+ *
+ * @property string workflowSourceSuffix the suffix to make workflow source from workflow ID
+ * @property string workflowSuffix the suffix to make workflow ID from the owner model
  */
 interface IWorkflowItemFactory
 {

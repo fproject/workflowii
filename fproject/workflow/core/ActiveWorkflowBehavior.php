@@ -712,7 +712,7 @@ class ActiveWorkflowBehavior extends Behavior
 	 *
 	 * If no default workflow id has been configured, it is created by using the
 	 * short-name of the owner model class (i.e. the class name without the namespace part),
-	 * suffixed with 'Workflow'.
+	 * suffixed with defined by `workflowFactory`, default to 'Workflow'.
 	 *
 	 * For instance, class 'app\model\Post' has a default workflow id equals to 'PostWorkflow'.
 	 *
@@ -722,7 +722,7 @@ class ActiveWorkflowBehavior extends Behavior
 	{
 		if (empty($this->_defaultWorkflowId)) {
 			$tokens = explode('\\', get_class($this->owner));
-			$this->_defaultWorkflowId = end($tokens) . 'Workflow';
+			$this->_defaultWorkflowId = end($tokens) . $this->_workflowFactory->workflowSuffix;
 		}
 		return $this->_defaultWorkflowId;
 	}

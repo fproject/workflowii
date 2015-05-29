@@ -82,6 +82,13 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
     public $workflowSourceSuffix = 'Source';
 
+    /**
+     * @var string the suffix to determine workflow source class from a model class.
+     *
+     * You can config value of this field in Yii's application 'workflowFactory' component
+     */
+    public $workflowSuffix = 'Workflow';
+
 	/**
 	 * @var Object reference to the deserializer to use with this ArrayWorkflowItemFactory
 	 */
@@ -177,12 +184,13 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
-		list($wId, $stId) = $this->parseWorkflowAndStatusId($id, $wfId, $model);
+		list($wId, $stId, $wDef) = $this->parseWorkflowAndStatusId($id, $wfId, $model);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
 		if (!array_key_exists($canonicalStId, $this->_s)) {
-			$wDef = $this->getWorkflowDefinition($wId, $model);
+            if(!isset($wDef))
+                $wDef = $this->getWorkflowDefinition($wId, $model);
 			if ($wDef == null) {
 				throw new WorkflowException('No workflow found with id ' . $wId);
 			}
@@ -306,11 +314,15 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getWorkflowDefinition($wfId, $model)
 	{
-		if (!$this->isValidWorkflowId($wfId)) {
+        if(isset($model) && !isset($wfId))
+        {
+            //Do nothing
+        }
+		elseif (!$this->isValidWorkflowId($wfId)) {
 			throw new WorkflowException('Invalid workflow Id : '.VarDumper::dumpAsString($wfId));
 		}
 
-		if (!isset($this->_workflowDef[$wfId])) {
+		if (!isset($wfId) || !isset($this->_workflowDef[$wfId])) {
 			$wfSrcClassName = $this->getWorkflowSourceClassName($wfId, $model);
 			try {
                 /** @var Object|IWorkflowSource $wfSrc */
@@ -339,9 +351,12 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getWorkflowSourceClassName($workflowId, $model)
 	{
-		if (!$this->isValidWorkflowId($workflowId)) {
+		if (isset($workflowId) && !$this->isValidWorkflowId($workflowId)) {
 			throw new WorkflowException('Not a valid workflow Id : '.$workflowId);
 		}
+        if(!isset($workflowId) && isset($model)) {
+            $workflowId = get_class($model) . $this->workflowSuffix;
+        }
         $ns = $this->workflowSourceNamespace;
         if(!isset($ns))
         {
