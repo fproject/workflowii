@@ -248,17 +248,17 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     public function testParseWorkflowAndStatusId()
     {
-        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Wid/Id', null, null);
+        list($wId, $lid,) = $this->factory->parseWorkflowAndStatusId('Wid/Id', null, null);
         $this->assertEquals('Wid', $wId);
         $this->assertEquals('Id', $lid);
-        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 2);
+        $this->assertTrue(count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)) == 3);
     }
 
     public function testParseWorkflowAndStatusIdWithModel1()
     {
         $item = $this->items('item2');
 
-        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('Item04Workflow/D', null, $item);
+        list($wId, $lid,) = $this->factory->parseWorkflowAndStatusId('Item04Workflow/D', null, $item);
         $this->assertEquals('Item04Workflow', $wId);
         $this->assertEquals('D', $lid);
         $this->assertEquals(3, count($this->factory->parseWorkflowAndStatusId('Item04Workflow/D', null, null)));
@@ -268,7 +268,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     {
         $item = $this->items('item2');
         Debug::debug($item);
-        list($wId, $lid) = $this->factory->parseWorkflowAndStatusId('D', null, $item);
+        list($wId, $lid,) = $this->factory->parseWorkflowAndStatusId('D', null, $item);
         $this->assertEquals('Item05Workflow', $wId);
         $this->assertEquals('D', $lid);
         $this->assertEquals(3, count($this->factory->parseWorkflowAndStatusId('Wid/Id', null, null)));

@@ -63,7 +63,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 		$endStatusIdIndex   = [];
 		
 		foreach($definition as $id => $targetStatusList) {
-			list($workflowId, $statusId) = $source->parseWorkflowAndStatusId($id, $wId, null);
+			list($workflowId, $statusId,) = $source->parseWorkflowAndStatusId($id, $wId, null);
 			$absoluteStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 			if ( $workflowId != $wId) {
 				throw new WorkflowValidationException('Status must belong to workflow : ' . $absoluteStatusId);
@@ -108,7 +108,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 			if ( count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid, ) = $source->parseWorkflowAndStatusId($id, $wId, null);
+					list($thisWid,,) = $source->parseWorkflowAndStatusId($id, $wId, null);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}
@@ -133,7 +133,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 		$normalizedIds = [];
 		foreach ($ids as $id) {
 			$pieces = $source->parseWorkflowAndStatusId($id, $workflowId, null);
-			$normalizedIds[] = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
+			$normalizedIds[] = $pieces[0]. ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME . $pieces[1];
 		}
 		return $normalizedIds;		
 	}
