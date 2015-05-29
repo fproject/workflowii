@@ -34,11 +34,6 @@ class AfterFindTest extends DbTestCase
 		]);
 	}
 
-    protected function tearDown()
-    {
-        parent::tearDown();
-    }
-
     public function testInitStatusOnAfterFind()
     {
 		$this->specify('item1 can be read from db', function() {

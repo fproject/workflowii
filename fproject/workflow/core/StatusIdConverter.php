@@ -90,7 +90,7 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 		}
 		$statusId = array_search($id, $this->_map);
 		if ($statusId === false) {
-			throw new Exception('Conversion to SimpleWorkflow failed : no value found for id = '.$id);
+			throw new Exception('Conversion to Workflow failed : no value found for id = '.$id);
 		}
 		return ($statusId == self::VALUE_NULL ? null : $statusId);
 	}
@@ -108,7 +108,7 @@ class StatusIdConverter extends Object implements IStatusIdConverter
 		}
 
 		if (!array_key_exists($id,	$this->_map) ) {
-			throw new Exception('Conversion from SimpleWorkflow failed : no key found for id = '.$id);
+			throw new Exception('Conversion from Workflow failed : no key found for id = '.$id);
 		}
 		$value = $this->_map[$id];
 		return ($value == self::VALUE_NULL ? null : $value);

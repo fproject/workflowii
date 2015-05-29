@@ -184,7 +184,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
-		list($wId, $stId, $wDef) = $this->parseWorkflowAndStatusId($id, $wfId, $model);
+		list($wId, $stId) = $this->parseWorkflowAndStatusId($id, $wfId, $model);
 		
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
@@ -455,7 +455,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
 		$tokenCount = count($tokens);
 		if ($tokenCount == 1) {
-            $tokens[2] = null;
+            //$tokens[2] = null;
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
             if (isset($wfId) && is_string($wfId)){
@@ -471,7 +471,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			throw new WorkflowException('Not a valid status id format: '.VarDumper::dumpAsString($val));
 		} elseif(isset($model) && ($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
             $wfDef = $this->getWorkflowDefinition($wfId, $model);
-            $tokens[2] = $wfDef;
+            //$tokens[2] = $wfDef;
         }
 	
 		if (!$this->isValidWorkflowId($tokens[0])) {
