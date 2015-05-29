@@ -4,6 +4,7 @@ namespace tests\unit\workflow\activebehavior;
 
 use Codeception\Specify;
 use fproject\workflow\core\ActiveWorkflowBehavior;
+use tests\codeception\unit\fixtures\DynamicItemFixture;
 use tests\codeception\unit\models\Item04;
 use Yii;
 use yii\codeception\DbTestCase;
@@ -19,15 +20,20 @@ class AfterFindTest extends DbTestCase
 {
 	use Specify;
 
+    /** @var  array $_fixtures */
+    private $_fixturesDef;
+
 	public function fixtures()
 	{
-		return [
-			'items' => ItemFixture04::className(),
-		];
+		return $this->_fixturesDef;
 	}
 
 	protected function setup()
 	{
+        $this->_fixturesDef = [
+            'items' => ItemFixture04::className()
+        ];
+
 		parent::setUp();
 		Yii::$app->set('workflowFactory',[
 			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
@@ -49,5 +55,17 @@ class AfterFindTest extends DbTestCase
 		$this->specify('item3 can be read from db : short name', function() {
 			$this->items('item3');
 		});
+    }
+
+    /**
+     * @expectedException fproject\workflow\core\WorkflowException
+     * @expectedExceptionMessage Not a valid status id : incorrect status local id format in 'Item04Workflow/NOT_FOUND'
+     */
+    public function testAfterFindFail()
+    {
+        $this->_fixturesDef = [
+            'items' => DynamicItemFixture::className()
+        ];
+        $this->items('item2');
     }
 }
