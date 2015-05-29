@@ -249,12 +249,12 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         Debug::debug($factory->getStatus('Item04Workflow/D', null, $item)->getId());
     }
 
-    public function testParseWorkflowAndStatusId()
+    public function testParseIds()
     {
         list($wId, $lid,) = $this->factory->parseIds('Wid/Id', null, null);
         $this->assertEquals('Wid', $wId);
         $this->assertEquals('Id', $lid);
-        $this->assertTrue(count($this->factory->parseIds('Wid/Id', null, null)) == 3);
+        $this->assertEquals(2, count($this->factory->parseIds('Wid/Id', null, null)));
     }
 
     public function testParseIdsWithModel1()
@@ -264,7 +264,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         list($wId, $lid,) = $this->factory->parseIds('Item04Workflow/D', null, $item, $wfDef);
         $this->assertEquals('Item04Workflow', $wId);
         $this->assertEquals('D', $lid);
-        $this->assertEquals(3, count($this->factory->parseIds('Item04Workflow/D', null, null)));
+        $this->assertEquals(2, count($this->factory->parseIds('Item04Workflow/D', null, null)));
     }
 
     public function testParseIdsWithModel2()
@@ -273,7 +273,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         list($wId, $lid,) = $this->factory->parseIds('D', null, $item);
         $this->assertEquals('Item05Workflow', $wId);
         $this->assertEquals('D', $lid);
-        $this->assertEquals(3, count($this->factory->parseIds('Wid/Id', null, null)));
+        $this->assertEquals(2, count($this->factory->parseIds('Wid/Id', null, null)));
     }
 
     public function testGetWorkflowDefinition()
