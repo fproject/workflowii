@@ -143,8 +143,8 @@ Yes, that's severe, but there was many ways to avoid this exception like for ins
 
 ### What's Next ?
 
-This is just one way of using the *ActiveWorkflowBehavior* but there's much more and hopefully enough to assist you
-in your workflow management inside your Yii2 web app.
+This is just a very simple way of using the *ActiveWorkflowBehavior*. Workflowii has much more functionalities enough to assist you
+in your workflow management inside your Yii 2 web app.
 
 In the meantime you can have a look to the [Workflowii User Guide](guide) (still under dev) and send any feedback. 
 
