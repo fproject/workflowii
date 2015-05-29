@@ -439,6 +439,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
 		$tokenCount = count($tokens);
 		if ($tokenCount == 1) {
+            $tokens[2] = null;
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
             if (isset($wfId) && is_string($wfId)){
