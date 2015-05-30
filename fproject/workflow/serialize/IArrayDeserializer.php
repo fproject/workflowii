@@ -2,7 +2,7 @@
 namespace fproject\workflow\serialize;
 
 use fproject\workflow\core\ArrayWorkflowItemFactory;
-use fproject\workflow\core\WorkflowValidationException;
+use fproject\workflow\core\WorkflowException;
 
 /**
  * This class converts a workflow definition PHP array into its normalized form
@@ -43,7 +43,7 @@ interface IArrayDeserializer {
 	 * @param array $definition
 	 * @param ArrayWorkflowItemFactory $source
 	 * @return array The parse workflow array definition
-	 * @throws WorkflowValidationException
+	 * @throws WorkflowException
 	 */
 	public function deserialize($wId, $definition, $source);
 }

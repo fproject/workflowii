@@ -402,7 +402,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException fproject\workflow\core\WorkflowValidationException
+     * @expectedException fproject\workflow\core\WorkflowException
      * @expectedExceptionMessageRegExp #No status definition found#
      */
     public function testAddInvalidWorkflowDefinition()

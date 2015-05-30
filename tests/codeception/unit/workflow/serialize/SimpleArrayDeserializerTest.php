@@ -48,7 +48,7 @@ class SimpleArrayDeserializerTest extends TestCase
     }
 
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage Workflow definition must be provided as an array
 	 */
 	public function testParseInvalidType()
@@ -56,7 +56,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',null,$this->src);
 	}
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage Missing argument : workflow Id
 	 */
 	public function testMissingWorkflowId()
@@ -64,7 +64,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('',null,$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage Workflow definition must be provided as associative array
 	 */
 	public function testNonAssociativeArray1()
@@ -72,7 +72,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',['a'],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage Workflow definition must be provided as associative array
 	 */
 	public function testNonAssociativeArray2()
@@ -80,7 +80,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',['a'=> [], 'b'],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage Status must belong to workflow : EXT/a
 	 */
 	public function testExternalStatusError()
@@ -92,7 +92,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage  Associative array not supported (status : WID/a)
 	 */
 	public function testEndStatusAssociativeError()
@@ -103,7 +103,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		],$this->src);
 	}
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessage End status list must be an array for status  : WID/a
 	 */
 	public function testEndStatusTypeNotSupported()

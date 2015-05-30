@@ -74,7 +74,7 @@ class ArrayDeserializerTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Missing "initialStatusId"#
 	 */
 	public function testParseNoInitStatus()
@@ -94,7 +94,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #No status definition found#
 	 */
 	public function testParseNoStatus()
@@ -104,7 +104,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Wrong definition for status A : array expected#
 	 */
 	public function testParseWrongStatusDefinition1()
@@ -116,7 +116,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp /Wrong status definition : key = 1 value =[.*0 => 'A'.*]/
 	 */
 	public function testParseWrongStatusDefinition2()
@@ -127,7 +127,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Invalid Status definition : array expected#
 	 */
 	public function testParseWrongStatusDefinition3()
@@ -139,7 +139,7 @@ class ArrayDeserializerTest extends TestCase
 	}		
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Invalid metadata definition for status WID/A : array expected#
 	 */
 	public function testParseWrongMetadataDefinition1()
@@ -154,7 +154,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Invalid metadata definition for status WID/A : associative array expected#
 	 */
 	public function testParseWrongMetadataDefinition2()
@@ -169,7 +169,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}		
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Wrong definition for between WID/A and B : array expected#
 	 */
 	public function testParseWrongTransitionDefinition1()
@@ -184,7 +184,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * 
 	 * expectedExceptionMessageRegExp /Wrong transition definition for status WID.A : key = 1 value = [.*0 => 'B'.*]/
 	 */
@@ -200,7 +200,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Invalid transition definition format for status WID/A : string or array expected#
 	 */
 	public function testParseWrongTransitionDefinition3()
@@ -215,7 +215,7 @@ class ArrayDeserializerTest extends TestCase
 		],$this->src);
 	}		
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Initial status not defined : WID/C#
 	 */
 	public function testParseValidationFailedMissingInitStatus()
@@ -232,7 +232,7 @@ class ArrayDeserializerTest extends TestCase
 	}	
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Initial status must belong to workflow : EXT/C#
 	 */
 	public function testParseValidationFailedExternalInitStatus()
@@ -249,7 +249,7 @@ class ArrayDeserializerTest extends TestCase
 	}		
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Status must belong to workflow : EXT/B#
 	 */
 	public function testParseValidationFailedExternalStatus1()
@@ -266,7 +266,7 @@ class ArrayDeserializerTest extends TestCase
 	}		
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp #Status must belong to workflow : EXT/A#
 	 */
 	public function testParseValidationFailedExternalStatus2()
@@ -283,7 +283,7 @@ class ArrayDeserializerTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException fproject\workflow\core\WorkflowValidationException
+	 * @expectedException fproject\workflow\core\WorkflowException
 	 * @expectedExceptionMessageRegExp /One or more end status are not defined :.*?/
 	 */
 	public function testParseValidationFailedMissingStatus()

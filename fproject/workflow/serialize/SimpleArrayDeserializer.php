@@ -6,7 +6,7 @@ use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
-use fproject\workflow\core\WorkflowValidationException;
+use fproject\workflow\core\WorkflowException;
 use yii\helpers\VarDumper;
 
 /**
@@ -48,14 +48,14 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
      */
 	public function deserialize($wId, $definition, $source) {
 		if (empty($wId)) {
-			throw new WorkflowValidationException("Missing argument : workflow Id");
+			throw new WorkflowException("Missing argument : workflow Id");
 		}
 		if (!is_array($definition)) {
-			throw new WorkflowValidationException("Workflow definition must be provided as an array");
+			throw new WorkflowException("Workflow definition must be provided as an array");
 		}
 		
 		if (!ArrayHelper::isAssociative($definition)) {
-			throw new WorkflowValidationException("Workflow definition must be provided as associative array");
+			throw new WorkflowException("Workflow definition must be provided as associative array");
 		}
 		
 		$normalized 		= [];
@@ -66,7 +66,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 			list($workflowId, $statusId,) = $source->parseIds($id, $wId, null);
 			$absoluteStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 			if ( $workflowId != $wId) {
-				throw new WorkflowValidationException('Status must belong to workflow : ' . $absoluteStatusId);
+				throw new WorkflowException('Status must belong to workflow : ' . $absoluteStatusId);
 			}
 			if (count($normalized) == 0) {
 				$initialStatusId = $absoluteStatusId;
@@ -80,13 +80,13 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 				$endStatusIds = $this->normalizeStatusIds($ids, $wId, $source);
 			}elseif (is_array($targetStatusList)) {
 				if( ArrayHelper::isAssociative($targetStatusList,false) ){
-					throw new WorkflowValidationException("Associative array not supported (status : $absoluteStatusId)");
+					throw new WorkflowException("Associative array not supported (status : $absoluteStatusId)");
 				}
 				$endStatusIds = $this->normalizeStatusIds($targetStatusList, $wId, $source);
 			}elseif ( $targetStatusList === null ) {
 				$endStatusIds = [];
 			}else {
-				throw new WorkflowValidationException('End status list must be an array for status  : ' . $absoluteStatusId);
+				throw new WorkflowException('End status list must be an array for status  : ' . $absoluteStatusId);
 			}
 			
 			if ( count($endStatusIds)) {
@@ -99,7 +99,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 
 		if ( $this->validate === true) {
 			if (isset($initialStatusId) && !in_array($initialStatusId, $startStatusIdIndex)) {
-				throw new WorkflowValidationException("Initial status not defined : $initialStatusId");
+				throw new WorkflowException("Initial status not defined : $initialStatusId");
 			}
 		
 			// detect not defined statuses
@@ -114,7 +114,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 					}
 				}
 				if ( count($missingStatusId) != 0) {
-					throw new WorkflowValidationException("One or more end status are not defined : ".VarDumper::dumpAsString($missingStatusId));
+					throw new WorkflowException("One or more end status are not defined : ".VarDumper::dumpAsString($missingStatusId));
 				}
 			}
 		}

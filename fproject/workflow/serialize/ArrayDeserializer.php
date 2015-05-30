@@ -6,7 +6,7 @@ use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
-use fproject\workflow\core\WorkflowValidationException;
+use fproject\workflow\core\WorkflowException;
 use yii\helpers\VarDumper;
 
 /**
@@ -28,26 +28,26 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 		$result = [];
 		if (!isset($definition['initialStatusId']))
         {
-			throw new WorkflowValidationException('Missing "initialStatusId"');
+			throw new WorkflowException('Missing "initialStatusId"');
 		}
 	
 		list($workflowId, $statusId) = $source->parseIds($definition['initialStatusId'], $wId, null);
 		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 		if($workflowId != $wId)
         {
-			throw new WorkflowValidationException('Initial status must belong to workflow : '.$initialStatusId);
+			throw new WorkflowException('Initial status must belong to workflow : '.$initialStatusId);
 		}
 	
 		if (!isset($definition[ArrayWorkflowItemFactory::KEY_NODES]))
         {
-			throw new WorkflowValidationException("No status definition found");
+			throw new WorkflowException("No status definition found");
 		}
         
 		$result['initialStatusId'] = $initialStatusId;
 	
 		if (!is_array($definition[ArrayWorkflowItemFactory::KEY_NODES]))
         {
-			throw new WorkflowValidationException('Invalid Status definition : array expected');
+			throw new WorkflowException('Invalid Status definition : array expected');
 		}
 
 		$startStatusIdIndex = [];
@@ -63,7 +63,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 			list($workflowId, $statusId) = $source->parseIds($parsedId, $wId, null);
 			$startStatusId = $startStatusIdIndex[] = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME . $statusId;
 			if($workflowId != $wId) {
-				throw new WorkflowValidationException('Status must belong to workflow : '.$startStatusId);
+				throw new WorkflowException('Status must belong to workflow : '.$startStatusId);
 			}
 
 			if (is_array($startStatusDef))
@@ -95,12 +95,12 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
                             {
 								if (!ArrayHelper::isAssociative($startStatusDef[ArrayWorkflowItemFactory::KEY_METADATA]))
                                 {
-									throw new WorkflowValidationException("Invalid metadata definition for status $startStatusId : associative array expected");
+									throw new WorkflowException("Invalid metadata definition for status $startStatusId : associative array expected");
 								}
 							}
                             else
                             {
-								throw new WorkflowValidationException("Invalid metadata definition for status $startStatusId : array expected");
+								throw new WorkflowException("Invalid metadata definition for status $startStatusId : array expected");
 							}
 							$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][ArrayWorkflowItemFactory::KEY_METADATA] = $startStatusDef[ArrayWorkflowItemFactory::KEY_METADATA];
 						}
@@ -135,7 +135,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 										 */
 										$endStatusId = $tKey;
 										if (!is_array($tValue)) {
-											throw new WorkflowValidationException("Wrong definition for between $startStatusId and $endStatusId : array expected");
+											throw new WorkflowException("Wrong definition for between $startStatusId and $endStatusId : array expected");
 										}
 										$transDef = $tValue;
 									} elseif (is_string($tValue)){
@@ -145,7 +145,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 										$endStatusId = $tValue;
 										$transDef = null;
 									} else {
-										throw new WorkflowValidationException("Wrong transition definition for status $startStatusId : key = "
+										throw new WorkflowException("Wrong transition definition for status $startStatusId : key = "
 												. VarDumper::dumpAsString($tKey). " value = ". VarDumper::dumpAsString($tValue));
 									}
 										
@@ -160,7 +160,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 									}
 								}
 							} else {
-								throw new WorkflowValidationException("Invalid transition definition format for status $startStatusId : string or array expected");
+								throw new WorkflowException("Invalid transition definition format for status $startStatusId : string or array expected");
 							}
 						}
 						elseif (is_string($startStatusKey))
@@ -197,7 +197,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 		
 		if ($this->validate === true) {
 			if (!in_array($initialStatusId, $startStatusIdIndex)) {
-				throw new WorkflowValidationException("Initial status not defined : $initialStatusId");
+				throw new WorkflowException("Initial status not defined : $initialStatusId");
 			}
 		
 			// detect not defined statuses
@@ -212,7 +212,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 					}
 				}
 				if (count($missingStatusId) != 0) {
-					throw new WorkflowValidationException("One or more end status are not defined : ".VarDumper::dumpAsString($missingStatusId));
+					throw new WorkflowException("One or more end status are not defined : ".VarDumper::dumpAsString($missingStatusId));
 				}
 			}
 		}
@@ -225,7 +225,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
      * @param $key
      * @param $value
      * @return array The parse status array definition
-     * @throws WorkflowValidationException
+     * @throws WorkflowException
      */
     private function parseStatusIdAndDef($key, $value)
     {
@@ -245,7 +245,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
             }
             else
             {
-                throw new WorkflowValidationException("Wrong definition for status $statusId : array expected");
+                throw new WorkflowException("Wrong definition for status $statusId : array expected");
             }
         }
         elseif (is_string($value))
@@ -258,7 +258,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
         }
         else
         {
-            throw new WorkflowValidationException("Wrong status definition : key = " . VarDumper::dumpAsString($key). " value = ". VarDumper::dumpAsString($value));
+            throw new WorkflowException("Wrong status definition : key = " . VarDumper::dumpAsString($key). " value = ". VarDumper::dumpAsString($value));
         }
 
         return [$statusId, $statusDef];
