@@ -187,11 +187,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	{
         $wDef = null;
 		list($wId, $stId) = $this->parseIds($id, $wfId, $model, $wDef);
-        if($id==='Item04Workflow/D')
-        {
-            Debug::debug($wId);
-            Debug::debug($wDef);
-        }
+
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
 		if (!array_key_exists($canonicalStId, $this->_s)) {
@@ -458,7 +454,13 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		if (empty($val) || !is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
 		}
-	
+
+        if($val==='Item04Workflow/D')
+        {
+            Debug::debug('Parsing IDs:'.$val);
+            Debug::debug($model);
+        }
+
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
 		$tokenCount = count($tokens);
 		if ($tokenCount == 1) {
