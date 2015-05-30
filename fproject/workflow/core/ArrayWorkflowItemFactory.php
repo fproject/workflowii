@@ -456,10 +456,18 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}
 
         Debug::debug('Parsing IDs:'.$val."[".microtime()."]");
-
-        if($val==='Item04Workflow/D')
+        if(isset($wfId))
         {
-            Debug::debug('Parsing IDs with model=');
+            Debug::debug('with $wfDef='.$wfId);
+        }
+        if(isset($wfDef))
+        {
+            Debug::debug('with $wfDef=');
+            Debug::debug($wfDef);
+        }
+        if(isset($model))
+        {
+            Debug::debug('with $model=');
             Debug::debug($model->attributes);
         }
 
