@@ -432,22 +432,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	}
 
     /**
-     * Parses the string $val assuming it is a status id and returns and array
-     * containing the workflow ID and status local ID.
-     *
-     * If $val does not include the workflow ID part (i.e it is not in formated like "workflowID/statusID")
-     * this method uses $model and $defaultWorkflowId to get it.
-     *
-     * @param string $val the status ID to parse. If it is not an absolute ID, $helper is used to get the
-     * workflow ID.
-     * @param mixed $wfId the workflow ID
-     * @param Component|ActiveWorkflowBehavior $model model used as workflow ID provider if needed
-     *
-     * @param array $wfDef output workflow definition if needed
-     * @return string[] array containing the workflow ID in its first index, and the status Local ID
-     * in the second
-     * @throws WorkflowException
-     * @see ArrayWorkflowItemFactory::evaluateWorkflowId()
+     * @inheritdoc
      */
 	public function parseIds($val, $wfId, $model, &$wfDef=null)
 	{

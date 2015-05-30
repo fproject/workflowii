@@ -1,7 +1,7 @@
 <?php
 namespace fproject\workflow\serialize;
 
-use fproject\workflow\core\ArrayWorkflowItemFactory;
+use fproject\workflow\core\IWorkflowItemFactory;
 use fproject\workflow\core\WorkflowException;
 
 /**
@@ -41,9 +41,9 @@ interface IArrayDeserializer {
 	 * 
 	 * @param string $wId
 	 * @param array $definition
-	 * @param ArrayWorkflowItemFactory $source
+	 * @param IWorkflowItemFactory $factory
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowException
 	 */
-	public function deserialize($wId, $definition, $source);
+	public function deserialize($wId, $definition, $factory);
 }
