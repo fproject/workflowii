@@ -140,6 +140,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
         $factory = new ArrayWorkflowItemFactory();
 
         $item = $this->items('item1');
+        Debug::debug('Item loaded, getting status...');
         $status = $factory->getStatus('Item04Workflow/D', null, $item);
         $this->assertEquals('Item04Workflow/D',$status->getId());
     }
