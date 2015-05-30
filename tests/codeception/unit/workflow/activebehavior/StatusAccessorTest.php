@@ -53,7 +53,7 @@ class StatusAccessorTest extends TestCase
 	public function testOnConstructFails()
 	{
 		$this->statusAccessor->statusToReturnOnGet = 'NOT FOUND';
-		$this->setExpectedException('fproject\workflow\core\WorkflowException',"Not a valid status id format: failed to get workflow id - status = 'NOT FOUND'");
+		$this->setExpectedException('fproject\workflow\core\WorkflowException',"Not a valid status id format: failed to get workflow id / status = 'NOT FOUND'");
 		new Item07();
 	}
 	public function testOnEnterWorkflowByMethodSuccess()
