@@ -458,7 +458,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
         Debug::debug('Parsing IDs:'.$val."[".microtime()."]");
         if(isset($wfId))
         {
-            Debug::debug('with $wfDef='.$wfId);
+            Debug::debug('with $wfId='.$wfId);
         }
         if(isset($wfDef))
         {
@@ -483,6 +483,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
                 $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
             }
 			if ($tokens[0] === null) {
+                Debug::debug(debug_backtrace());
 				throw new WorkflowException('Not a valid status id format: failed to get workflow id / status = '.VarDumper::dumpAsString($val));
 			}
 		} elseif ($tokenCount != 2) {
