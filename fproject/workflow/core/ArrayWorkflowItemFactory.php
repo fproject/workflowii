@@ -1,6 +1,7 @@
 <?php
 namespace fproject\workflow\core;
 
+use Codeception\Util\Debug;
 use fproject\workflow\serialize\IArrayDeserializer;
 use Yii;
 use yii\base\Component;
@@ -186,6 +187,11 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	{
         $wDef = null;
 		list($wId, $stId) = $this->parseIds($id, $wfId, $model, $wDef);
+        if($id==='Item04Workflow/D')
+        {
+            Debug::debug($wId);
+            Debug::debug($wDef);
+        }
 		$canonicalStId = $wId . self::SEPARATOR_STATUS_NAME . $stId;
 		
 		if (!array_key_exists($canonicalStId, $this->_s)) {
