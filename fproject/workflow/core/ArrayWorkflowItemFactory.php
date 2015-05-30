@@ -459,8 +459,8 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 
         if($val==='Item04Workflow/D')
         {
-            Debug::debug('Parsing IDs:'.$val);
-            Debug::debug($model);
+            Debug::debug('Parsing IDs with model=');
+            Debug::debug($model->attributes);
         }
 
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
