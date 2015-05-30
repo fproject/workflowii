@@ -455,6 +455,8 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
 		}
 
+        Debug::debug('Parsing IDs:'.$val);
+
         if($val==='Item04Workflow/D')
         {
             Debug::debug('Parsing IDs:'.$val);
