@@ -488,6 +488,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
             }
             elseif (isset($model) && ($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
                 $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
+                Debug::debug($model->getWorkflowStatus());
             }
 			if ($tokens[0] === null) {
                 Debug::debug(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
