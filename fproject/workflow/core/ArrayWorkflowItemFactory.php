@@ -483,6 +483,11 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
+
+            Debug::debug('isset($wfId) && is_string($wfId)='.(isset($wfId) && is_string($wfId)));
+
+            Debug::debug('???='. ((($model instanceof ActiveWorkflowBehavior) || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()));
+
             if (isset($wfId) && is_string($wfId)){
                 $tokens[0] = $wfId;
             }
