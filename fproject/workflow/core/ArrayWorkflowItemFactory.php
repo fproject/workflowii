@@ -458,40 +458,18 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
 		}
 
-        Debug::debug('Parsing IDs:'.$val."[".microtime()."]");
-        if(isset($wfId))
-        {
-            Debug::debug('with $wfId='.$wfId);
-        }
-        if(isset($wfDef))
-        {
-            Debug::debug('with $wfDef=');
-            Debug::debug($wfDef);
-        }
-        if(isset($model))
-        {
-            Debug::debug('with $model=');
-            Debug::debug($model->attributes);
-
-            Debug::debug('???='.(($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()));
-        }
-
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
 		$tokenCount = count($tokens);
 		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
             if (isset($wfId) && is_string($wfId)){
-                Debug::debug('isset($wfId) && is_string($wfId)=TRUE');
                 $tokens[0] = $wfId;
             }
             elseif (isset($model) && ($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
-                Debug::debug('$model->getWorkflowStatus()=');
-                Debug::debug($model->getWorkflowStatus());
                 $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
             }
 			if ($tokens[0] === null) {
-                Debug::debug(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
 				throw new WorkflowException('Not a valid status id format: failed to get workflow id / status = '.VarDumper::dumpAsString($val));
 			}
 		} elseif ($tokenCount != 2) {

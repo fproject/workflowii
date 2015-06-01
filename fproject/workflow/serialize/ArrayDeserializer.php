@@ -49,8 +49,6 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 			throw new WorkflowException('Missing "initialStatusId"');
 		}
 
-        Debug::debug('$factory->parseIds('.$definition['initialStatusId'].','.$wId.')');
-
 		list($workflowId, $statusId) = $factory->parseIds($definition['initialStatusId'], $wId, null);
 		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 		if($workflowId != $wId)
