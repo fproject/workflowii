@@ -473,6 +473,9 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
         {
             Debug::debug('with $model=');
             Debug::debug($model->attributes);
+            Debug::debug('ActiveWorkflowBehavior::isAttachedTo($model)='.ActiveWorkflowBehavior::isAttachedTo($model));
+            Debug::debug('$model instanceof ActiveWorkflowBehavior='.($model instanceof ActiveWorkflowBehavior));
+            Debug::debug('$model->hasWorkflowStatus()='.$model->hasWorkflowStatus());
         }
 
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
