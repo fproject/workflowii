@@ -336,7 +336,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getWorkflowDefinition($wfId, $model)
 	{
-        Debug::debug('getWorkflowDefinition: $wfId='.$wfId);
         if(isset($model) && !isset($wfId))
         {
             //Do nothing
@@ -473,9 +472,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
         {
             Debug::debug('with $model=');
             Debug::debug($model->attributes);
-            Debug::debug('ActiveWorkflowBehavior::isAttachedTo($model)='.ActiveWorkflowBehavior::isAttachedTo($model));
-            Debug::debug('$model instanceof ActiveWorkflowBehavior='.($model instanceof ActiveWorkflowBehavior));
-            Debug::debug('$model->hasWorkflowStatus()='.$model->hasWorkflowStatus());
         }
 
 		$tokens = array_map('trim', explode(self::SEPARATOR_STATUS_NAME, $val));
@@ -483,17 +479,10 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		if ($tokenCount == 1) {
 			$tokens[1] = $tokens[0];
 			$tokens[0] = null;
-
-            Debug::debug('isset($wfId) && is_string($wfId)='.(isset($wfId) && is_string($wfId)));
-
-            Debug::debug('???='. ((($model instanceof ActiveWorkflowBehavior) || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()));
-
             if (isset($wfId) && is_string($wfId)){
                 $tokens[0] = $wfId;
             }
-            elseif (isset($model) && (($model instanceof ActiveWorkflowBehavior) || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
-                Debug::debug("\$model->getWorkflowStatus()");
-                Debug::debug($model->getWorkflowStatus());
+            elseif (isset($model) && ($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
                 $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
             }
 			if ($tokens[0] === null) {
@@ -502,7 +491,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			}
 		} elseif ($tokenCount != 2) {
 			throw new WorkflowException('Not a valid status id format: '.VarDumper::dumpAsString($val));
-		} elseif(!isset($wfDef) && isset($model) && (($model instanceof ActiveWorkflowBehavior) || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
+		} elseif(!isset($wfDef) && isset($model) && ($model instanceof ActiveWorkflowBehavior || ActiveWorkflowBehavior::isAttachedTo($model)) && $model->hasWorkflowStatus()) {
             $wfDef = $this->getWorkflowDefinition($wfId, $model);
         }
 	
