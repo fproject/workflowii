@@ -336,6 +336,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getWorkflowDefinition($wfId, $model)
 	{
+        Debug::debug('getWorkflowDefinition: $wfId='.$wfId);
         if(isset($model) && !isset($wfId))
         {
             //Do nothing
