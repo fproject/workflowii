@@ -470,6 +470,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
                 $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
             }
 			if ($tokens[0] === null) {
+                Debug::debug(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
 				throw new WorkflowException('Not a valid status id format: failed to get workflow id / status = '.VarDumper::dumpAsString($val));
 			}
 		} elseif ($tokenCount != 2) {
