@@ -593,7 +593,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */
 	public function deserialize($workflowId, $definition)
 	{
-        Debug::debug('invoking getWorkflowDefinition('.$workflowId.','.(isset($definition)? '$definition':'null').')');
+        Debug::debug('invoking deserialize('.$workflowId.','.(isset($definition)? '$definition':'null').')');
 
 		if($this->getDeserializer() != null) {
 			return $this->getDeserializer()->deserialize($workflowId, $definition, $this);
