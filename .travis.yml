@@ -13,4 +13,4 @@ before_script:
   - cd tests  
   - php ./codeception/bin/yii  migrate/up --interactive=0
   - ../vendor/bin/codecept build
-script: ../vendor/bin/codecept run --debug tests/codeception/unit/workflow/core/ArrayWorkflowItemFactoryTest.php
+script: ../vendor/bin/codecept run --debug unit ArrayWorkflowItemFactoryTest.php
