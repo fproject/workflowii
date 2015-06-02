@@ -455,7 +455,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	public function parseIds($val, $wfId, $model, &$wfDef=null)
 	{
         Debug::debug('invoking parseIds('.$val.','.$wfId.",\$model)\r\n With \$model=");
-        Debug::debug($model->toArray());
+        Debug::debug(isset($model)?$model->toArray():'null');
         Debug::debug('$wfDef=');
         Debug::debug($wfDef);
 		if (empty($val) || !is_string($val)) {
