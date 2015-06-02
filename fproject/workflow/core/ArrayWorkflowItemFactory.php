@@ -454,6 +454,10 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function parseIds($val, $wfId, $model, &$wfDef=null)
 	{
+        Debug::debug('invoking parseIds('.$val.','.$wfId.",\$model)\r\n With \$model=");
+        Debug::debug($model);
+        Debug::debug('$wfDef=');
+        Debug::debug($wfDef);
 		if (empty($val) || !is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
 		}
