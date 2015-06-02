@@ -203,6 +203,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
+        Debug::debug('invoking getStatus('.$id.','.$wfId.','.(isset($model)? '$model':'null').')');
         $wDef = null;
 		list($wId, $stId) = $this->parseIds($id, $wfId, $model, $wDef);
 
@@ -336,6 +337,8 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getWorkflowDefinition($wfId, $model)
 	{
+        Debug::debug('invoking getWorkflowDefinition('.$wfId.','.(isset($model)? '$model':'null').')');
+
         if(isset($model) && !isset($wfId))
         {
             //Do nothing
@@ -590,6 +593,8 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */
 	public function deserialize($workflowId, $definition)
 	{
+        Debug::debug('invoking getWorkflowDefinition('.$workflowId.','.(isset($definition)? '$definition':'null').')');
+
 		if($this->getDeserializer() != null) {
 			return $this->getDeserializer()->deserialize($workflowId, $definition, $this);
 		}
