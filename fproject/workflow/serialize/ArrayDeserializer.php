@@ -19,6 +19,7 @@
 
 namespace fproject\workflow\serialize;
 
+use Codeception\Util\Debug;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\base\Object;
@@ -49,6 +50,9 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 		}
 
 		list($workflowId, $statusId) = $factory->parseIds($definition['initialStatusId'], $wId, $model);
+
+        Debug::debug("ArrayDeserializer::deserialize: \$workflowId=$workflowId, \$statusId=$statusId");
+
 		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 		if($workflowId != $wId)
         {
