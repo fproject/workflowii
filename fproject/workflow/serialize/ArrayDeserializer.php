@@ -49,7 +49,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 			throw new WorkflowException('Missing "initialStatusId"');
 		}
 
-		list($workflowId, $statusId) = $factory->parseIds($definition['initialStatusId'], $wId, $model);
+		list($workflowId, $statusId) = $factory->parseWorkflowStatus($definition['initialStatusId'], $wId, $model);
 
 		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
         if(!isset($wId))
@@ -83,7 +83,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
         {
             list($parsedId, $startStatusDef) = $this->parseStatusIdAndDef($key, $value);
 	
-			list($workflowId, $statusId) = $factory->parseIds($parsedId, $wId, null);
+			list($workflowId, $statusId) = $factory->parseWorkflowStatus($parsedId, $wId, null);
 			$startStatusId = $startStatusIdIndex[] = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME . $statusId;
 			if($workflowId != $wId) {
 				throw new WorkflowException('Status must belong to workflow : '.$startStatusId);
@@ -139,7 +139,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 								 */
 								$ids = array_map('trim', explode(',', $transitionDefinition));
 								foreach ($ids as $id) {
-									$pieces = $factory->parseIds($id, $wId, $model);
+									$pieces = $factory->parseWorkflowStatus($id, $wId, $model);
 									$canEndStId = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
 									$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
@@ -172,7 +172,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 												. VarDumper::dumpAsString($tKey). " value = ". VarDumper::dumpAsString($tValue));
 									}
 										
-									$pieces = $factory->parseIds($endStatusId, $wId, $model);
+									$pieces = $factory->parseWorkflowStatus($endStatusId, $wId, $model);
 									$canEndStId = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
 										
@@ -229,7 +229,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 			if (count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid, ) = $factory->parseIds($id, $wId, $model);
+					list($thisWid, ) = $factory->parseWorkflowStatus($id, $wId, $model);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}

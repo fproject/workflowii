@@ -142,5 +142,5 @@ interface IWorkflowItemFactory
      * @throws WorkflowException
      * @see ArrayWorkflowItemFactory::evaluateWorkflowId()
      */
-    public function parseIds($val, $wfId, $model, &$wfDef=null);
+    public function parseWorkflowStatus($val, $wfId, $model, &$wfDef=null);
 }
