@@ -19,9 +19,11 @@
 
 namespace fproject\workflow\serialize;
 
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use fproject\workflow\core\IWorkflowItemFactory;
 use Yii;
+use yii\base\Component;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
 use fproject\workflow\core\WorkflowException;
@@ -64,7 +66,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
     /**
      * @inheritdoc
      */
-	public function deserialize($wId, $definition, $factory) {
+	public function deserialize($wId, $definition, $factory, $model) {
 		if (empty($wId)) {
 			throw new WorkflowException("Missing argument : workflow Id");
 		}
@@ -81,7 +83,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 		$endStatusIdIndex   = [];
 		
 		foreach($definition as $id => $targetStatusList) {
-			list($workflowId, $statusId,) = $factory->parseIds($id, $wId, null);
+			list($workflowId, $statusId,) = $factory->parseIds($id, $wId, $model);
 			$absoluteStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
 			if ( $workflowId != $wId) {
 				throw new WorkflowException('Status must belong to workflow : ' . $absoluteStatusId);
@@ -95,12 +97,12 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 
 			if (is_string($targetStatusList)) {
 				$ids = array_map('trim', explode(',', $targetStatusList));
-				$endStatusIds = $this->normalizeStatusIds($ids, $wId, $factory);
+				$endStatusIds = $this->normalizeStatusIds($ids, $wId, $factory, $model);
 			}elseif (is_array($targetStatusList)) {
 				if( ArrayHelper::isAssociative($targetStatusList,false) ){
 					throw new WorkflowException("Associative array not supported (status : $absoluteStatusId)");
 				}
-				$endStatusIds = $this->normalizeStatusIds($targetStatusList, $wId, $factory);
+				$endStatusIds = $this->normalizeStatusIds($targetStatusList, $wId, $factory, $model);
 			}elseif ( $targetStatusList === null ) {
 				$endStatusIds = [];
 			}else {
@@ -126,7 +128,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 			if ( count($missingStatusIdSuspects) != 0) {
 				$missingStatusId = [];
 				foreach ($missingStatusIdSuspects as $id) {
-					list($thisWid,,) = $factory->parseIds($id, $wId, null);
+					list($thisWid,,) = $factory->parseIds($id, $wId, $model);
 					if ($thisWid == $wId) {
 						$missingStatusId[] = $id; // refering to the same workflow, this Id is not defined
 					}
@@ -144,13 +146,14 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
      * @param array $ids
      * @param string $workflowId
      * @param IWorkflowItemFactory $factory
+     * @param Component|ActiveWorkflowBehavior $model
      * @return array
      */
-	private function normalizeStatusIds($ids, $workflowId, $factory)
+	private function normalizeStatusIds($ids, $workflowId, $factory, $model)
 	{
 		$normalizedIds = [];
 		foreach ($ids as $id) {
-			$pieces = $factory->parseIds($id, $workflowId, null);
+			$pieces = $factory->parseIds($id, $workflowId, $model);
 			$normalizedIds[] = $pieces[0]. ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME . $pieces[1];
 		}
 		return $normalizedIds;		

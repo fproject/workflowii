@@ -19,8 +19,10 @@
 
 namespace fproject\workflow\serialize;
 
+use fproject\workflow\core\ActiveWorkflowBehavior;
 use fproject\workflow\core\IWorkflowItemFactory;
 use fproject\workflow\core\WorkflowException;
+use yii\base\Component;
 
 /**
  * This class converts a workflow definition PHP array into its normalized form
@@ -60,8 +62,9 @@ interface IArrayDeserializer {
 	 * @param string $wId
 	 * @param array $definition
 	 * @param IWorkflowItemFactory $factory
+     * @param Component|ActiveWorkflowBehavior $model
 	 * @return array The parse workflow array definition
 	 * @throws WorkflowException
 	 */
-	public function deserialize($wId, $definition, $factory);
+	public function deserialize($wId, $definition, $factory, $model);
 }

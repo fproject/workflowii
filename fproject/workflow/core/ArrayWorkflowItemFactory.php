@@ -356,7 +356,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 				throw new WorkflowException('Failed to load workflow definition : '.$e->getMessage());
 			}
 			if ($this->isWorkflowSource($wfSrc)) {
-				$this->_workflowDef[$wfId] = $this->deserialize($wfId, $wfSrc->getDefinition($model));
+				$this->_workflowDef[$wfId] = $this->deserialize($wfId, $wfSrc->getDefinition($model), $model);
 			} else {
 				throw new WorkflowException('Invalid workflow source class : '.$wfSrcClassName);
 			}
@@ -549,12 +549,12 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      * @param array $definition
      * @param boolean $overwrite When set to TRUE, the operation will fail if a workflow definition
      * already exists for this ID. Otherwise the existing definition is overwritten.
+     * @param null $model
      * @return bool TRUE if the workflow definition could be added, FALSE otherwise
      * @throws WorkflowException
-     *
      * @see ActiveWorkflowBehavior::attach()
      */
-	public function addWorkflowDefinition($workflowId, $definition, $overwrite = false)
+	public function addWorkflowDefinition($workflowId, $definition, $overwrite=false, $model=null)
 	{
 		if (!$this->isValidWorkflowId($workflowId))
         {
@@ -567,7 +567,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 		}
         else
         {
-			$this->_workflowDef[$workflowId] = $this->deserialize($workflowId, $definition);
+			$this->_workflowDef[$workflowId] = $this->deserialize($workflowId, $definition, $model);
 			unset($this->_w[$workflowId]);
 			return true;
 		}
@@ -583,20 +583,21 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	{
 		return $this->_deserializer;
 	}
-    
-	/**
-	 * Convert the $definition array in its normalized form used internally by this source.
-	 * 
-	 * @param string $workflowId
-	 * @param array $definition
-	 * @return array the workflow in its normalized format
-	 */
-	public function deserialize($workflowId, $definition)
+
+    /**
+     * Convert the $definition array in its normalized form used internally by this source.
+     *
+     * @param string $workflowId
+     * @param array $definition
+     * @param Component|ActiveWorkflowBehavior $model
+     * @return array the workflow in its normalized format
+     */
+	public function deserialize($workflowId, $definition, $model)
 	{
         Debug::debug('invoking deserialize('.$workflowId.','.(isset($definition)? '$definition':'null').')');
 
 		if($this->getDeserializer() != null) {
-			return $this->getDeserializer()->deserialize($workflowId, $definition, $this);
+			return $this->getDeserializer()->deserialize($workflowId, $definition, $this, $model);
 		}
         else
         {
