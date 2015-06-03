@@ -54,7 +54,11 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
         Debug::debug("ArrayDeserializer::deserialize: \$workflowId=$workflowId, \$statusId=$statusId, \$wId=".(isset($wId)?$wId:'null'));
 
 		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
-		if($workflowId != $wId)
+        if(!isset($wId))
+        {
+            $wId = $workflowId;
+        }
+		elseif($workflowId != $wId)
         {
 			throw new WorkflowException('Initial status must belong to workflow : '.$initialStatusId);
 		}
