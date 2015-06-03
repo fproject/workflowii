@@ -15,8 +15,8 @@ class SimpleArrayDeserializerTest extends TestCase
 {
     use Specify;
 
-    /** @var  ArrayWorkflowItemFactory $src */
-	public $src;
+    /** @var  ArrayWorkflowItemFactory $factory */
+	public $factory;
 	
 	protected function setUp()
 	{
@@ -25,7 +25,7 @@ class SimpleArrayDeserializerTest extends TestCase
 			'class' => SimpleArrayDeserializer::className(),
 		]);
 		
-		$this->src = new ArrayWorkflowItemFactory([
+		$this->factory = new ArrayWorkflowItemFactory([
 			'deserializer' => 'deserializer'
 		]);
 	}
@@ -53,7 +53,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testParseInvalidType()
 	{
-		$this->deserializer->deserialize('WID',null,$this->src);
+		$this->deserializer->deserialize('WID',null,$this->factory, null);
 	}
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -61,7 +61,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testMissingWorkflowId()
 	{
-		$this->deserializer->deserialize('',null,$this->src);
+		$this->deserializer->deserialize('',null,$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -69,7 +69,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testNonAssociativeArray1()
 	{
-		$this->deserializer->deserialize('WID',['a'],$this->src);
+		$this->deserializer->deserialize('WID',['a'],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -77,7 +77,7 @@ class SimpleArrayDeserializerTest extends TestCase
 	 */
 	public function testNonAssociativeArray2()
 	{
-		$this->deserializer->deserialize('WID',['a'=> [], 'b'],$this->src);
+		$this->deserializer->deserialize('WID',['a'=> [], 'b'],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -88,7 +88,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',[
 			'EXT/a' => [],
 			'b' => []
-		],$this->src);
+		],$this->factory, null);
 	}
 	
 	/**
@@ -100,7 +100,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',[
 			'a' => ['b' => 'value'],
 			'b' => []
-		],$this->src);
+		],$this->factory, null);
 	}
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -111,7 +111,7 @@ class SimpleArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',[
 			'a' => 4,
 			'b' => []
-		],$this->src);
+		],$this->factory, null);
 	}		
 	
 	public function testParseArraySuccess()
@@ -120,7 +120,7 @@ class SimpleArrayDeserializerTest extends TestCase
 			'a' => ['b','c'],
 			'b' => ['a'],
 			'c' => []
-		],$this->src);
+		],$this->factory, null);
 				
 		verify('status "a" is set ', array_key_exists('WID/a',($workflow['status'])) )->true();
 		verify('status "b" is set ', array_key_exists('WID/b',($workflow['status'])) )->true();
@@ -137,7 +137,7 @@ class SimpleArrayDeserializerTest extends TestCase
 			'a' => 'b,c',
 			'b' => 'a',
 			'c' => []
-		],$this->src);
+		],$this->factory, null);
 				
 		verify('status "a" is set ', array_key_exists('WID/a',($workflow['status'])) )->true();
 		verify('status "b" is set ', array_key_exists('WID/b',($workflow['status'])) )->true();

@@ -17,13 +17,13 @@ class ArrayDeserializerTest extends TestCase
 {
     use Specify;
 
-	/** @var  ArrayWorkflowItemFactory $src */
-	public $src;
+	/** @var  ArrayWorkflowItemFactory $factory */
+	public $factory;
 	
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->src = new ArrayWorkflowItemFactory();
+		$this->factory = new ArrayWorkflowItemFactory();
 		Yii::$app->set('deserializer',[
 			'class' => ArrayDeserializer::className(),
 		]);		
@@ -81,7 +81,7 @@ class ArrayDeserializerTest extends TestCase
 	{
 		$this->deserializer->deserialize('WID',[
 			'status'=> []
-		],$this->src, null);
+		],$this->factory, null);
 	}
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -91,7 +91,7 @@ class ArrayDeserializerTest extends TestCase
 	{
 		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'hello A'
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -101,7 +101,7 @@ class ArrayDeserializerTest extends TestCase
 	{
 		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A'
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -113,7 +113,7 @@ class ArrayDeserializerTest extends TestCase
 			'initialStatusId' => 'A',
 			'status' => [ 'A' => 1]
 				
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -124,7 +124,7 @@ class ArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => [ 1 => ['A']]
-		],$this->src);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -135,7 +135,7 @@ class ArrayDeserializerTest extends TestCase
 		$this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => 'A'
-		],$this->src, null);
+		],$this->factory, null);
 	}		
 	
 	/**
@@ -151,7 +151,7 @@ class ArrayDeserializerTest extends TestCase
 				'metadata' => 1
 			]
 		]
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -166,7 +166,7 @@ class ArrayDeserializerTest extends TestCase
 					'metadata' => ['A','B']
 				]
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}		
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -181,7 +181,7 @@ class ArrayDeserializerTest extends TestCase
 					'transition' => ['B' => 1]
 				]
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -197,7 +197,7 @@ class ArrayDeserializerTest extends TestCase
 					'transition' => [1 => ['B']]
 				]
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -212,7 +212,7 @@ class ArrayDeserializerTest extends TestCase
 					'transition' => 1
 				]
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}		
 	/**
 	 * @expectedException fproject\workflow\core\WorkflowException
@@ -228,7 +228,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 	
 	/**
@@ -245,7 +245,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}		
 	
 	/**
@@ -262,7 +262,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'EXT/B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}		
 	
 	/**
@@ -279,7 +279,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}
 	
 	/**
@@ -295,7 +295,7 @@ class ArrayDeserializerTest extends TestCase
 					'transition' => 'B'
 				]
 			]
-		],$this->src, null);
+		],$this->factory, null);
 	}	
 
 	public function testParseMinimalWorkflow1()
@@ -303,7 +303,7 @@ class ArrayDeserializerTest extends TestCase
 		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A']
-		],$this->src, null);
+		],$this->factory, null);
 		verify('initial status is WID/A',$workflow['initialStatusId'])->equals('WID/A');
 		verify('status WID/A is present',\array_key_exists('WID/A', $workflow['status']))->true();
 		verify('status WID/A definition is NULL',$workflow['status']['WID/A'])->isEmpty();
@@ -314,7 +314,7 @@ class ArrayDeserializerTest extends TestCase
 		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A'=> null]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('initial status is WID/A',$workflow['initialStatusId'])->equals('WID/A');
 		verify('status WID/A is present',\array_key_exists('WID/A', $workflow['status']))->true();
 		verify('status WID/A definition is NULL',$workflow['status']['WID/A'])->isEmpty();
@@ -325,7 +325,7 @@ class ArrayDeserializerTest extends TestCase
 		$workflow = $this->deserializer->deserialize('WID',[
 			'initialStatusId' => 'A',
 			'status' => ['A'=> []]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('initial status is WID/A',$workflow['initialStatusId'])->equals('WID/A');
 		verify('status WID/A is present',\array_key_exists('WID/A', $workflow['status']))->true();
 		verify('status WID/A definition is NULL',$workflow['status']['WID/A'])->isEmpty();
@@ -337,7 +337,7 @@ class ArrayDeserializerTest extends TestCase
 			'initialStatusId' => 'A',
 			'status' => ['A'],
 			'property' => 'value'
-		],$this->src, null);
+		],$this->factory, null);
 		
 		verify('status WID/A definition is NULL',$workflow['property'])->equals('value');
 	}		
@@ -349,7 +349,7 @@ class ArrayDeserializerTest extends TestCase
 			'status' => [
 				'A' => ['property' => 'value']
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		
 		verify('status WID/A definition is NULL',$workflow['status']['WID/A']['property'])->equals('value');
 	}	
@@ -364,7 +364,7 @@ class ArrayDeserializerTest extends TestCase
 					'metadata' => ['color' => 'red']
 				]
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('metadata is set',$workflow['status']['WID/A']['metadata']['color'])->equals('red');
 	}		
 	
@@ -378,7 +378,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('transition is set',\array_key_exists('WID/B',$workflow['status']['WID/A']['transition']))->true();
 		verify('transition has no config set',$workflow['status']['WID/A']['transition']['WID/B'] === [])->true();
 	}	
@@ -393,7 +393,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('transition is set',\array_key_exists('WID/B',$workflow['status']['WID/A']['transition']))->true();
 		verify('transition has no config set',$workflow['status']['WID/A']['transition']['WID/B'] === [])->true();
 	}
@@ -408,7 +408,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('transition is set',\array_key_exists('WID/B',$workflow['status']['WID/A']['transition']))->true();
 		verify('transition has no config set',$workflow['status']['WID/A']['transition']['WID/B'] === [])->true();
 	}	
@@ -423,7 +423,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B','C'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('transition to B is set',\array_key_exists('WID/B',$workflow['status']['WID/A']['transition']))->true();
 		verify('transition to C is set',\array_key_exists('WID/C',$workflow['status']['WID/A']['transition']))->true();
 		
@@ -441,7 +441,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B','C'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('transition to B is set',\array_key_exists('WID/B',$workflow['status']['WID/A']['transition']))->true();
 		verify('transition to C is set',\array_key_exists('WID/C',$workflow['status']['WID/A']['transition']))->true();
 		
@@ -459,7 +459,7 @@ class ArrayDeserializerTest extends TestCase
 				],
 				'B','C'
 			]
-		],$this->src, null);
+		],$this->factory, null);
 		verify('transition to B is set',\array_key_exists('WID/B',$workflow['status']['WID/A']['transition']))->true();
 		verify('transition to C is set',\array_key_exists('WID/C',$workflow['status']['WID/A']['transition']))->true();
 		
@@ -491,7 +491,7 @@ class ArrayDeserializerTest extends TestCase
                 'cancelled' => ['open', 'in-progress', 'resolved', 'closed'],
                 'deleted'
             ]
-        ],$this->src, null);
+        ],$this->factory, null);
         verify('initial status is WID/draft',$workflow['initialStatusId'])->equals('WID/draft');
     }
 }
