@@ -51,8 +51,6 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 
 		list($workflowId, $statusId) = $factory->parseIds($definition['initialStatusId'], $wId, $model);
 
-        Debug::debug("ArrayDeserializer::deserialize: \$workflowId=$workflowId, \$statusId=$statusId, \$wId=".(isset($wId)?$wId:'null'));
-
 		$initialStatusId = $workflowId . ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME .$statusId;
         if(!isset($wId))
         {

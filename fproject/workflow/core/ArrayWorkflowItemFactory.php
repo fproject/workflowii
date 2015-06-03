@@ -203,7 +203,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getStatus($id, $wfId, $model)
 	{
-        Debug::debug('invoking getStatus('.$id.','.$wfId.','.(isset($model)? '$model':'null').')');
         $wDef = null;
 		list($wId, $stId) = $this->parseIds($id, $wfId, $model, $wDef);
 
@@ -337,8 +336,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function getWorkflowDefinition($wfId, $model)
 	{
-        Debug::debug('invoking getWorkflowDefinition('.$wfId.','.(isset($model)? '$model':'null').')');
-
         if(isset($model) && !isset($wfId))
         {
             //Do nothing
@@ -457,10 +454,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function parseIds($val, $wfId, $model, &$wfDef=null)
 	{
-        Debug::debug('invoking parseIds('.$val.','.$wfId.",\$model)\r\n With \$model=");
-        Debug::debug(isset($model)?$model->toArray():'null');
-        Debug::debug('$wfDef=');
-        Debug::debug($wfDef);
 		if (empty($val) || !is_string($val)) {
 			throw new WorkflowException('Not a valid status id : a non-empty string is expected  - status = '.VarDumper::dumpAsString($val));
 		}
@@ -477,7 +470,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
                 $tokens[0] = $model->getWorkflowStatus()->getWorkflowId();
             }
 			if ($tokens[0] === null) {
-                Debug::debug(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
 				throw new WorkflowException('Not a valid status id format: failed to get workflow id / status = '.VarDumper::dumpAsString($val));
 			}
 		} elseif ($tokenCount != 2) {
@@ -594,8 +586,6 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
      */
 	public function deserialize($workflowId, $definition, $model)
 	{
-        Debug::debug('invoking deserialize('.$workflowId.','.(isset($definition)? '$definition':'null').')');
-
 		if($this->getDeserializer() != null) {
 			return $this->getDeserializer()->deserialize($workflowId, $definition, $this, $model);
 		}
