@@ -237,7 +237,7 @@ class ArrayWorkflowItemFactoryTest extends TestCase
 
     /**
      * @expectedException fproject\workflow\core\WorkflowException
-     * @expectedExceptionMessage No status found with id Item04Workflow/X
+     * @expectedExceptionMessage No status found with id Item04Workflow/D
      */
     public function testGetStatusFromDynamicDefinitionFail4()
     {
