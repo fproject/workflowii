@@ -6,7 +6,7 @@
 		"workflow",
         "workflow engine"
 	],
-	"homepage" : "http://www.yiiframework.com/",
+    "homepage": "https://github.com/fproject/workflowii",
 	"type" : "yii2-extension",
 	"license" : "Apache License 2.0",
 	"support" : {
