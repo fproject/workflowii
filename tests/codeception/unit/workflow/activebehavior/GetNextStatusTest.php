@@ -4,6 +4,7 @@ namespace tests\unit\workflow\activebehavior;
 
 use Codeception\Specify;
 use fproject\workflow\core\IStatus;
+use fproject\workflow\core\Status;
 use Yii;
 use yii\codeception\DbTestCase;
 use tests\codeception\unit\models\Item04;
@@ -67,6 +68,22 @@ class GetNextStatusTest extends DbTestCase
             $stsC = $n['Item04Workflow/C']['status'];
     		expect('status Item04Workflow/A is returned as Status',$stsC->getId() )->equals('Item04Workflow/C');
     	});
+    }
+
+    public function testGetNextStatusWithLabel()
+    {
+        /** @var ActiveWorkflowBehavior $item */
+        $item = $this->items('item1');
+        $this->assertEquals('Item04Workflow/B', $item->getWorkflowStatus()->getId());
+
+        /** @var Status[] $n */
+        $n = $item->getNextStatuses();
+        $this->assertInstanceOf('array', $n);
+        $this->assertEquals(2, count($n));
+        $this->assertEquals('Item04Workflow/A',$n[0]->getId());
+        $this->assertEquals('Entry',$n[0]->getLabel());
+        $this->assertEquals('Item04Workflow/c',$n[1]->getId());
+        $this->assertEquals('node C',$n[1]->getLabel());
     }
 
     public function testGetNextStatusOnEnter()
