@@ -27,6 +27,7 @@ class GetNextStatusTest extends DbTestCase
 			'items' => ItemFixture04::className(),
 		];
 	}
+
 	protected function setup()
 	{
 		parent::setUp();
