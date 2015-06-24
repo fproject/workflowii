@@ -80,8 +80,8 @@ class GetNextStatusTest extends DbTestCase
         $n = $item->getNextStatuses();
         $this->assertTrue(is_array($n));
         $this->assertEquals(2, count($n));
-        $this->assertEquals('Item04Workflow/A',$n[0]->getId());
         echo var_export($n, true);
+        $this->assertEquals('Item04Workflow/A',$n[0]->getId());
         $this->assertEquals('Entry',$n[0]->getLabel());
         $this->assertEquals('Item04Workflow/c',$n[1]->getId());
         $this->assertEquals('node C',$n[1]->getLabel());
