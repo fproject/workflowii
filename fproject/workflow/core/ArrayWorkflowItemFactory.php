@@ -55,6 +55,11 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 	 */
 	const KEY_EDGES = 'transition';
 
+    /**
+     * Name of the array key for label definition
+     */
+    const KEY_LABEL = 'label';
+
 	/**
 	 * Name of the key for metadata definition
 	 */	
@@ -223,7 +228,7 @@ class ArrayWorkflowItemFactory extends Object implements IWorkflowItemFactory
 			$stDef['class'] = $this->getClassMapByType(self::CLASS_MAP_STATUS);
 			$stDef['workflowId'] = $wId;
 			$stDef['id'] = $canonicalStId;
-			$stDef['label'] = (isset($stDef['label']) ? $stDef['label'] : Inflector::camel2words($stId, true));
+			$stDef[self::KEY_LABEL] = (isset($stDef[self::KEY_LABEL]) ? $stDef[self::KEY_LABEL] : Inflector::camel2words($stId, true));
 			
 			$this->_s[$canonicalStId] = Yii::createObject($stDef);	
 		}

@@ -110,7 +110,7 @@ class SimpleArrayDeserializer extends Object implements IArrayDeserializer {
 			}
 			
 			if ( count($endStatusIds)) {
-				$normalized[ArrayWorkflowItemFactory::KEY_NODES][$absoluteStatusId] = ['transition' => array_fill_keys($endStatusIds,[])];
+				$normalized[ArrayWorkflowItemFactory::KEY_NODES][$absoluteStatusId] = [ArrayWorkflowItemFactory::KEY_EDGES => array_fill_keys($endStatusIds,[])];
 				$endStatusIdIndex = array_merge($endStatusIdIndex, $endStatusIds);
 			} else {
 				$normalized[ArrayWorkflowItemFactory::KEY_NODES][$absoluteStatusId] = null;
