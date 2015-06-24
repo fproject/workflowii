@@ -641,7 +641,10 @@ class ActiveWorkflowBehavior extends Behavior
 		} else {
 			$transitions = $this->_workflowFactory->getTransitions($this->getWorkflowStatus()->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 			foreach ($transitions as $transition) {
-				$nextStatus[$transition->getEndStatus()->getId()] = [ 'status' => $transition->getEndStatus()];
+				$nextStatus[$transition->getEndStatus()->getId()] = [
+                    //'status' => $transition->getEndStatus()
+                    ArrayWorkflowItemFactory::KEY_LABEL => $transition->getEndStatus()->getLabel(),
+                ];
 			}
 		}
 		if (count($nextStatus)) {
