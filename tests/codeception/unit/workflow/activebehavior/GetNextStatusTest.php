@@ -78,7 +78,7 @@ class GetNextStatusTest extends DbTestCase
 
         /** @var Status[] $n */
         $n = $item->getNextStatuses();
-        $this->assertInstanceOf('array', $n);
+        $this->assertTrue(is_array($n));
         $this->assertEquals(2, count($n));
         $this->assertEquals('Item04Workflow/A',$n[0]->getId());
         $this->assertEquals('Entry',$n[0]->getLabel());
