@@ -76,17 +76,15 @@ class GetNextStatusTest extends DbTestCase
         $item = $this->items('item1');
         $this->assertEquals('Item04Workflow/B', $item->getWorkflowStatus()->getId());
 
-        /** @var ActiveWorkflowBehavior[] $n */
+        /** @var Status[] $n */
         $n = $item->getNextStatuses();
         $this->assertTrue(is_array($n));
         $this->assertEquals(2, count($n));
 
-        /** @var Status[] $sts */
-        $sts = $n['nextStatuses'];
-        $this->assertEquals('Item04Workflow/A',$sts[0]->getId());
-        $this->assertEquals('Entry',$sts[0]->getLabel());
-        $this->assertEquals('Item04Workflow/C',$sts[1]->getId());
-        $this->assertEquals('node C',$sts[1]->getLabel());
+        $this->assertArrayHasKey('Item04Workflow/A', $n);
+        $this->assertArrayHasKey('Item04Workflow/C', $n);
+        $this->assertEquals('Entry',$n['Item04Workflow/A']['label']);
+        $this->assertEquals('node C',$n['Item04Workflow/C']['label']);
     }
 
     public function testGetNextStatusOnEnter()
