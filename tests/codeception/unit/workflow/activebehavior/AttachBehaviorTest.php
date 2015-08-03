@@ -41,6 +41,7 @@ class AttachBehaviorTest extends TestCase
         $this->specify('behavior with idAccessor specified can be attached to ActiveRecord', function () use ($model) {
             expect('idAccessor is set',isset($model->idAccessor))->true();
             expect('idAccessor equals to \'wfIdAccessor\'',$model->idAccessor)->equals('wfIdAccessor');
+            $model->enterWorkflow();
             expect('workflow is defined by idAccessor and come from \'dynamicWorkflowId\' field', $model->getWorkflow()->getId())->equals($model->dynamicWorkflowId);
         });
     }
