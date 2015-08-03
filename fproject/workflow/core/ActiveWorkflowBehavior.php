@@ -19,6 +19,7 @@
 
 namespace fproject\workflow\core;
 
+use Codeception\Util\Debug;
 use fproject\workflow\events\WorkflowEvent;
 use Yii;
 use yii\base\Behavior;
@@ -754,12 +755,14 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public function getDefaultWorkflowId()
 	{
-        if(isset($this->idAccessor))
+        if(!empty($this->idAccessor))
         {
+            Debug::debug('!empty($this->idAccessor)');
             $this->_defaultWorkflowId = $this->_idAccessor->readId($this->owner);
         }
-		else if (empty($this->_defaultWorkflowId))
+		else if(empty($this->_defaultWorkflowId))
         {
+            Debug::debug('empty($this->_defaultWorkflowId)');
 			$this->_defaultWorkflowId = $this->_workflowFactory->getDefaultWorkflowId($this->owner);
 		}
 		return $this->_defaultWorkflowId;
