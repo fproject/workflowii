@@ -3,16 +3,30 @@
 namespace tests\unit\workflow\activebehavior;
 
 use Codeception\Specify;
+use tests\codeception\unit\fixtures\ItemFixture09;
 use tests\codeception\unit\models\Item09;
 use Yii;
 use yii\codeception\TestCase;
 use tests\codeception\unit\models\Item01;
 use fproject\workflow\core\ActiveWorkflowBehavior;
 
+/**
+ * Class ChangeStatusTest
+ *
+ * @method Item09[] items()
+ *
+ * @package tests\unit\workflow\activebehavior
+ */
 class AttachBehaviorTest extends TestCase
 {
 	use Specify;
 
+    public function fixtures()
+    {
+        return [
+            'items' => ItemFixture09::className(),
+        ];
+    }
 
     protected function setup()
     {
@@ -36,12 +50,11 @@ class AttachBehaviorTest extends TestCase
     public function testAttachBehaviorSuccess2()
     {
         /** @var Item09|ActiveWorkflowBehavior $model */
-        $model = new Item09();
+        $model = $this->items('item6');
 
         $this->specify('behavior with idAccessor specified can be attached to ActiveRecord', function () use ($model) {
             expect('idAccessor is set',isset($model->idAccessor))->true();
             expect('idAccessor equals to \'wfIdAccessor\'',$model->idAccessor)->equals('wfIdAccessor');
-            $model->enterWorkflow();
             expect('workflow is defined by idAccessor and come from \'dynamicWorkflowId\' field', $model->getWorkflow()->getId())->equals($model->dynamicWorkflowId);
         });
     }
