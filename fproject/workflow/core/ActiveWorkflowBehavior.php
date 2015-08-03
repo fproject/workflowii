@@ -110,6 +110,12 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public $statusAccessor = null;
 
+    /**
+     * @var string Name of the workflow ID accessor component used by this behavior to set/get workflow ID values. By default, no external
+     * accessor is used and the behavior the class name of owner model concat with the suffix 'Workflow'.
+     */
+    public $idAccessor = null;
+
 	/**
 	 * @var string name of the event sequence provider component. If the component does not exist it is created
 	 * by this behavior using the default event sequence class.
@@ -162,6 +168,11 @@ class ActiveWorkflowBehavior extends Behavior
 	 * @var IStatusAccessor|null the status accessor component used by this behavior or NULL if no such component is used.
 	 */
 	private $_statusAccessor = null;
+
+    /**
+     * @var IIdAccessor|null the ID accessor component used by this behavior or NULL if no such component is used.
+     */
+    private $_idAccessor = null;
 
     /**
      * @param array $config
@@ -222,10 +233,16 @@ class ActiveWorkflowBehavior extends Behavior
 		if (!empty($this->statusConverter)) {
 			$this->_statusConverter = Yii::$app->get($this->statusConverter);
 		}
+
 		// init status accessor
 		if (!empty($this->statusAccessor)) {
 			$this->_statusAccessor = Yii::$app->get($this->statusAccessor);
 		}
+
+        // init status accessor
+        if (!empty($this->idAccessor)) {
+            $this->_idAccessor = Yii::$app->get($this->idAccessor);
+        }
 	}
 
     /**
@@ -641,7 +658,10 @@ class ActiveWorkflowBehavior extends Behavior
 		} else {
 			$transitions = $this->_workflowFactory->getTransitions($this->getWorkflowStatus()->getId(), $this->selectDefaultWorkflowId(), $this->owner);
 			foreach ($transitions as $transition) {
-				$nextStatus[$transition->getEndStatus()->getId()] = [ 'status' => $transition->getEndStatus()];
+				$nextStatus[$transition->getEndStatus()->getId()] = [
+                    'status' => $transition->getEndStatus(),
+                    ArrayWorkflowItemFactory::KEY_LABEL => $transition->getEndStatus()->getLabel(),
+                ];
 			}
 		}
 		if (count($nextStatus)) {
@@ -737,7 +757,11 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public function getDefaultWorkflowId()
 	{
-		if (empty($this->_defaultWorkflowId)) {
+        if(isset($this->idAccessor))
+        {
+            $this->_defaultWorkflowId = $this->_idAccessor->readId($this->owner);
+        }
+		else if (empty($this->_defaultWorkflowId)) {
 			$this->_defaultWorkflowId = $this->_workflowFactory->getDefaultWorkflowId($this->owner);
 		}
 		return $this->_defaultWorkflowId;

@@ -19,7 +19,6 @@
 
 namespace fproject\workflow\serialize;
 
-use Codeception\Util\Debug;
 use fproject\workflow\core\ArrayWorkflowItemFactory;
 use Yii;
 use yii\base\Object;
@@ -127,9 +126,9 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 							}
 							$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][ArrayWorkflowItemFactory::KEY_METADATA] = $startStatusDef[ArrayWorkflowItemFactory::KEY_METADATA];
 						}
-						elseif ($startStatusKey === 'transition')
+						elseif ($startStatusKey === ArrayWorkflowItemFactory::KEY_EDGES)
 						{
-							$transitionDefinition = $startStatusDef['transition'];
+							$transitionDefinition = $startStatusDef[ArrayWorkflowItemFactory::KEY_EDGES];
 							if (is_string($transitionDefinition))
                             {
 								/**
@@ -142,7 +141,7 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 									$pieces = $factory->parseWorkflowStatus($id, $wId, $model);
 									$canEndStId = implode(ArrayWorkflowItemFactory::SEPARATOR_STATUS_NAME, $pieces);
 									$endStatusIdIndex[] = $canEndStId;
-									$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
+									$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][ArrayWorkflowItemFactory::KEY_EDGES][$canEndStId] = [];
 								}
 							}
                             elseif (is_array($transitionDefinition))
@@ -177,9 +176,9 @@ class ArrayDeserializer extends Object implements IArrayDeserializer
 									$endStatusIdIndex[] = $canEndStId;
 										
 									if ($transDef != null) {
-										$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = $transDef;
+										$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][ArrayWorkflowItemFactory::KEY_EDGES][$canEndStId] = $transDef;
 									}else {
-										$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId]['transition'][$canEndStId] = [];
+										$result[ArrayWorkflowItemFactory::KEY_NODES][$startStatusId][ArrayWorkflowItemFactory::KEY_EDGES][$canEndStId] = [];
 									}
 								}
 							} else {

@@ -143,4 +143,21 @@ interface IWorkflowItemFactory
      * @see ArrayWorkflowItemFactory::evaluateWorkflowId()
      */
     public function parseWorkflowStatus($val, $wfId, $model, &$wfDef=null);
+
+    /**
+     * Loads definition for the workflow whose id is passed as argument.
+     *
+     * The workflow Id passed as argument is used to create the class name of the object
+     * that holds the workflow definition.
+     *
+     * @param string $wfId the ID of workflow to search
+     * @param Component|ActiveWorkflowBehavior $model
+     *
+     * @return array the workflow definition array
+     *
+     * @throws InvalidConfigException
+     * @throws WorkflowException
+     *
+     */
+    public function getWorkflowDefinition($wfId, $model);
 }
