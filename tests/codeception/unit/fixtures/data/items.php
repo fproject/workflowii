@@ -29,5 +29,12 @@ return [
         'name' => 'name5',
         'status' => null,
         'dynamicWorkflowId' => null
+    ],
+    'item6' => [
+        'id' => 6,
+        'name' => 'name6',
+        'status' => null,
+        'dynamicWorkflowId' => 'Item07Workflow'
     ]
+
 ];
