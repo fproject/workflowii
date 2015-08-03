@@ -19,7 +19,6 @@
 
 namespace fproject\workflow\core;
 
-use Codeception\Util\Debug;
 use fproject\workflow\events\WorkflowEvent;
 use Yii;
 use yii\base\Behavior;
@@ -369,7 +368,6 @@ class ActiveWorkflowBehavior extends Behavior
 		$workflow = $this->_workflowFactory->getWorkflow($wId, $this->owner);
 		if ($workflow !== null) {
 			$initialStatusId = $workflow->getInitialStatusId();
-            Debug::debug('$initialStatusId='.$initialStatusId);
 			$result = $this->sendToStatusInternal($initialStatusId, false);
 		} else {
 			throw new WorkflowException("No workflow found for id : ".$wId);
