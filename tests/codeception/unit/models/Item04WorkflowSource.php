@@ -14,7 +14,9 @@ class Item04WorkflowSource implements IWorkflowSource
 				'A' => [
 					'label' => 'Entry',
 					'transition' => [
-						'B' => [],
+						'B' => [
+                            'task' => 'taskId001'
+                        ],
 						'A' => []
 					],
 					'metadata' => [
