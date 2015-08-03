@@ -79,9 +79,9 @@ class Status extends AbstractWorkflowItem implements IStatus
 			throw new InvalidConfigException('missing status id');
 		}
 
-		if ( ! empty($config[ArrayWorkflowItemFactory::KEY_LABEL])) {
-			$this->_label = $config[ArrayWorkflowItemFactory::KEY_LABEL];
-			unset($config[ArrayWorkflowItemFactory::KEY_LABEL]);
+		if ( ! empty($config['label'])) {
+			$this->_label = $config['label'];
+			unset($config['label']);
 		}
 		parent::__construct($config);
 	}
