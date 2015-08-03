@@ -369,6 +369,7 @@ class ActiveWorkflowBehavior extends Behavior
 		$workflow = $this->_workflowFactory->getWorkflow($wId, $this->owner);
 		if ($workflow !== null) {
 			$initialStatusId = $workflow->getInitialStatusId();
+            Debug::debug('$initialStatusId='.$initialStatusId);
 			$result = $this->sendToStatusInternal($initialStatusId, false);
 		} else {
 			throw new WorkflowException("No workflow found for id : ".$wId);
@@ -755,14 +756,12 @@ class ActiveWorkflowBehavior extends Behavior
 	 */
 	public function getDefaultWorkflowId()
 	{
-        if(!empty($this->idAccessor))
+        if(isset($this->idAccessor))
         {
-            Debug::debug('!empty($this->idAccessor)');
             $this->_defaultWorkflowId = $this->_idAccessor->readId($this->owner);
         }
-		else if(empty($this->_defaultWorkflowId))
+		else if (empty($this->_defaultWorkflowId))
         {
-            Debug::debug('empty($this->_defaultWorkflowId)');
 			$this->_defaultWorkflowId = $this->_workflowFactory->getDefaultWorkflowId($this->owner);
 		}
 		return $this->_defaultWorkflowId;
