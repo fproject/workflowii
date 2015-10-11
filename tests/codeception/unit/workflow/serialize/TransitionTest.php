@@ -46,7 +46,10 @@ class TransitionTest extends TestCase
 				'A' => [
 					'transition' => ['B' => []]
     			],
-    			'B' => []
+    			'B' => [],
+				'C' => [
+					'transition' => ['B' => ['label'=>'Go to B']]
+				],
     		]
     	]);
 

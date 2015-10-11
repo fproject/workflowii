@@ -80,12 +80,15 @@ class AttachBehaviorTest extends TestCase
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 
+    /**
+     * @expectedException yii\base\InvalidConfigException
+     */
     public function testAttachBehaviorFails3()
     {
-    	$this->specify('the status attribute must exist in the owner model', function () {
+    	//$this->specify('the status attribute must exist in the owner model', function () {
     		$model = new Item01();
     		$model->detachBehavior('workflow');
     		$model->attachBehavior('workflow', [ 'class' =>  ActiveWorkflowBehavior::className(), 'statusAttribute' => 'not_found' ]);
-    	},['throws' => 'yii\base\InvalidConfigException']);
+    	//},['throws' => 'yii\base\InvalidConfigException']);
     }
 }
