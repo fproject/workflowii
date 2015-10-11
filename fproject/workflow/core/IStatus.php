@@ -34,7 +34,7 @@ interface IStatus extends IAbstractWorkflowItem
 	/**
 	 * Returns the label for this status.
 	 *
-	 * @return string the label for this status. .
+	 * @return string the label for this status.
 	 */
 	public function getLabel();
 

@@ -27,6 +27,8 @@ use yii\base\InvalidConfigException;
  */
 class Transition extends AbstractWorkflowItem implements ITransition
 {
+	private $_id = null;
+
 	/**
 	 * @var IStatus the status this transition is starting from
 	 */
@@ -35,7 +37,8 @@ class Transition extends AbstractWorkflowItem implements ITransition
 	 * @var IStatus the status this transition is ending to.
 	 */
 	private $_endStatus;
-	private $_id = null;
+
+	private $_label;
 
     /**
      * Creates a Transition object.
@@ -73,6 +76,12 @@ class Transition extends AbstractWorkflowItem implements ITransition
 		} else {
 			throw new InvalidConfigException('missing end status');
 		}
+
+		if (!empty($config['label'])) {
+			$this->_label = $config['label'];
+			unset($config['label']);
+		}
+
 		parent::__construct($config);
 		$this->_id = $this->_startStatus->getId().'-'.$this->_endStatus->getId();
 	}
@@ -104,5 +113,13 @@ class Transition extends AbstractWorkflowItem implements ITransition
 	public function getStartStatus()
 	{
 		return $this->_startStatus;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getLabel()
+	{
+		return $this->_label;
 	}
 }

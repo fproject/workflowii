@@ -45,4 +45,11 @@ interface ITransition
 	 * @return Status the Status instance this transition ends
 	 */
 	public function getStartStatus();
+
+	/**
+	 * Returns the label for this status.
+	 *
+	 * @return string the label for this transition.
+	 */
+	public function getLabel();
 }

@@ -65,21 +65,21 @@ class Status extends AbstractWorkflowItem implements IStatus
 	 */
 	public function __construct($config = [])
 	{
-		if ( ! empty($config['workflowId'])) {
+		if (!empty($config['workflowId'])) {
 			$this->_workflow_id = $config['workflowId'];
 			unset($config['workflowId']);
 		} else {
 			throw new InvalidConfigException('missing workflow id');
 		}
 
-		if ( ! empty($config['id'])) {
+		if (!empty($config['id'])) {
 			$this->_id = $config['id'];
 			unset($config['id']);
 		} else {
 			throw new InvalidConfigException('missing status id');
 		}
 
-		if ( ! empty($config['label'])) {
+		if (!empty($config['label'])) {
 			$this->_label = $config['label'];
 			unset($config['label']);
 		}
