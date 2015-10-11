@@ -69,15 +69,18 @@ class AttachBehaviorTest extends TestCase
     	},['throws' => 'yii\base\InvalidConfigException']);
     }
 
+    /**
+     * @expectedException yii\base\InvalidConfigException
+     */
     public function testAttachBehaviorFails2()
     {
-    	$this->specify('the status attribute cannot be empty', function () {
+    	//$this->specify('the status attribute cannot be empty', function () {
     		$model = new Item01();
     		expect('model has a ActiveWorkflowBehavior attached', ActiveWorkflowBehavior::isAttachedTo($model) )->true();
     		$model->detachBehavior('workflow');
     		expect('model has a NO ActiveWorkflowBehavior attached', ActiveWorkflowBehavior::isAttachedTo($model) )->false();
     		$model->attachBehavior('workflow', [ 'class' =>  ActiveWorkflowBehavior::className(), 'statusAttribute' => '' ]);
-    	},['throws' => 'yii\base\InvalidConfigException']);
+    	//},['throws' => 'yii\base\InvalidConfigException']);
     }
 
     /**
