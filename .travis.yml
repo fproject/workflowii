@@ -7,7 +7,7 @@ php:
   - hhvm
 install:
   - composer self-update
-  - composer install --prefer-dist --dev
+  - composer update
   - composer info --installed
 before_script:
   - mysql -e 'create database workflowii_test;'
