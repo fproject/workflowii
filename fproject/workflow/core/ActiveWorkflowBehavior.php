@@ -272,6 +272,9 @@ class ActiveWorkflowBehavior extends Behavior
         if (!$this->owner->hasProperty($this->statusAttribute)) {
             if($this->owner instanceof BaseActiveRecord && $this->owner->hasAttribute($this->statusAttribute))
             {
+				/**
+				 * @todo In case of using status proxy
+				 * */
             }
             else
             {
@@ -294,6 +297,7 @@ class ActiveWorkflowBehavior extends Behavior
         if($this->owner instanceof BaseActiveRecord)
         {
             return [
+				'afterLoad' => 'initStatus',
                 BaseActiveRecord::EVENT_AFTER_FIND 		=> 'initStatus',
                 BaseActiveRecord::EVENT_BEFORE_INSERT 	=> 'beforeSaveStatus',
                 BaseActiveRecord::EVENT_BEFORE_UPDATE 	=> 'beforeSaveStatus',
