@@ -31,11 +31,11 @@ class AutoInsertTest extends DbTestCase
     	$this->specify('autoInsert True : insert the model in default workflow', function() {
             /** @var ActiveWorkflowBehavior|Item00 $o */
 	    	$o = new Item00();
-	    	$o->attachBehavior('workflow', [
-	    		'class' =>  ActiveWorkflowBehavior::className(),
-	    		'autoInsert' => true,
-	    		'defaultWorkflowId' => 'Item04Workflow'
-	    	]);
+//	    	$o->attachBehavior('workflow', [
+//	    		'class' =>  ActiveWorkflowBehavior::className(),
+//	    		'autoInsert' => true,
+//	    		'defaultWorkflowId' => 'Item04Workflow'
+//	    	]);
 
 //	    	expect('model as status',
 //	    		$o->hasWorkflowStatus()
