@@ -23,7 +23,7 @@ interface IAbstractWorkflowItem
 {
     /**
      *
-     * @param string $paramName when null the method returns the complet metadata array, otherwise it returns the
+     * @param string $paramName when null the method returns the complete metadata array, otherwise it returns the
      * value of the corresponding metadata.
      * @param string $defaultValue
      *
