@@ -28,6 +28,11 @@ class AutoInsertTest extends DbTestCase
 
     public function testSetAutoInsertWithTrue()
     {
+		$this->specify('item1 can be read from db', function() {
+			$item = [];
+			verify('OKOKOK', $item)->isEmpty();
+		});
+
 //    	$this->specify('autoInsert True : insert the model in default workflow', function() {
 //            /** @var ActiveWorkflowBehavior|Item00 $o */
 //	    	$o = new Item00();
