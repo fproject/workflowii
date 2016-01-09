@@ -6,20 +6,20 @@ use Codeception\Specify;
 use Yii;
 use tests\codeception\unit\models\Item00;
 use fproject\workflow\core\ActiveWorkflowBehavior;
-use yii\codeception\DbTestCase;
+use yii\codeception\TestCase;
 
-class AutoInsertTest extends DbTestCase
+class AutoInsertTest extends TestCase
 {
 	use Specify;
 
-//	protected function setup()
-//	{
-//		parent::setUp();
-//		Yii::$app->set('workflowFactory',[
-//			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
-//			'workflowSourceNamespace' => 'tests\codeception\unit\models'
-//		]);
-//	}
+	protected function setup()
+	{
+		parent::setUp();
+		Yii::$app->set('workflowFactory',[
+			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
+			'workflowSourceNamespace' => 'tests\codeception\unit\models'
+		]);
+	}
 
     protected function tearDown()
     {
@@ -28,60 +28,56 @@ class AutoInsertTest extends DbTestCase
 
     public function testSetAutoInsertWithTrue()
     {
-		$this->specify('item1 can be read from db', function() {
-			$item = [];
-			verify('OKOKOK', $item)->isEmpty();
-		});
 
-//    	$this->specify('autoInsert True : insert the model in default workflow', function() {
-//            /** @var ActiveWorkflowBehavior|Item00 $o */
-//	    	$o = new Item00();
-//	    	$o->attachBehavior('workflow', [
-//	    		'class' =>  ActiveWorkflowBehavior::className(),
-//	    		'autoInsert' => true,
-//	    		'defaultWorkflowId' => 'Item04Workflow'
-//	    	]);
-//
-//	    	expect('model as status',
-//	    		$o->hasWorkflowStatus()
-//	    	)->true();
-//
-//	    	expect('model status is Item04Workflow/A',
-//	    		$o->getWorkflowStatus()->getId()
-//	    	)->equals('Item04Workflow/A');
-//
-//	    	expect('model status is initial status',
-//	    		$o->statusEquals($o->getWorkflow()->getInitialStatusId())
-//	    	)->true();
-//
-//    	});
+    	$this->specify('autoInsert True : insert the model in default workflow', function() {
+            /** @var ActiveWorkflowBehavior|Item00 $o */
+	    	$o = new Item00();
+	    	$o->attachBehavior('workflow', [
+	    		'class' =>  ActiveWorkflowBehavior::className(),
+	    		'autoInsert' => true,
+	    		'defaultWorkflowId' => 'Item04Workflow'
+	    	]);
+
+	    	expect('model as status',
+	    		$o->hasWorkflowStatus()
+	    	)->true();
+
+	    	expect('model status is Item04Workflow/A',
+	    		$o->getWorkflowStatus()->getId()
+	    	)->equals('Item04Workflow/A');
+
+	    	expect('model status is initial status',
+	    		$o->statusEquals($o->getWorkflow()->getInitialStatusId())
+	    	)->true();
+
+    	});
     	
-//    	$this->specify('autoInsert True : no update if status already set', function() {
-//            /** @var ActiveWorkflowBehavior|Item00 $o */
-//    		$o = new Item00();
-//    		$o->status = 'Item05Workflow/new';
-//    		$o->attachBehavior('workflow', [
-//    			'class' =>  ActiveWorkflowBehavior::className(),
-//    			'autoInsert' => true,
-//    			'defaultWorkflowId' => 'Item04Workflow'
-//    		]);
-//
-//    		expect('model as status',
-//    			$o->hasWorkflowStatus()
-//    		)->true();
-//
-//    		expect('model status is NOT Item04Workflow/A',
-//    			$o->getWorkflowStatus()->getId()
-//    		)->notEquals('Item04Workflow/A');
-//
-//    		expect('model status is Item05Workflow/new',
-//    			$o->getWorkflowStatus()->getId()
-//    		)->equals('Item05Workflow/new');
-//
-//    		expect('model status is initial status',
-//    			$o->statusEquals($o->getWorkflow()->getInitialStatusId())
-//    		)->true();
-//    	});
+    	$this->specify('autoInsert True : no update if status already set', function() {
+            /** @var ActiveWorkflowBehavior|Item00 $o */
+    		$o = new Item00();
+    		$o->status = 'Item05Workflow/new';
+    		$o->attachBehavior('workflow', [
+    			'class' =>  ActiveWorkflowBehavior::className(),
+    			'autoInsert' => true,
+    			'defaultWorkflowId' => 'Item04Workflow'
+    		]);
+
+    		expect('model as status',
+    			$o->hasWorkflowStatus()
+    		)->true();
+
+    		expect('model status is NOT Item04Workflow/A',
+    			$o->getWorkflowStatus()->getId()
+    		)->notEquals('Item04Workflow/A');
+
+    		expect('model status is Item05Workflow/new',
+    			$o->getWorkflowStatus()->getId()
+    		)->equals('Item05Workflow/new');
+
+    		expect('model status is initial status',
+    			$o->statusEquals($o->getWorkflow()->getInitialStatusId())
+    		)->true();
+    	});
     }
     
     public function testSetAutoInsertWithWorkflowStatus()
