@@ -12,14 +12,14 @@ class AutoInsertTest extends DbTestCase
 {
 	use Specify;
 
-	protected function setup()
-	{
-		parent::setUp();
-		Yii::$app->set('workflowFactory',[
-			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
-			'workflowSourceNamespace' => 'tests\codeception\unit\models'
-		]);
-	}
+//	protected function setup()
+//	{
+//		parent::setUp();
+//		Yii::$app->set('workflowFactory',[
+//			'class'=> 'fproject\workflow\core\ArrayWorkflowItemFactory',
+//			'workflowSourceNamespace' => 'tests\codeception\unit\models'
+//		]);
+//	}
 
     protected function tearDown()
     {
