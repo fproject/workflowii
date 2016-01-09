@@ -26,7 +26,7 @@ class AutoInsertTest extends DbTestCase
         parent::tearDown();
     }
 
-    public function x_testSetAutoInsertWithTrue()
+    public function testSetAutoInsertWithTrue()
     {
     	$this->specify('autoInsert True : insert the model in default workflow', function() {
             /** @var ActiveWorkflowBehavior|Item00 $o */
