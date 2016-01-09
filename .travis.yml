@@ -17,4 +17,4 @@ before_script:
   - cd tests  
   - php ./codeception/bin/yii  migrate/up --interactive=0
   - ../vendor/bin/codecept build
-script: ../vendor/bin/codecept run --debug
+script: ../vendor/bin/codecept run unit --debug
