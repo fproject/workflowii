@@ -11,6 +11,7 @@ install:
   - composer update
   - composer info --installed
 before_script:
+  - phpenv config-rm xdebug.ini
   - mysql -e 'create database workflowii_test;'
   - cd tests  
   - php ./codeception/bin/yii  migrate/up --interactive=0
